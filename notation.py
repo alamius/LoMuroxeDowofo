@@ -1,4 +1,4 @@
-consonants = "bdfghklmnoprstvwxzJXQDCLNGK"
+consonants = "bdfghklmnopqrstvwxzJXDCLNGKRP'"
 vowels = "aeiouäöyêô" #accented are added after they are defined
 semivowels="j"
 
@@ -21,7 +21,7 @@ for c in vowels:
 ROMAN = {
     "J":"jh",
     "X":"sh",
-    "Q":"qh",
+    # "Q":"qh",
     "D":"dh",
     "K":"kh", #weird trill using a lot of pressure on the soft palate, appriximate by χ
     "G":"gh", #can you voice K?
@@ -32,7 +32,8 @@ ROMAN = {
     "C":"ch",
     "L":"lh",
     "R":"rh", #german, franch r
-    "N":"ng", #roman: ng
+    "N":"nh", #roman: ng
+    "P":"ph",
 }
 PHON = {
     "J":"ʒ",
@@ -40,10 +41,10 @@ PHON = {
     "x":"χ",
     "X":"ʃ",
     "C":"ç",
-    "Q":"q",
+    # "q":"q",
     "D":"ð",
-    "K":"Я", #voiceless pressurized uvular trill
-    "G":"vЯ", #voiced pressurized uvular trill
+    "K":"Я", #voiced/voiceless? pressurized uvular trill
+    # "G":"vЯ", #voiced pressurized uvular trill
     "ä":"æ",
     "ö":"ø",
     "ô":"ɔ",
@@ -51,6 +52,7 @@ PHON = {
     "L":"ɮ",
     "R":"ʁ",
     "N":"ŋ",
+    "P":"r°"
 }
 
 def romanization(word):

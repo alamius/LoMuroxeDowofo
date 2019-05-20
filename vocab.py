@@ -31,8 +31,8 @@ VOCAB = {
         "kolupikema":"equivalent to work",
     },
     "lmd":{
-        "lamdju":"to teach",
-        "lamexdju":"to learn",
+        "lamjud":"to teach",
+        "lamexedju":"to learn",
         "lomada":"teaching",
         "lomaxda":"learning",
         "lomadi":"school",
@@ -44,10 +44,10 @@ VOCAB = {
         "lomepidimati":"during school",
         "lomemadimati":"beginning time of school"
     },
-    "m¶k":{
-        "ma¶kju":"to rise",
-        "göma¶xekju":"to be raised",
-        "gömo¶amaxekerutin":"to the kindergardeners",
+    "mPk":{
+        "maPjuk":"to rise",
+        "gömaPxekju":"to be raised",
+        "gömoPamaxekerutin":"to the kindergardeners",
     }
 }
 roots = {
@@ -55,12 +55,12 @@ roots = {
     "go":"gr",
     "work":"kl",
     "fight":"kx",
-    "rise":"m¶k",
+    "rise":"mPk",
     "teach":"lmd",
     "save":"vmq",
     "decorate":"Ktr",
     "inform":"Qvz",
-    "burn":"p¶",
+    "burn":"pP",
     "shine":"vXn",
     "kill":"KðJ",
 }
