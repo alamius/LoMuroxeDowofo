@@ -63,7 +63,11 @@ def demo_place():
         'person': ['plural-you'],
         'class': 'verb'
     })
+<<<<<<< HEAD
     w2 = Word("m¶k", {
+=======
+    w2 = Word("mPk", {
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
         'class': 'noun',
         'case_class': 'directional',
         'noun_class': 'actor',
@@ -134,10 +138,21 @@ def spell_sentence(sentence):
             word_strings = word_strings[:w-1] + [word_strings[w-1][:-2] + "-" + word_strings[w][2:]] + word_strings[w+1:]
     return " ".join(word_strings)
 
+<<<<<<< HEAD
 from examples import E0
 if __name__ == "__main__":
     print(Word("lmd", get_wtype(noun)).spell())
     # demo_input_free()
+=======
+from examples import E0, E1
+if __name__ == "__main__":
+    # w0 = Word(None, E1[0])
+    # print(w0.spell())
+    # exit(0)
+    # demo_input_free()
+    # exit(0)
+    # print(Word("lmd", get_wtype(noun)).spell())
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
     for w in range(len(E0)):
         word = E0[w]
         E0[w] = Word(word["root"], word)

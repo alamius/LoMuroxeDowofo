@@ -31,8 +31,13 @@ VOCAB = {
         "kolupikema":"equivalent to work",
     },
     "lmd":{
+<<<<<<< HEAD
         "lamdju":"to teach",
         "lamexdju":"to learn",
+=======
+        "lamjud":"to teach",
+        "lamexedju":"to learn",
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
         "lomada":"teaching",
         "lomaxda":"learning",
         "lomadi":"school",
@@ -44,10 +49,17 @@ VOCAB = {
         "lomepidimati":"during school",
         "lomemadimati":"beginning time of school"
     },
+<<<<<<< HEAD
     "m¶k":{
         "ma¶kju":"to rise",
         "göma¶xekju":"to be raised",
         "gömo¶amaxekerutin":"to the kindergardeners",
+=======
+    "mPk":{
+        "maPjuk":"to rise",
+        "gömaPxekju":"to be raised",
+        "gömoPamaxekerutin":"to the kindergardeners",
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
     }
 }
 roots = {
@@ -55,12 +67,20 @@ roots = {
     "go":"gr",
     "work":"kl",
     "fight":"kx",
+<<<<<<< HEAD
     "rise":"m¶k",
+=======
+    "rise":"mPk",
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
     "teach":"lmd",
     "save":"vmq",
     "decorate":"Ktr",
     "inform":"Qvz",
+<<<<<<< HEAD
     "burn":"p¶",
+=======
+    "burn":"pP",
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
     "shine":"vXn",
     "kill":"KðJ",
 }
