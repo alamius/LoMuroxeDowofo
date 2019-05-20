@@ -1,5 +1,3 @@
-#TODO: adjust case system to allow things like against
-
 from Word import *
 from wtype import *
 from notation import *
@@ -63,15 +61,7 @@ def demo_place():
         'person': ['plural-you'],
         'class': 'verb'
     })
-<<<<<<< HEAD
     w2 = Word("mPk", {
-=======
-<<<<<<< HEAD
-    w2 = Word("m¶k", {
-=======
-    w2 = Word("mPk", {
->>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
->>>>>>> master
         'class': 'noun',
         'case_class': 'directional',
         'noun_class': 'actor',
@@ -142,15 +132,6 @@ def spell_sentence(sentence):
             word_strings = word_strings[:w-1] + [word_strings[w-1][:-2] + "-" + word_strings[w][2:]] + word_strings[w+1:]
     return " ".join(word_strings)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-from examples import E0
-if __name__ == "__main__":
-    print(Word("lmd", get_wtype(noun)).spell())
-    # demo_input_free()
-=======
->>>>>>> master
 from examples import E0, E1
 if __name__ == "__main__":
     # w0 = Word(None, E1[0])
@@ -159,10 +140,6 @@ if __name__ == "__main__":
     # demo_input_free()
     # exit(0)
     # print(Word("lmd", get_wtype(noun)).spell())
-<<<<<<< HEAD
-=======
->>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
->>>>>>> master
     for w in range(len(E0)):
         word = E0[w]
         E0[w] = Word(word["root"], word)
