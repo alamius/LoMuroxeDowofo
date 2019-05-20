@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 consonants = "bdfghklmnopqrstvwxzJXDCLNGKRP'"
+=======
+<<<<<<< HEAD
+consonants = "bdfghklmnoprstvwxzJXQDCLNGK"
+=======
+consonants = "bdfghklmnopqrstvwxzJXDCLNGKRP'"
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
 vowels = "aeiouäöyêô" #accented are added after they are defined
 semivowels="j"
 
@@ -21,7 +29,15 @@ for c in vowels:
 ROMAN = {
     "J":"jh",
     "X":"sh",
+<<<<<<< HEAD
     # "Q":"qh",
+=======
+<<<<<<< HEAD
+    "Q":"qh",
+=======
+    # "Q":"qh",
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     "D":"dh",
     "K":"kh", #weird trill using a lot of pressure on the soft palate, appriximate by χ
     "G":"gh", #can you voice K?
@@ -32,8 +48,17 @@ ROMAN = {
     "C":"ch",
     "L":"lh",
     "R":"rh", #german, franch r
+<<<<<<< HEAD
     "N":"nh", #roman: ng
     "P":"ph",
+=======
+<<<<<<< HEAD
+    "N":"ng", #roman: ng
+=======
+    "N":"nh", #roman: ng
+    "P":"ph",
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
 }
 PHON = {
     "J":"ʒ",
@@ -41,10 +66,23 @@ PHON = {
     "x":"χ",
     "X":"ʃ",
     "C":"ç",
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    "Q":"q",
+    "D":"ð",
+    "K":"Я", #voiceless pressurized uvular trill
+    "G":"vЯ", #voiced pressurized uvular trill
+=======
+>>>>>>> master
     # "q":"q",
     "D":"ð",
     "K":"Я", #voiced/voiceless? pressurized uvular trill
     # "G":"vЯ", #voiced pressurized uvular trill
+<<<<<<< HEAD
+=======
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     "ä":"æ",
     "ö":"ø",
     "ô":"ɔ",
@@ -52,7 +90,14 @@ PHON = {
     "L":"ɮ",
     "R":"ʁ",
     "N":"ŋ",
+<<<<<<< HEAD
     "P":"r°"
+=======
+<<<<<<< HEAD
+=======
+    "P":"r°"
+>>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
 }
 
 def romanization(word):
