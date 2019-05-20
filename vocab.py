@@ -32,12 +32,17 @@ VOCAB = {
     },
     "lmd":{
 <<<<<<< HEAD
+        "lamjud":"to teach",
+        "lamexedju":"to learn",
+=======
+<<<<<<< HEAD
         "lamdju":"to teach",
         "lamexdju":"to learn",
 =======
         "lamjud":"to teach",
         "lamexedju":"to learn",
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
         "lomada":"teaching",
         "lomaxda":"learning",
         "lomadi":"school",
@@ -50,16 +55,22 @@ VOCAB = {
         "lomemadimati":"beginning time of school"
     },
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
     "m¶k":{
         "ma¶kju":"to rise",
         "göma¶xekju":"to be raised",
         "gömo¶amaxekerutin":"to the kindergardeners",
 =======
+>>>>>>> master
     "mPk":{
         "maPjuk":"to rise",
         "gömaPxekju":"to be raised",
         "gömoPamaxekerutin":"to the kindergardeners",
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     }
 }
 roots = {
@@ -68,19 +79,27 @@ roots = {
     "work":"kl",
     "fight":"kx",
 <<<<<<< HEAD
+    "rise":"mPk",
+=======
+<<<<<<< HEAD
     "rise":"m¶k",
 =======
     "rise":"mPk",
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     "teach":"lmd",
     "save":"vmq",
     "decorate":"Ktr",
     "inform":"Qvz",
 <<<<<<< HEAD
+    "burn":"pP",
+=======
+<<<<<<< HEAD
     "burn":"p¶",
 =======
     "burn":"pP",
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     "shine":"vXn",
     "kill":"KðJ",
 }

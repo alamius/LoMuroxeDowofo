@@ -64,18 +64,26 @@ class Word(object):
             self.root += "k" #gr -> grk
         self.wtype = wtype
 <<<<<<< HEAD
+        self.wtype["root"] = self.root
+=======
+<<<<<<< HEAD
 =======
         self.wtype["root"] = self.root
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
         self.parents = deepcopy(parents)
         self.children = deepcopy(children)
         self.subject = None
         self.hist = hist
         self.syllable_no_accent_count = 0
 <<<<<<< HEAD
+        self.result = ""
+=======
+<<<<<<< HEAD
 =======
         self.result = ""
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
         try:            self.wtype["parent_place"]
         except KeyError:self.wtype["parent_place"] = []
         try:            self.wtype["parent_place_string"]
@@ -106,6 +114,8 @@ class Word(object):
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_word[key]
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
         result = ""
         result += self.wtype["parent_place_string"]
         if(self.wtype["metaphore"]):
@@ -133,6 +143,7 @@ class Word(object):
             result = result[:i] + accented[result[i]] + result[i+1:]
             syllable_accented = result[index[0]:index[2]]
 =======
+>>>>>>> master
         self.result = ""
         self.result += self.wtype["parent_place_string"]
         if(self.wtype["metaphore"]):
@@ -162,7 +173,10 @@ class Word(object):
             syllable_original = self.result[index[0]:index[2]]
             self.result = self.result[:i] + accented[self.result[i]] + self.result[i+1:]
             syllable_accented = self.result[index[0]:index[2]]
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
             if(syllable_original in self.wtype["child_place_string"]):
                 c_place_str = self.wtype["child_place_string"]
                 i = c_place_str.index(syllable_original)
@@ -170,6 +184,8 @@ class Word(object):
                 p_place_str = self.children[i//2].wtype["parent_place_string"]
                 j = p_place_str.index(syllable_original)
                 self.children[i//2].wtype["parent_place_string"] = p_place_str[:j+1] + accented[p_place_str[j+1]] + p_place_str[j+2:]
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
         return result
     def spell_metaphore(self):
@@ -184,6 +200,7 @@ class Word(object):
                 result += g_merge[""] + self.root[0]
         return result
 =======
+>>>>>>> master
         return self.result
     def spell_metaphore(self):
         # self.result = ""
@@ -196,11 +213,16 @@ class Word(object):
             except:
                 self.result += g_merge[""] + self.root[0]
         # return result
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     def spell_verb(self, root_level=1): #looks at "verb_class"
         for key in standards_verb.keys():
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_verb[key]
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
         result = ""
         if(root_level != None):
@@ -247,6 +269,7 @@ class Word(object):
                 self.syllable_no_accent_count = 0
         return result
 =======
+>>>>>>> master
         if(root_level != None):
             self.result += self.root[root_level] #Jlt -> Jal
         switch = self.wtype["verb_class"]
@@ -295,7 +318,10 @@ class Word(object):
                 self.result = self.result[:-1]+accented[self.result[-1]] #make the last character in the result accented
                 self.syllable_no_accent_count = 0
         # return result
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     def spell_person(self, root_level=1): #looks at "person"
         result = []
         switch = self.wtype["person"]
@@ -327,6 +353,8 @@ class Word(object):
                 elif(person in switch): #checking for "you" in wtype["person"]
                     result += [person_ending[person]] #Jlt -> Jalote
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
         result_str = ""
         #adding all the person-forms with s as filler-consonants
         while(len(result) > 1):
@@ -355,6 +383,7 @@ class Word(object):
             result_str += "n"
         return result_str
 =======
+>>>>>>> master
         #adding all the person-forms with s as filler-consonants
         while(len(result) > 1):
             self.result += "s" + result.pop(-1)
@@ -380,11 +409,16 @@ class Word(object):
             #     self.result += result[0]
         if("plural" in switch and result == ["i"]):
             self.result += "n"
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     def spell_noun(self, root_level=1): #looks at "noun_class"
         for key in standards_noun.keys():
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_noun[key]
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
         result = "" #Jlt -> Jo
         switch = self.wtype["noun_class"]+("passive" if self.wtype["passive"] else "active")
@@ -392,11 +426,15 @@ class Word(object):
             result += self.spell_case_class(1) #Jlt -> Jo<l..t.>
             result += WHICH(switch, [
 =======
+>>>>>>> master
         switch = self.wtype["noun_class"]+("passive" if self.wtype["passive"] else "active")
         if("case_class" in self.wtype.keys() and self.wtype["case_class"] != None):
             self.spell_case_class(1) #Jlt -> Jo<l..t.>
             self.result += WHICH(switch, [
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
                 ("actionactive",  "ma"), #Jlt -> Jo<l..t.>ma
                 ("actionpassive", "wo"), #Jlt -> Jo<l..t.>wo
                 ("actoractive",   "ji"), #Jlt -> Jo<l..t.>ji
@@ -404,18 +442,24 @@ class Word(object):
             ])
             self.syllable_no_accent_count += 1
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
             result = accent_syllable(self, result, 2, -2)
             result += self.spell_professional()
         else:
             result += self.root[1] #Jlt -> Jol
             result += WHICH(switch, [
 =======
+>>>>>>> master
             self.result = accent_syllable(self, self.result, 2, -2)
             self.spell_professional()
         else:
             self.result += self.root[1] #Jlt -> Jol
             self.result += WHICH(switch, [
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
                 ("actionactive",  "a"), #Jlt -> Jola
                 ("actionpassive", "o"), #Jlt -> Jolo
                 ("actoractive",   "i"), #Jlt -> Joli
@@ -423,6 +467,8 @@ class Word(object):
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
                 result = result[:-1]+accented[result[-1]]
                 self.syllable_no_accent_count = 0
@@ -434,6 +480,7 @@ class Word(object):
             else:
                 result += WHICH(switch, [
 =======
+>>>>>>> master
                 self.result = self.result[:-1]+accented[self.result[-1]]
                 self.syllable_no_accent_count = 0
             if(self.wtype["passive"]):
@@ -443,23 +490,32 @@ class Word(object):
                 self.result += self.root[2] #Jlt -> Jol[aou]t
             else:
                 self.result += WHICH(switch, [
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
                     ("actionactive",  "m"), #Jlt -> Jolam
                     ("actionpassive", "v"), #Jlt -> Jolov
                     ("actoractive",   "x"), #Jlt -> Jolix
                     ("actorpassive",  "r"), #Jlt -> Jolur
                 ])
 <<<<<<< HEAD
+            self.result += WHICH(self.wtype["professional"],[
+=======
+<<<<<<< HEAD
             result += WHICH(self.wtype["professional"],[
 =======
             self.result += WHICH(self.wtype["professional"],[
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
                 (True, "i"), #Jlt -> Jol[aoiu][mvxr]i
                 (False, "e"),
                 (None, "a"),
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
                 result = result[:-1]+accented[result[-1]]
                 self.syllable_no_accent_count = 0
@@ -471,6 +527,7 @@ class Word(object):
         if(root_level != None):
             result += self.root[root_level] #Jlt -> Jol
 =======
+>>>>>>> master
                 self.result = self.result[:-1]+accented[self.result[-1]]
                 self.syllable_no_accent_count = 0
         if(self.wtype["number"] == "plural"):
@@ -479,11 +536,16 @@ class Word(object):
     def spell_case_class(self, root_level=1): #looks at "case_class"
         if(root_level != None):
             self.result += self.root[root_level] #Jlt -> Jol
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
         self.syllable_no_accent_count += 1 #counting the switch vowel already
         switch = self.wtype["case_class"]
         if("case" in self.wtype.keys() and self.wtype["case"] != None):
             if(switch == "directional"):
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
                 result += "a" + self.spell_case(2, "e") #Jlt -> Jola<.t.e.>
             elif(switch == "local"):
@@ -497,6 +559,7 @@ class Word(object):
             result = accent_syllable(self, result, 2, -2)
             result += WHICH(switch, [
 =======
+>>>>>>> master
                 self.result += "a"
                 self.spell_case(2, "e") #Jlt -> Jola<.t.e.>
             elif(switch == "local"):
@@ -512,7 +575,10 @@ class Word(object):
             r2 = self.spell_passive(2) #Jlt -> Jol[aoeu](xe)t
             self.result = accent_syllable(self, self.result, 2, -2)
             self.result += WHICH(switch, [
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
                 ("directional", "a" + r2 + "e"),    #Jlt -> Jola(xe)te
                 ("local",       "o" + r2 + "u"),    #Jlt \-> Jolo(xe)tu
                 ("temporal",    "e" + r2 + "i"),    #Jlt \-> Jole(xe)ti
@@ -520,6 +586,8 @@ class Word(object):
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
                 result = result[:-1]+accented[result[-1]]
                 self.syllable_no_accent_count = 0
@@ -529,13 +597,17 @@ class Word(object):
         switch = self.wtype["case"]
         result += WHICH(
 =======
+>>>>>>> master
                 self.result = self.result[:-1]+accented[self.result[-1]]
                 self.syllable_no_accent_count = 0
         # return result
     def spell_case(self, root_level, second_vowel): #looks at "case"
         switch = self.wtype["case"]
         self.result += WHICH(
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
             self.wtype["case"],
             [
                 ("before",  "sa"), #Jlt -> Jol[aeou]sa
@@ -550,6 +622,8 @@ class Word(object):
         )
         self.syllable_no_accent_count += 1
         if(root_level != None):
+<<<<<<< HEAD
+=======
 <<<<<<< HEAD
             r = self.root[root_level]
             if(root_level == 2):
@@ -569,6 +643,7 @@ class Word(object):
             result = result[:i]+"X"+result[i+2]
         return result
 =======
+>>>>>>> master
             if(root_level == 2):
                 self.spell_passive(root_level)
             else:
@@ -587,7 +662,10 @@ class Word(object):
             i = self.result.index("jx")
             self.result = self.result[:i]+"X"+self.result[i+2]
         # return result
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
     def spell_professional(self, flipped=False, accentable=False): #looks at "professional"
         result = WHICH(self.wtype["professional"],[
             (True, "ti"),
@@ -604,6 +682,8 @@ class Word(object):
                 result = "".join(result)
             self.syllable_no_accent_count += len(result)//2
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
         return result
     def spell_passive(self, root_level=None): #looks at "passive"
         if(self.wtype["passive"]):
@@ -618,6 +698,7 @@ class Word(object):
             result += r #Jlt -> (Jalju)xet
         return result
 =======
+>>>>>>> master
         self.result += result
         # return result
     def spell_passive(self, root_level=None): #looks at "passive"
@@ -631,7 +712,10 @@ class Word(object):
             r = self.root[root_level]
             self.result += r #Jlt -> (Jalju)xet
         # return result
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
 
 # Es gibt (V1) –
 #  (A-V1)

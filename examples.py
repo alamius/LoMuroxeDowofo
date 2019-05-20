@@ -1,5 +1,7 @@
 E0 = [{
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
     "root":"gr",
 	"tense": 'present',
 	"passive": False,
@@ -144,6 +146,7 @@ E0 = [{
 # gáresunkáj(taríJuwa) tagökóxixín-pó¶ulokéma Julómamáxedéwoti rívómusaqémaléso lélómuxedán solómidín wagövéXekéxenírufo Ká¶esúnxeJáj.
 # you and I (go) as fighters against fire (go) into schools to save            students and teachers dayly          and we get killed.
 =======
+>>>>>>> master
         "root":"gr",
     	"tense": 'present',
     	"passive": False,
@@ -321,4 +324,7 @@ E1 = [{
     	"class": 'verb',
     	"person": ['me'],
 }]
+<<<<<<< HEAD
+=======
 >>>>>>> c4d973dd4e065f5a2c5a61891be8a5a01800cb4b
+>>>>>>> master
