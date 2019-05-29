@@ -4,6 +4,7 @@ standards_word = {
     "passive":False,
     "metaphore":False,
     "professional":None,
+    "perceived":False,
     # "metaphore":False,
     # "class":no std,
 }
@@ -16,6 +17,12 @@ standards_noun = {
     # "noun_class":no standard,
     "case_class":None,
     "case":None,
+    "number":"singular",
+}
+standards_attribute = {
+    # "attribute_class":no standard,
+    "tense":"present",
+    "negative":False,
 }
 person_choice = [[
     ["me", "plural-me", "p-me"],

@@ -1,5 +1,8 @@
+from vocab import roots
+
 E0 = [{
-        "root":"gr",
+        "marker":"V",
+        "root":roots["go"],
     	"tense": 'present',
     	"passive": False,
     	"parent_place_string": '',
@@ -13,7 +16,8 @@ E0 = [{
     	"class": 'verb',
     }, # tagökoxixin(ri)
     {
-        "root":"kx",
+        "marker":"S-V",
+        "root":roots["fight"],
     	"number": 'plural',
     	"parent_place_string": '',
     	"child_place_string": '',
@@ -28,7 +32,8 @@ E0 = [{
     	"class": 'noun',
     }, # (ri)poPulokema
     {
-        "root":"pP",
+        "marker":"A-S-V",
+        "root":roots["burn"],
     	"number": 'singular',
     	"parent_place_string": '',
     	"child_place_string": '',
@@ -43,7 +48,8 @@ E0 = [{
     	"class": 'noun',
     }, # rilomamaxedewOti
     {
-        "root":"lmd",
+        "marker":"A-V",
+        "root":roots["teach"],
     	"number": 'singular',
     	"parent_place_string": '',
     	"child_place_string": '',
@@ -58,7 +64,8 @@ E0 = [{
     	"class": 'noun',
     }, # JuvomusaqemalesO
     {
-        "root":"vmq",
+        "marker":"A2-V",
+        "root":roots["save"],
     	"number": 'singular',
     	"parent_place_string": '',
     	"child_place_string": '',
@@ -73,7 +80,8 @@ E0 = [{
         "class": 'noun',
     }, # lelomuxedan
     {
-        "root":"lmd",
+        "marker":"O-A2-V",
+        "root":roots["teach"],
     	"number": 'plural',
     	"parent_place_string": '',
     	"child_place_string": '',
@@ -88,7 +96,8 @@ E0 = [{
     	"class": 'noun',
     }, # sOlomidin
     {
-        "root":"lmd",
+        "marker":"O2-A2-V",
+        "root":roots["teach"],
     	"number": 'plural',
     	"parent_place_string": '',
     	"child_place_string": '',
@@ -102,7 +111,8 @@ E0 = [{
     	"child_place": [],
     	"class": 'noun',
     }, { #"regularly in the time of the shone upon", dayly
-        "root":"vXn",
+        "marker":"A-V",
+        "root":roots["shine"],
     	"number": 'singular',
     	"parent_place_string": '',
     	"child_place_string": '',
@@ -114,9 +124,10 @@ E0 = [{
     	"noun_class": 'actor',
     	"case": 'above',
     	"child_place": [],
-    	"class": 'adjective',
+    	"class": 'attribute',
     }, {
-        "root":"KðJ",
+        "marker":"V2",
+        "root":roots["kill"],
     	"tense": 'present',
     	"passive": True,
     	"parent_place_string": '',
@@ -137,7 +148,7 @@ E0 = [{
 
 
 E1 = [{
-        "root":"KðJ",
+        "root":roots["kill"],
     	"parent_place": [],
     	"passive": True,
     	"verb_class": 'imperative',
@@ -150,7 +161,7 @@ E1 = [{
     	"class": 'verb',
 	    "person": ['me'],
     }, {
-        "root":"KðJ",
+        "root":roots["kill"],
     	"parent_place": [],
     	"passive": True,
     	"verb_class": 'imperative',
@@ -163,7 +174,7 @@ E1 = [{
     	"class": 'verb',
     	"person": ['me'],
     }, {
-        "root":"KðJ",
+        "root":roots["kill"],
     	"parent_place": [],
     	"passive": True,
     	"verb_class": 'imperative',
@@ -175,4 +186,166 @@ E1 = [{
     	"parent_place_string": '',
     	"class": 'verb',
     	"person": ['me'],
+}]
+
+#taking apart a random german sentence to test the languages usability. looking for needed features.
+
+E2 = [{ #JaX[ek]i
+        # Es gibt (V1) –
+        "marker":"V1",
+        "root":roots["exist"],
+        "class":"verb",
+        "verb_class":"indicative",
+        "tense":"present",
+        "person":["undef"]
+    }, { #lökówotájxeXúke
+        #  (A-V1)
+        #   in (TA-V1) TA = Local_In
+        #     diesen (A/R-NA-V1)
+        #    Bereichen (NA-V1) begrenzen_Metaphorical_Noun_TA
+        "marker":"A-V1",
+        "root":roots["limit"],
+        "passive":True,
+        "class":"noun",
+        "noun_class":"object",
+        "case_class":"local",
+        "case":"same"
+    }, {
+        #  (O-V1)
+        #    verschiedene (A-NO-V1) unterscheiden_Attr_possible
+        #   Wettbewerbe, (NO-V1) kämpfen_Met_Noun-O-V1
+        "marker":"O-V1",
+        "root":roots["fight"],
+        "metaphore":True,
+        "class":"noun",
+        "noun_class":"action",
+        "number":"plural",
+    }, {
+        "marker":"A-O-V1",
+        "root":roots["differ"],
+        "perceived":True,
+        "class":"attribute",
+        # "attribute_class":"modal",
+        "attribute_class":"possible",
+    }, {
+        # und
+        #  (A-V2)
+        #   trotz (TA-V) TA = Causal_Opposite
+        #   der Relevanz (NA-V) bedenken_Prof_Passive_TA
+        "marker":"A-V2",
+        "root":roots["think"],
+        "passive":True,
+        "class":"verb",
+        "verb_class":"imperative",
+        "person":["plural-me", "plural-you", "plural-they"],
+    }, {
+        #    des --wettbewerb (NA-NA-V) kämpfen_Met_Noun_-A
+        "marker":"A-A-V2",
+        "root":roots["fight"],
+        "metaphore":True,
+        "class":"noun",
+        "noun_class":"action",
+    }, {
+        #     -Bundes- (NA-NA-NA-V) vereinigen_Pass_Perf_Local_In
+        "marker":"A-A-A-V2",
+        "root":roots["unite"],
+        "passive":True,
+        "class":"noun",
+        "noun_class":"object",
+        "case_class":"local",
+        "case":"same",
+    }, {
+        #     Fremdsprachen (NA-NA-NA-V) sprechen_Noun_Action lernen_Attr_imperativ
+        "marker":"A2-A-A-V2",
+        "root":roots["speak_language"],
+        "passive":True,
+        "class":"noun",
+        "noun_class":"object",
+    }, {
+        "marker":"A-A2-A-A-V2",
+        "root":roots["teach"],
+        "passive":True,
+        "class":"attribute",
+        "attribute_class":"obligate",
+    }, {
+        #    (A-NA-V)
+        #     an (TA-NA-V)
+        #     der Schule (NA-NA-V) Lernen_Prof_Noun_Local_Near
+        "marker":"A2-A-V2",
+        "root":roots["teach"],
+        "professionell":True,
+        # "passive":True,
+        "class":"noun",
+        "noun_class":"action",
+        "case_class":"local",
+        "case":"near",
+    }, {
+        #  nehmen (V2) (Teil) kämpfen_Met_Verb
+        "marker":"V2",
+        "root":roots["fight"],
+        "metaphore":True,
+        "class":"verb",
+        "verb_class":"indicative",
+        "person":["plural-me"],
+    }, {
+        #  Schüler (NO-V2) lernen_Noun_Actor_Activ
+        "marker":"O-V2",
+        "root":roots["teach"],
+        "professionell":True,
+        "passive":True,
+        "class":"noun",
+        "noun_class":"actor",
+        "number":"plural",
+    }, {
+        #  (A-V2)
+        #   an (TA-V2)
+        #   --wettbewerben (NA-V2) kämpfen_Met_Noun_
+        "marker":"A2-V2",
+        "root":roots["fight"],
+        "metaphore":True,
+        "class":"noun",
+        "noun_class":"action",
+    }, {
+        #    -Geographie- lernen_über_orte
+        "marker":"A-A2-V2",
+        "root":roots["teach"],
+        "passive":True,
+        "class":"noun",
+        "noun_class":"action",
+    }, {
+        "marker":"O-A-A2-V2",
+        "root":roots["place"],
+        "class":"noun",
+        "noun_class":"object",
+        "case_class":"causal",
+        "case":"after",
+    #  Teil, (A-V2)
+    # es gibt (V3)
+    #    Mathematik- (NA-NO-V3)
+    #   und
+    #    Biologieolympiaden (NO-V3)
+    #  sowie
+    #  den Biberwettbewerb (NO-V3)
+    #   (A-NO-V3)
+    #    für (TA-NO-V3)
+    #    die Früherkennung (NA-NO-V3)
+    #     (A-NA-NO-V3)
+    #      informatischen (A-NA-NA-NO-V3)
+    #     Talents (NA-NA-NO-V3) können_Unprof_Noun
+    #  und
+    #   (O-V3)
+    #     schulische (A-NO-V3)
+    #    Veranstaltungen, (NO-V)
+    #    (A-NO-V)
+    #     in denen (TA-NO-V)
+    #     Schüler (NS-VA-TA-NO-V)
+    #      (A-VA-TA-NO-V)
+    #       außerhalb (TA-VA-TA-NO-V)
+    #       der Schule (NA-VA-TA-NO-V)
+    #     Fachwissen (NO-VA-TA-NO-V)
+    #      (A-VA-TA-NO-V)
+    #       durch (TA-VA-TA-NO-V)
+    #         praktische (A-NA-VA-TA-NO-V)
+    #        Erfahrung (NA-VA-TA-NO-V)
+    #     vertiefen. (VA-NO-V)
 }]

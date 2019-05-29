@@ -132,11 +132,28 @@ def spell_sentence(sentence):
             word_strings = word_strings[:w-1] + [word_strings[w-1][:-2] + "-" + word_strings[w][2:]] + word_strings[w+1:]
     return " ".join(word_strings)
 
-from examples import E0, E1
+marks = {
+    "S":"subject",
+    "O":"object",
+    "A":"attribute",
+    "C":"clause",
+}
+
+from examples import *
 if __name__ == "__main__":
-    # w0 = Word(None, E1[0])
-    # print(w0.spell())
-    # exit(0)
+    W = []
+    Markers = {}
+    for w in range(len(E2)):
+        W += [Word(None, E2[w])]
+        Markers[W[-1].marker] = W[-1]
+    for word in W:
+        try:
+            parent = word.marker[word.marker.index("-")+1:]
+            Markers[parent].add_child(word, marks[word.marker[0]])
+        except:
+            pass
+    print(spell_sentence(W))
+    exit(0)
     # demo_input_free()
     # exit(0)
     # print(Word("lmd", get_wtype(noun)).spell())

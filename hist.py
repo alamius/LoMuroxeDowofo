@@ -2,6 +2,7 @@ hist = {
     "passive":False,
     "present":False,
     "metaphor-merge":False,
+    "perceived":False,
 }
 g_merge = {
     "":"J",

@@ -60,7 +60,16 @@ roots = {
     "save":"vmq",
     "decorate":"Ktr",
     "inform":"Qvz",
+    "think":"ðP",
     "burn":"pP",
     "shine":"vXn",
     "kill":"KðJ",
+    "exist":"JX",
+    "limit":"kwX",
+    "differ":"dwr",
+    "unite":"qJr",
+    "speak_language":"sfm",
+    "speak_words":"zw",
+    "converse":"lqr",
+    "place":"pz"
 }

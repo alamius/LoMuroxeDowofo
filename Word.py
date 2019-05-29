@@ -36,7 +36,7 @@ def index_syllable(string, syl_index):
         e = len(string)
     return (b, v, e)
 def accent_syllable(self, string, syllable_no_accent_threshhold=2, syllable_index=-2):
-    if(self.syllable_no_accent_count > syllable_no_accent_threshhold):
+    if(self.syllable_no_accent_count >= syllable_no_accent_threshhold):
         index = index_syllable(string, syllable_index) #(beginning, vowel, end)
         i = index[1]
         string = string[:i] + accented[string[i]] + string[i+1:]
@@ -52,7 +52,7 @@ PLACE = {
 
 from copy import deepcopy
 from hist import hist
-from wtype import standards_word, standards_verb, standards_noun
+from wtype import standards_word, standards_verb, standards_noun, standards_attribute
 class Word(object):
     def __init__(self, root, wtype, parents=[], children=[], hist=hist):
         super(Word, self).__init__()
@@ -66,7 +66,11 @@ class Word(object):
         self.wtype["root"] = self.root
         self.parents = deepcopy(parents)
         self.children = deepcopy(children)
-        self.subject = None
+        # self.subject = None
+        try:
+            self.marker = self.wtype["marker"]
+        except:
+            pass
         self.hist = hist
         self.syllable_no_accent_count = 0
         self.result = ""
@@ -110,18 +114,20 @@ class Word(object):
         switch = self.wtype["class"]
         if(switch == "verb"):
             self.result += "á"
-            self.spell_verb() #Jlt -> Ja
+            self.spell_verb(1) #Jlt -> Ja
         elif(switch == "noun"):
             self.result += "ó"
-            self.spell_noun() #Jlt -> Jo
-        elif(switch == "adjective"):
+            self.spell_noun(1) #Jlt -> Jo
+        elif(switch == "attribute"):
             self.result += "é"
-            self.spell_noun() #Jlt -> Je
+            self.spell_attribute(1) #Jlt -> Je
         elif(switch == "other"): #TODO
             self.result += "ú" #Jlt -> Ju
         if(len(self.parents) != 0):
             self.result += self.wtype["child_place_string"]
             self.syllable_no_accent_count += len(self.children)
+        return self.result
+        # It is questionable in my eyes to accent parent-syllables in words as a consequence of their parents' other child-syllables, if they cause accent clusters in the child while their parent may not even pronounce the accented child-syllable or any other. This might however be a complicated result of the history of the language and is not complete horse-shit.
         if(self.syllable_no_accent_count > 2):
             index = index_syllable(self.result, -2) #(beginning, vowel, end)
             i = index[1]
@@ -152,7 +158,10 @@ class Word(object):
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_verb[key]
         if(root_level != None):
-            self.result += self.root[root_level] #Jlt -> Jal
+            if(root_level == 1):
+                self.spell_perceived(root_level) #Jlt -> Ja(Le)l
+            else:
+                self.result += self.root[root_level] #Jlt -> Jal
         switch = self.wtype["verb_class"]
         if(switch == "infinitive"):
             self.syllable_no_accent_count += 1
@@ -177,10 +186,12 @@ class Word(object):
         # result = ""
         if(root_level != None):
             if(root_level == 2):
-                self.result += self.spell_passive(root_level) + self.spell_professional(flipped=True) #Jlt -> Jale(xe)t[[it][of]]
+                self.spell_passive(root_level) #Jlt -> Jale(xe)t
+                self.spell_professional(flipped=True) #Jlt -> Jale(xe)t[[it][of]]
+                self.result = accent_syllable(self, self.result, 2, -2)
             else:
                 self.result += self.root[root_level]
-            self.result = accent_syllable(self, self.result, 2, -2)
+                self.result = accent_syllable(self, self.result, 3, -2)
         switch = self.wtype["tense"]
         if(switch == "present"):
             if(self.result[-1] == "k"):
@@ -266,17 +277,22 @@ class Word(object):
                 ("actionpassive", "wo"), #Jlt -> Jo<l..t.>wo
                 ("actoractive",   "ji"), #Jlt -> Jo<l..t.>ji
                 ("actorpassive",  "ru"), #Jlt -> Jo<l..t.>ru
+                ("objectactive",  "ra"), #Jlt -> Jo<l..t.>ra
+                ("objectpassive", "ke"), #Jlt -> Jo<l..t.>ke
             ])
             self.syllable_no_accent_count += 1
             self.result = accent_syllable(self, self.result, 2, -2)
             self.spell_professional()
         else:
-            self.result += self.root[1] #Jlt -> Jol
+            # self.result += self.root[1] #Jlt -> Jol
+            self.spell_perceived(1)
             self.result += WHICH(switch, [
                 ("actionactive",  "a"), #Jlt -> Jola
                 ("actionpassive", "o"), #Jlt -> Jolo
                 ("actoractive",   "i"), #Jlt -> Joli
                 ("actorpassive",  "u"), #Jlt -> Jolu
+                ("objectactive",  "a"), #Jlt -> Jola
+                ("objectpassive", "e"), #Jlt -> Jolu
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
@@ -284,7 +300,7 @@ class Word(object):
                 self.syllable_no_accent_count = 0
             if(self.wtype["passive"]):
                 self.spell_passive()
-                self.result = accent_syllable(self, self.result, 2, -2)
+                # self.result = accent_syllable(self, self.result, 2, -2)
             if(self.root[2] != "k"):
                 self.result += self.root[2] #Jlt -> Jol[aou]t
             else:
@@ -293,6 +309,8 @@ class Word(object):
                     ("actionpassive", "v"), #Jlt -> Jolov
                     ("actoractive",   "x"), #Jlt -> Jolix
                     ("actorpassive",  "r"), #Jlt -> Jolur
+                    ("objectactive",  "P"), #Jlt -> JolaP
+                    ("objectpassive", "k"), #Jlt -> Jolek
                 ])
             self.result += WHICH(self.wtype["professional"],[
                 (True, "i"), #Jlt -> Jol[aoiu][mvxr]i
@@ -300,9 +318,7 @@ class Word(object):
                 (None, "a"),
             ])
             self.syllable_no_accent_count += 1
-            if(self.syllable_no_accent_count > 1):
-                self.result = self.result[:-1]+accented[self.result[-1]]
-                self.syllable_no_accent_count = 0
+            self.result = accent_syllable(self, self.result, 1, -1)
         if(self.wtype["number"] == "plural"):
             self.result += "n"
         # return result
@@ -326,7 +342,7 @@ class Word(object):
                 self.spell_case(2, "o") #Jlt -> Jolu<.t.o.>
         else:
             r2 = self.spell_passive(2) #Jlt -> Jol[aoeu](xe)t
-            self.result = accent_syllable(self, self.result, 2, -2)
+            # self.result = accent_syllable(self, self.result, 2, -2)
             self.result += WHICH(switch, [
                 ("directional", "a" + r2 + "e"),    #Jlt -> Jola(xe)te
                 ("local",       "o" + r2 + "u"),    #Jlt \-> Jolo(xe)tu
@@ -401,57 +417,48 @@ class Word(object):
             r = self.root[root_level]
             self.result += r #Jlt -> (Jalju)xet
         # return result
-
-# Es gibt (V1) –
-#  (A-V1)
-#   in (TA-V1) TA = Local_In_Metaphorical
-#     diesen (A/R-NA-V1)
-#    Bereichen (NA-V1) begrenzen_Prof_Metaphorical_Noun_TA
-#  (O-V1)
-#    verschiedene (A-NO-V1) unterscheiden_Prof_Met_Attr_possible
-#   Wettbewerbe, (NO-V1) kämpfen_Met_Noun-O-V1
-# und
-#  (A-V2)
-#   trotz (TA-V) TA = Causal_Near
-#   der Relevanz (NA-V) bedenken_Prof_Passive_TA
-#    des --wettbewerb (NA-NA-V) kämpfen_Met_Noun_-A
-#     -Bundes- (NA-NA-NA-V) vereinigen_Pass_Perf_Local_In
-#     Fremdsprachen (NA-NA-NA-V) sprechen_Noun_Action lernen_Attr_imperativ
-#    (A-NA-V)
-#     an (TA-NA-V)
-#     der Schule (NA-NA-V) Lernen_Prof_Noun_Local_Near
-#  nehmen (V2) (Teil) kämpfen_Met_Verb
-#  Schüler (NO-V2) lernen_Noun_Actor_Activ
-#  (A-V2)
-#   an (TA-V2)
-#   --wettbewerben (NA-V2) kämpfen_Met_Noun_
-#    -Geographie- lernen_über_orte
-#  Teil, (A-V2)
-# es gibt (V3)
-#    Mathematik- (NA-NO-V3)
-#   und
-#    Biologieolympiaden (NO-V3)
-#  sowie
-#  den Biberwettbewerb (NO-V3)
-#   (A-NO-V3)
-#    für (TA-NO-V3)
-#    die Früherkennung (NA-NO-V3)
-#     (A-NA-NO-V3)
-#      informatischen (A-NA-NA-NO-V3)
-#     Talents (NA-NA-NO-V3) können_Unprof_Noun
-#  und
-#   (O-V3)
-#     schulische (A-NO-V3)
-#    Veranstaltungen, (NO-V)
-#    (A-NO-V)
-#     in denen (TA-NO-V)
-#     Schüler (NS-VA-TA-NO-V)
-#      (A-VA-TA-NO-V)
-#       außerhalb (TA-VA-TA-NO-V)
-#       der Schule (NA-VA-TA-NO-V)
-#     Fachwissen (NO-VA-TA-NO-V)
-#      (A-VA-TA-NO-V)
-#       durch (TA-VA-TA-NO-V)
-#         praktische (A-NA-VA-TA-NO-V)
-#        Erfahrung (NA-VA-TA-NO-V)
-#     vertiefen. (VA-NO-V)
+    def spell_perceived(self, root_level=1): #looks at "perceived"
+        if(self.wtype["perceived"]):
+            self.result += "L"
+            if(not self.hist["perceived"]):
+                self.result += "e"
+                self.syllable_no_accent_count += 1
+        self.result = accent_syllable(self, self.result, 3, -2)
+        if(root_level != None):
+            self.result += self.root[root_level] #Jlt -> (Jalju)xet
+        # return result
+    def spell_attribute(self, root_level=None): #looks at "attribute_class"
+        for key in standards_attribute.keys():
+            if(not key in self.wtype.keys()):
+                self.wtype[key] = standards_attribute[key]
+        #attribute_class:
+        #  stative active: reading
+        #  stative passive: read / being read -> tenses?
+        #  possible active: able to read
+        #  possible passive: readable = able to be read
+        #  conjunctive active: should read
+        #  conjunctive passive: should be read
+        #  obligate active: must read
+        #  obligate passive: must be read
+        switch = self.wtype["attribute_class"]+("passive" if self.wtype["passive"] else "active")
+        self.result += WHICH(switch, [
+            ("stativeactive",      "za"), #Jlt -> Jo<l..t.>za
+            ("stativepassive",     "Xa"), #Jlt -> Jo<l..t.>Xa
+            ("possibleactive",     "to"), #Jlt -> Jo<l..t.>to
+            ("possiblepassive",    "ðo"), #Jlt -> Jo<l..t.>ðo
+            ("conjunctiveactive",  "li"), #Jlt -> Jo<l..t.>li
+            ("conjunctivepassive", "wy"), #Jlt -> Jo<l..t.>wy
+            ("obligateactive",     "ku"), #Jlt -> Jo<l..t.>ku
+            ("obligatepassive",    "Ke"), #Jlt -> Jo<l..t.>Ke
+        ])
+        self.syllable_no_accent_count += 1
+        self.result = accent_syllable(self, self.result, 2, -2)
+        self.spell_perceived(1)
+        if(self.wtype["passive"]):
+            self.result += "y"
+        else:
+            self.result += "e"
+        self.result = accent_syllable(self, self.result, 2, -2)
+        self.spell_tense(2)
+        self.result = accent_syllable(self, self.result, 1, -1)
+        # return result
