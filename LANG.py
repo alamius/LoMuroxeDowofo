@@ -1,3 +1,4 @@
+from sys import argv
 from Word import *
 from wtype import *
 from notation import *
@@ -6,8 +7,13 @@ from vocab import roots
 
 def print_Word(word):
     word = word.spell()
-    print("notation: "+word)
-    print("phonetic: "+phoneticize(word))
+    print(word)
+    if("-p" in argv):
+        print("phon: "+phoneticize(word))
+def print_LANG(string):
+    print(string)
+    if("-p" in argv):
+        print(phoneticize(string))
 def demo_input_fragments():
     print("STEM: g·r")
     print("MEANS: GO, WALK, JOURNEY")
@@ -46,11 +52,11 @@ def demo_input_free():
                     word_strings[index] = words[index].spell()
             words += [word]
             word_strings += [word.spell()]
-            print(" ".join(word_strings))
+            print_LANG(" ".join(word_strings))
     except KeyboardInterrupt:
         print("FINAL SENTENCE: "+" ".join(word_strings))
         for word in words:
-            print(word.spell())
+            print_LANG(word.spell())
             print("w"+str(words.index(word))+" = {")
             for key in word.wtype.keys():
                 print("\t\""+str(key)+"\": "+repr(word.wtype[key])+", ")
@@ -71,10 +77,12 @@ def demo_place():
         'number': 'plural',
         'metaphore':True,
     })
-    print("go_you_pl: ", w1.spell())
-    print("to the kindergardeners: ", w2.spell())
+    print("go_you_pl: ", end='')
+    print_LANG(w1.spell())
+    print("to the kindergardeners: ", end='')
+    print_LANG(w2.spell())
     w1.add_child(w2)
-    print(w1.spell(), w2.spell())
+    print_LANG(w1.spell(), w2.spell())
 def demo_verb():
     t = {"class":"verb"}
     print("VERBS:")
@@ -152,11 +160,11 @@ if __name__ == "__main__":
             Markers[parent].add_child(word, marks[word.marker[0]])
         except:
             pass
-    print(spell_sentence(W))
+    print_LANG(spell_sentence(W))
     exit(0)
     # demo_input_free()
     # exit(0)
-    # print(Word("lmd", get_wtype(noun)).spell())
+    # print_LANG(Word("lmd", get_wtype(noun)).spell())
     for w in range(len(E0)):
         word = E0[w]
         E0[w] = Word(word["root"], word)
@@ -168,6 +176,6 @@ if __name__ == "__main__":
     E0[4].add_child(E0[6], "object")
     E0[0].add_child(E0[7], "attribute")
     E0[8].add_child(E0[1], "subject")
-    print(spell_sentence(E0))
+    print_LANG(spell_sentence(E0))
 #{'verb_class': 'imperative', 'person': ('plural-you'), 'class': 'verb'}
 #{'class': 'noun', 'case_class': 'directional', 'noun_class': 'acted_on', 'professional': 'True', 'case': 'near'}
