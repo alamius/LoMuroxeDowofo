@@ -45,7 +45,7 @@ PHON = {
     "P":"r°"
 }
 
-def romanization(word):
+def romanize(word):
     for i in range(len(word)):
         c = word[i]
         if(c in ROMAN.keys()):

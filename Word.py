@@ -469,15 +469,6 @@ class Word(object):
         for key in standards_attribute.keys():
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_attribute[key]
-        #attribute_class:
-        #  stative active: reading
-        #  stative passive: read / being read -> tenses?
-        #  possible active: able to read
-        #  possible passive: readable = able to be read
-        #  conjunctive active: should read
-        #  conjunctive passive: should be read
-        #  obligate active: must read
-        #  obligate passive: must be read
         switch = self.wtype["attribute_class"]+("passive" if self.wtype["passive"] else "active")
         self.result += WHICH(switch, [
             ("stativeactive",      "za"), #Jlt -> Jo<l..t.>za

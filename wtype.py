@@ -24,6 +24,15 @@ standards_attribute = {
     "tense":"present",
     "negative":False,
 }
+#attribute_class examples:
+    #stative active: reading
+    #stative passive: read / being read -> tenses?
+    #possible active: able to read
+    #possible passive: readable = able to be read
+    #conjunctive active: should read
+    #conjunctive passive: should be read
+    #obligate active: must read
+    #obligate passive: must be read
 person_choice = [[
     ["me", "plural-me", "p-me"],
     ["you", "plural-you", "p-you"],
