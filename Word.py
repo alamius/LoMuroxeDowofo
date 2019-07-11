@@ -463,7 +463,7 @@ class Word(object):
                 self.syllable_no_accent_count += 1
         self.result = accent_syllable(self, self.result, 3, -2)
         if(root_level != None):
-            self.result += self.root[root_level] #Jlt -> (Jalju)xet
+            self.result += self.root[root_level] #Jlt -> JaLel
         # return result
     def spell_attribute(self, root_level=None): #looks at "attribute_class"
         for key in standards_attribute.keys():
