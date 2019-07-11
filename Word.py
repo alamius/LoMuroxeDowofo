@@ -40,8 +40,14 @@ def accent_syllable(self, string, syllable_no_accent_threshhold=2, syllable_inde
         index = index_syllable(string, syllable_index) #(beginning, vowel, end)
         i = index[1]
         string = string[:i] + accented[string[i]] + string[i+1:]
-        self.syllable_no_accent_count = 0
+        self.syllable_no_accent_count = -syllable_index - 1
     return string
+def count_syllables(string):
+    result = 0
+    for c in string:
+        if c in vowels:
+            result += 1
+    return result
 
 PLACE = {
     "subject":      ["ta", "vo", "kô"],
@@ -184,7 +190,6 @@ class Word(object):
             self.result += "'o"
             self.syllable_no_accent_count += 1
             self.spell_person(2)
-            self.syllable_no_accent_count += 1
         elif(switch == "indicative"):
             # resetting and not using a character from self.root yet (leaving that to the subroutines)
             self.result = self.result[:-1]
