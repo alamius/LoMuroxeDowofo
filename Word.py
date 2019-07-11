@@ -49,6 +49,12 @@ PLACE = {
     "attribute":    ["ri", "Ju", "wa", "Je", "Li"],
     "clause":       ["xs", "Xl", "Qr", "ðJ", "wj", "CL", "ps", "df"],
 }
+USED = {
+    "subject":  0,
+    "object":   0,
+    "attribute":0,
+    "clause":   0,
+}
 
 from copy import deepcopy
 from hist import hist
@@ -77,34 +83,39 @@ class Word(object):
         try:            self.wtype["parent_place"]
         except KeyError:self.wtype["parent_place"] = []
         try:            self.wtype["parent_place_string"]
-        except KeyError:self.wtype["parent_place_string"] = ""
+        except KeyError:self.wtype["parent_place_string"] = []
         try:            self.wtype["child_place"]
         except KeyError:self.wtype["child_place"] = []
         try:            self.wtype["child_place_string"]
-        except KeyError:self.wtype["child_place_string"] = ""
+        except KeyError:self.wtype["child_place_string"] = []
         for k in self.wtype.keys():
             if(type(self.wtype[k]) == type(" ") and self.wtype[k].lower() == "false"):  self.wtype[k] = False
             elif(type(self.wtype[k]) == type(" ") and self.wtype[k].lower() == "true"): self.wtype[k] = True
             elif(type(self.wtype[k]) == type(" ") and self.wtype[k].lower() == "none"): self.wtype[k] = None
     def add_child(self, child, place="attribute"):
+        global USED
         child.parents += [self]
         self.children += [child]
         if(place in PLACE.keys()):
-            #adding the place at the beginning in the internal index in every following generation
-            count_place = self.wtype["child_place"].count(place)
-            string = PLACE[place][count_place % len(PLACE[place])]
-            child_place = child.add_place(place, string)
-            self.wtype["child_place"] += [place]
-            self.wtype["child_place_string"] += string
+            try:
+                index = self.wtype["child_place"].index(place)
+                child.add_place(place, self.wtype["child_place_string"][index])
+            except ValueError:
+                #getting the one that wasn't last used by any other word that wanted to add a place of this type to itself
+                string = PLACE[place][USED[place] % len(PLACE[place])]
+                USED[place] += 1
+                child.add_place(place, string)
+                self.wtype["child_place"] += [place]
+                self.wtype["child_place_string"] += [string]
     def add_place(self, place, string):
         self.wtype["parent_place"] += [place]
-        self.wtype["parent_place_string"] += string
+        self.wtype["parent_place_string"] += [string]
     def spell(self): #looks at "class"
         for key in standards_word.keys():
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_word[key]
         self.result = ""
-        self.result += self.wtype["parent_place_string"]
+        self.result += ''.join(self.wtype["parent_place_string"])
         if(self.wtype["metaphore"]):
             self.spell_metaphore()
             self.syllable_no_accent_count += 1 #metaphore
@@ -123,8 +134,8 @@ class Word(object):
             self.spell_attribute(1) #Jlt -> Je
         elif(switch == "other"): #TODO
             self.result += "ú" #Jlt -> Ju
-        if(len(self.parents) != 0):
-            self.result += self.wtype["child_place_string"]
+        if(len(self.children) != 0 and len(self.parents) != 0):
+            self.result += ''.join(self.wtype["child_place_string"])
             self.syllable_no_accent_count += len(self.children)
         return self.result
         # It is questionable in my eyes to accent parent-syllables in words as a consequence of their parents' other child-syllables, if they cause accent clusters in the child while their parent may not even pronounce the accented child-syllable or any other. This might however be a complicated result of the history of the language and is not complete horse-shit.

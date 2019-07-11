@@ -137,7 +137,15 @@ def spell_sentence(sentence):
             sentence[w-1].children == [sentence[w]] and
             sentence[w-1] in sentence[w  ].parents
         ):
-            word_strings = word_strings[:w-1] + [word_strings[w-1][:-2] + "-" + word_strings[w][2:]] + word_strings[w+1:]
+            word_strings = word_strings[:w-1] + [word_strings[w-1][:-2] + "-" + word_strings[w]] + word_strings[w+1:]
+        elif(
+            w > 1 and
+            sentence[w-1].wtype["child_place_string"] ==
+            sentence[w  ].wtype["parent_place_string"] and
+            sentence[w  ] in sentence[w-1].children and
+            sentence[w-1] in sentence[w  ].parents
+        ):
+            word_strings = word_strings[:w-1] + [word_strings[w-1] + "ne-" + word_strings[w][2:]] + word_strings[w+1:]
     return " ".join(word_strings)
 
 marks = {
