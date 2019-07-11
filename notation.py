@@ -1,6 +1,6 @@
-consonants = "bdfghklmnopqrstvwxzJXDCLNGKRP'"
-vowels = "aeiouäöyêô" #accented are added after they are defined
-semivowels="j"
+consonants = "bdfghklmnpqrstvwxzJXDCLNGKRP'" #w is semivowel
+vowels = "aeiouy" #accented are added after they are defined
+semivowels="j" #w?
 
 accented = {
     "a":"á",
@@ -8,8 +8,6 @@ accented = {
     "i":"í",
     "o":"ó",
     "u":"ú",
-    "ä":"Ä",
-    "ö":"Ö",
     "y":"ý",
 }
 for c in vowels:
@@ -25,10 +23,6 @@ ROMAN = {
     "D":"dh",
     "K":"kh", #weird trill using a lot of pressure on the soft palate, appriximate by χ
     "G":"gh", #can you voice K?
-    "ä":"ae",
-    "ö":"oe",
-    "ê":"e", #short, open
-    "ô":"o", #short, open
     "C":"ch",
     "L":"lh",
     "R":"rh", #german, franch r
@@ -45,11 +39,7 @@ PHON = {
     "D":"ð",
     "K":"Я", #voiced/voiceless? pressurized uvular trill
     # "G":"vЯ", #voiced pressurized uvular trill
-    "ä":"æ",
-    "ö":"ø",
-    "ô":"ɔ",
-    "ê":"ɛ",
-    "L":"ɮ",
+    "L":"ɬ", #ɮ
     "R":"ʁ",
     "N":"ŋ",
     "P":"r°"

@@ -14,7 +14,7 @@ E0 = [{
     	"metaphore": False,
     	"child_place": [],
     	"class": 'verb',
-    }, # tagökoxixin(ri)
+    }, # tagykoxixin(ri)
     {
         "marker":"S-V",
         "root":roots["fight"],
@@ -142,8 +142,8 @@ E0 = [{
 }]
 #                 /----------------------------\
 #  v   !  v     /-|---      v       v     v  --|-v   .   v  ----\ v     v   /----\ v     v     v   v       v   .   v   .  v   .    v
-# gáresùnkáj(taríJúwa) tagökóxixìn-póPulokÈma Jùlómamàxedéwoti rívómusaqÈmalèso lèlómuxedán solómidìn wagövéXekìxenírufo KáPesùnxeJáj.
-# gáresunkáj(taríJuwa) tagökóxixín-póPulokéma Julómamáxedéwoti rívómusaqémaléso lélómuxedán solómidín wagövéXekéxenírufo KáPesúnxeJáj.
+# gáresùnkáj(taríJúwa) tagykóxixìn-póPulokÈma Jùlómamàxedéwoti rívómusaqÈmalèso lèlómuxedán solómidìn wagyvéXekìxenírufo KáPesùnxeJáj.
+# gáresunkáj(taríJuwa) tagykóxixín-póPulokéma Julómamáxedéwoti rívómusaqémaléso lélómuxedán solómidín wagyvéXekéxenírufo KáPesúnxeJáj.
 # you and I (go) as fighters against fire (go) into schools to save            students and teachers dayly          and we get killed.
 
 

@@ -50,10 +50,10 @@ def count_syllables(string):
     return result
 
 PLACE = {
-    "subject":      ["ta", "vo", "kô"],
+    "subject":      ["ta", "vo", "ko"],
     "object":       ["le", "so", "ne"],
     "attribute":    ["ri", "Ju", "wa", "Je", "Li"],
-    "clause":       ["xs", "Xl", "Qr", "ðJ", "wj", "CL", "ps", "df"],
+    "clause":       ["xs", "Xl", "Qr", "DJ", "wj", "CL", "ps", "df"],
 }
 USED = {
     "subject":  0,
@@ -162,9 +162,9 @@ class Word(object):
     def spell_metaphore(self):
         # self.result = ""
         if(not hist["metaphor-merge"]):
-            self.result += "gö" + self.root[0] #Jlt -> J
+            self.result += "gy" + self.root[0] #Jlt -> J
         else:
-            self.result += "'ö"
+            self.result += "'y"
             try:
                 self.result += g_merge[self.root[0]]
             except:
@@ -468,11 +468,11 @@ class Word(object):
             ("stativeactive",      "za"), #Jlt -> Jo<l..t.>za
             ("stativepassive",     "Xa"), #Jlt -> Jo<l..t.>Xa
             ("possibleactive",     "to"), #Jlt -> Jo<l..t.>to
-            ("possiblepassive",    "ðo"), #Jlt -> Jo<l..t.>ðo
+            ("possiblepassive",    "Do"), #Jlt -> Jo<l..t.>Do
             ("conjunctiveactive",  "li"), #Jlt -> Jo<l..t.>li
             ("conjunctivepassive", "wy"), #Jlt -> Jo<l..t.>wy
             ("obligateactive",     "ku"), #Jlt -> Jo<l..t.>ku
-            ("obligatepassive",    "Ke"), #Jlt -> Jo<l..t.>Ke
+            ("obligatepassive",    "qe"), #Jlt -> Jo<l..t.>qe
         ])
         self.syllable_no_accent_count += 1
         self.result = accent_syllable(self, self.result, 2, -2)
