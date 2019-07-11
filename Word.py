@@ -253,34 +253,38 @@ class Word(object):
         else:
             for person in persons:
                 if("plural-"+person in switch): #checking for "plural-you" in wtype["person"]
-                    result += [person_ending[person]+"n"] #Jlt -> Jaloten
+                    result += [person_ending[person]+"ne"] #Jlt -> Jalotene
                 elif(person in switch): #checking for "you" in wtype["person"]
                     result += [person_ending[person]] #Jlt -> Jalote
         #adding all the person-forms with s as filler-consonants
         while(len(result) > 1):
-            self.result += "s" + result.pop(-1)
-            self.syllable_no_accent_count += 1
+            self.result += "s" + result[-1]
+            self.syllable_no_accent_count += count_syllables(result[-1])
+            result.pop(-1)
+            if(self.result.endswith("ne")):
+                self.result = accent_syllable(self, self.result, 3, -2)
+            elif(len(result) > 1):
+                self.result = accent_syllable(self, self.result, 2, -1)
         if(root_level == 2):
             self.spell_passive()
-            # if(self.root[root_level] != "k"):
-            self.result += self.root[root_level] #Jlt -> Jale(xe)t
-            if(self.hist["passive"] and self.wtype["passive"] and "xek" in self.result):
-                i = self.result.index("xek")
-                self.result = self.result[:i]+"x"+self.result[i+2]
-                self.syllable_no_accent_count -= 1
-            self.result = accent_syllable(self, self.result, 2, -2)
-            self.syllable_no_accent_count += 1 if "xe" in self.result else 0
-            self.spell_professional( #Jlt -> Jalse(xe)t[[it][of]][aj|u|e|i|o][n]
-                flipped=True,
-                accentable=(self.syllable_no_accent_count > 1)
-            )
-            self.result += result[0]
-            self.syllable_no_accent_count += 1
+        self.result += self.root[root_level] #Jlt -> Jale(xe)t
+        if(self.hist["passive"] and self.wtype["passive"] and "xek" in self.result):
+            i = self.result.index("xek")
+            self.result = self.result[:i]+"x"+self.result[i+2]
+            self.syllable_no_accent_count -= 1
+        self.spell_professional( #Jlt -> Jalse(xe)t[[it][of]][aj|u|e|i|o][ne]
+            flipped=True,
+            accentable=(self.syllable_no_accent_count > 0)
+        )
+        self.result += result[0]
+        self.syllable_no_accent_count += count_syllables(result[0])
+        if(self.result.endswith("ne")):
+            self.result = accent_syllable(self, self.result, 3, -2)
+        else:
             self.result = accent_syllable(self, self.result, 1, -1)
-            # else:
-            #     self.result += result[0]
         if("plural" in switch and result == ["i"]):
-            self.result += "n"
+            self.result += "ne"
+            self.syllable_no_accent_count += 1
     def spell_noun(self, root_level=1): #looks at "noun_class"
         for key in standards_noun.keys():
             if(not key in self.wtype.keys()):
@@ -336,7 +340,7 @@ class Word(object):
             self.syllable_no_accent_count += 1
             self.result = accent_syllable(self, self.result, 1, -1)
         if(self.wtype["number"] == "plural"):
-            self.result += "n"
+            self.result += "ne"
         # return result
     def spell_case_class(self, root_level=1): #looks at "case_class"
         if(root_level != None):
@@ -406,20 +410,23 @@ class Word(object):
             self.result = self.result[:i]+"X"+self.result[i+2]
         # return result
     def spell_professional(self, flipped=False, accentable=False): #looks at "professional"
-        result = WHICH(self.wtype["professional"],[
-            (True, "ti"),
-            (False, "fo"),
-            (None, ""),
-        ])
+        if(not flipped):
+            result = WHICH(self.wtype["professional"],[
+                (True, "ti"),
+                (False, "fo"),
+                (None, ""),
+            ])
+        else:
+            result = WHICH(self.wtype["professional"],[
+                (True, "it"),
+                (False, "of"),
+                (None, ""),
+            ])
         if(self.wtype["professional"] != None):
-            if(flipped):
-                if(accentable):
-                    result = result[:-1]+accented[result[-1]]
-                    self.syllable_no_accent_count = 0
-                result = list(result)
-                result.reverse()
-                result = "".join(result)
             self.syllable_no_accent_count += len(result)//2
+            if(flipped and accentable):
+                result = accented[result[0]]+result[1]
+                self.syllable_no_accent_count = 0
         self.result += result
         # return result
     def spell_passive(self, root_level=None): #looks at "passive"
