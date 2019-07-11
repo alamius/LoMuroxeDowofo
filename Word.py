@@ -289,30 +289,42 @@ class Word(object):
         for key in standards_noun.keys():
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_noun[key]
-        switch = self.wtype["noun_class"]+("passive" if self.wtype["passive"] else "active")
+        #this switch decides what syllable is to be put in the word
+        # - with all the lines ending in ##1 commented in,
+        #   it would be dependent on active/passive (voice)
+        #   I would rather have it be dependent on something else, voice is represented in too many decisions
+        switch = self.wtype["noun_class"]
+        # switch += ("passive" if self.wtype["passive"] else "active") ##1
         if("case_class" in self.wtype.keys() and self.wtype["case_class"] != None):
-            self.spell_case_class(1) #Jlt -> Jo<l..t.>
+            self.spell_perceived(1)
+            self.spell_case_class(None) #Jlt -> Jo<l..t.>
             self.result += WHICH(switch, [
-                ("actionactive",  "ma"), #Jlt -> Jo<l..t.>ma
-                ("actionpassive", "wo"), #Jlt -> Jo<l..t.>wo
-                ("actoractive",   "ji"), #Jlt -> Jo<l..t.>ji
-                ("actorpassive",  "ru"), #Jlt -> Jo<l..t.>ru
-                ("objectactive",  "ra"), #Jlt -> Jo<l..t.>ra
-                ("objectpassive", "ke"), #Jlt -> Jo<l..t.>ke
+                ("action",  "ma"), #Jlt -> Jo<l..t.>ma
+                ("actor",   "ji"), #Jlt -> Jo<l..t.>ji
+                ("object",  "ra"), #Jlt -> Jo<l..t.>ra
+                # ("actionactive",  "ma"), #Jlt -> Jo<l..t.>ma ##1
+                # ("actionpassive", "wo"), #Jlt -> Jo<l..t.>wo ##1
+                # ("actoractive",   "ji"), #Jlt -> Jo<l..t.>ji ##1
+                # ("actorpassive",  "ru"), #Jlt -> Jo<l..t.>ru ##1
+                # ("objectactive",  "ra"), #Jlt -> Jo<l..t.>ra ##1
+                # ("objectpassive", "ke"), #Jlt -> Jo<l..t.>ke ##1
             ])
-            self.syllable_no_accent_count += 1
             self.result = accent_syllable(self, self.result, 2, -2)
+            self.syllable_no_accent_count += 1
             self.spell_professional()
         else:
             # self.result += self.root[1] #Jlt -> Jol
             self.spell_perceived(1)
             self.result += WHICH(switch, [
-                ("actionactive",  "a"), #Jlt -> Jola
-                ("actionpassive", "o"), #Jlt -> Jolo
-                ("actoractive",   "i"), #Jlt -> Joli
-                ("actorpassive",  "u"), #Jlt -> Jolu
-                ("objectactive",  "a"), #Jlt -> Jola
-                ("objectpassive", "e"), #Jlt -> Jolu
+                ("action",  "a"), #Jlt -> Jo<l..t.>a
+                ("actor",   "i"), #Jlt -> Jo<l..t.>i
+                ("object",  "a"), #Jlt -> Jo<l..t.>a
+                # ("actionactive",  "a"), #Jlt -> Jola ##1
+                # ("actionpassive", "o"), #Jlt -> Jolo ##1
+                # ("actoractive",   "i"), #Jlt -> Joli ##1
+                # ("actorpassive",  "u"), #Jlt -> Jolu ##1
+                # ("objectactive",  "a"), #Jlt -> Jola ##1
+                # ("objectpassive", "e"), #Jlt -> Jole ##1
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
@@ -325,12 +337,15 @@ class Word(object):
                 self.result += self.root[2] #Jlt -> Jol[aou]t
             else:
                 self.result += WHICH(switch, [
-                    ("actionactive",  "m"), #Jlt -> Jolam
-                    ("actionpassive", "v"), #Jlt -> Jolov
-                    ("actoractive",   "x"), #Jlt -> Jolix
-                    ("actorpassive",  "r"), #Jlt -> Jolur
-                    ("objectactive",  "P"), #Jlt -> JolaP
-                    ("objectpassive", "k"), #Jlt -> Jolek
+                    ("action", "m"),
+                    ("actor",  "x"),
+                    ("object", "P"),
+                    # ("actionactive",  "m"), #Jlt -> Jolam ##1
+                    # ("actionpassive", "v"), #Jlt -> Jolov ##1
+                    # ("actoractive",   "x"), #Jlt -> Jolix ##1
+                    # ("actorpassive",  "r"), #Jlt -> Jolur ##1
+                    # ("objectactive",  "P"), #Jlt -> JolaP ##1
+                    # ("objectpassive", "k"), #Jlt -> Jolek ##1
                 ])
             self.result += WHICH(self.wtype["professional"],[
                 (True, "i"), #Jlt -> Jol[aoiu][mvxr]i
@@ -477,7 +492,7 @@ class Word(object):
         self.syllable_no_accent_count += 1
         self.result = accent_syllable(self, self.result, 2, -2)
         self.spell_perceived(1)
-        if(self.wtype["passive"]):
+        if(self.wtype["metaphore"]):
             self.result += "y"
         else:
             self.result += "e"
