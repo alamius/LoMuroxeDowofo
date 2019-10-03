@@ -185,14 +185,6 @@ def spell_sentence(sentence):
         ):
             word_strings = word_strings[:w-1] + [word_strings[w-1] + "ne-" + word_strings[w][2:]] + word_strings[w+1:]
     return " ".join(word_strings)
-
-marks = {
-    "S":"subject",
-    "O":"object",
-    "A":"attribute",
-    "C":"clause",
-}
-
 from examples import *
 if __name__ == "__main__":
     W = []
