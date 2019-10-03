@@ -96,7 +96,7 @@ noun.update(basic)
         #under:      underneeth, downwards
         #near:       towards
         #parallel:   parallel, but not starting on the same spot
-        #same:       together
+        #same:       together or through
         #opposite:   opposite direction
     #local:
         #before:     in front
@@ -119,12 +119,13 @@ noun.update(basic)
     #causal:
         #before:     because of, reason
         #after:      therefore, consequence
-        #above:      at a larger scale of reasoning, planning ahead
-        #under:      at a smaller scale of reasoning, detail
-        #near:       somehow related to the argument
+        #above:      at a larger scale of reasoning, planning ahead, or: possessing
+        #under:      at a smaller scale of reasoning, detail,        or: possessed
+        #near:       somehow related to the argument, about
         #parallel:   comparison, the same in another area, metaphore
         #same:       this is completely equivalent
         #opposite:   against
+
 # action = {
 #     "class":"noun",
 #     "noun_class":"action",
