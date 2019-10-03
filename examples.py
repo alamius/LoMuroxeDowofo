@@ -391,3 +391,5 @@ E2 = [
     #        Erfahrung (NA-VA-TA-NO-V)
     #     vertiefen. (VA-NO-V)
 }]
+
+E = [E0, E1, E2]
