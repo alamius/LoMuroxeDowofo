@@ -1,9 +1,11 @@
-from sys import argv
-from Word import *
-from wtype import *
-from notation import *
-from hist import *
-from vocab import roots
+#!/usr/bin/python3
+if __name__ == '__main__':
+    from sys import argv
+    from Word import *
+    from wtype import *
+    from notation import *
+    from hist import *
+    from vocab import roots
 
 def print_Word(word):
     word = word.spell()
