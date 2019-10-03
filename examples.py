@@ -124,7 +124,7 @@ E0 = [{
     	"noun_class": 'actor',
     	"case": 'above',
     	"child_place": [],
-    	"class": 'attribute',
+    	"class": 'noun',
     }, {
         "marker":"V2",
         "root":roots["kill"],
