@@ -6,6 +6,29 @@ if __name__ == '__main__':
     from notation import *
     from hist import *
     from vocab import roots
+from examples import *
+
+HELP = {
+    "DEMO":"Help for demo options: <this command> -d<specifier> \nThese are the demo options: \n -dif for input_framgents, \n -dip for input_presets, \n -df for input_free; \n -dp for place, \n -dv for verb, \n -dn for noun",
+    "GENERAL":
+"""General help for this command: <this command> [options]
+Options:
+ -d, -?=demo    demo help / options
+ -d<demo>       runs a (possibly interactive) demo function. Some force you to press ctrl+C.
+ -e<int>        load the built-in example number <int> (existent: 0.."""+str(len(E)-1)+""")
+ -E=<file>      import an example called E from a .py file whose name is <file>,
+                (pseudo-python: 'from <file[:-3]> import E' must be valid)
+ -?, --help     prints this
+ -P, --print    prints an export-ready text of the current sentence to output
+
+Notes:
+ On order:
+  The order of the options is directly reflected in the order of execution.
+  The currently active sentence changes with some demos and all examples.
+  When <this command> -df -e0 -P is executed, the input from the demo is lost
+  and only the example 0 is printed.
+"""
+}
 
 def print_Word(word):
     word = word.spell()
