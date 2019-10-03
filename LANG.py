@@ -82,9 +82,19 @@ def demo_input_free():
         print(roots[key], "means", key)
     try:
         while True:
-            tpl_class = get_new_value(["verb", "noun"])
-            tpl = verb if tpl_class == "verb" else noun
-            word = Word(roots[get_new_value(word_list)], get_wtype(tpl))
+            tpl_class = get_new_value(["verb", "noun", "attribute"])
+            tpl = {
+                "verb":verb,
+                "noun":noun,
+                "attribute":attribute,
+            }[tpl_class]
+            tpl_default = {
+                "verb":standards_verb,
+                "noun":standards_noun,
+                "attribute":standards_attribute,
+            }[tpl_class]
+            tpl_default.update(standards_word)
+            word = Word(roots[get_new_value(word_list)], make_wtype(tpl, tpl_default))
             print_Word(word)
             while(len(words) > 0):
                 #by standard, word is the child in this new relationship
