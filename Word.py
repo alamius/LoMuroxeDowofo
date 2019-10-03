@@ -74,7 +74,7 @@ class Word(object):
             self.root = wtype["root"]
         for i in range(3-len(self.root)):
             self.root += "k" #gr -> grk
-        self.wtype = wtype
+        self.wtype = deepcopy(wtype)
         self.wtype["root"] = self.root
         self.parents = deepcopy(parents)
         self.children = deepcopy(children)
