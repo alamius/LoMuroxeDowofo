@@ -117,7 +117,7 @@ def demo_input_free():
                     break
             words += [word]
             word_strings += [word.spell()]
-            print_LANG(" ".join(word_strings))
+            print_LANG(spell_sentence(words))
     except KeyboardInterrupt:
         print()
         return words
