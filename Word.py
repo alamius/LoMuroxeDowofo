@@ -1,4 +1,5 @@
 from notation import accented, vowels, consonants, semivowels
+from vocab import roots
 def WHICH(switch, ARGS): #TODO: Think about useful version with functions
     try:
         for case, result in ARGS:
@@ -500,3 +501,36 @@ class Word(object):
         self.spell_tense(2)
         self.result = accent_syllable(self, self.result, 1, -1)
         # return result
+    def export(self, sentence_structure_markers_as_syllables=False):
+        result = "{\n"
+        for key in self.wtype.keys():
+            if(key in ["parent_place", "parent_place_string", "child_place", "child_place_string"]):
+                continue
+            result += "\t\"%s\": %s, \n" % (key, repr(self.wtype[key]))
+        if(not "root_english" in self.wtype.keys()):
+            root_english = "---"
+            root = self.root[:2] if self.root[2] == "k" else self.root
+            for key in roots.keys():
+                if(roots[key] == root):
+                    root_english = key
+            result += "\t\"%s\": %s, \n" % ("root_english", repr(root_english))
+        if(not "marker" in self.wtype.keys()):
+            markers = []
+            markers += self.get_marker()
+            result += "\t\"%s\": %s, " % ("marker", repr(markers))
+        result += "\n}"
+        return result
+    def get_marker(self):
+        from LANG import marks_reverse #why are they not defined???
+        if(self.marker != ""):
+            return self.marker
+        else:
+            try:
+                self.marker = marks_reverse[self.wtype["parent_place"][0]]
+                parent_marker = self.parents[0].get_marker()
+            except IndexError:
+                self.marker = "V" #TODO: make it count the number of root verbs
+                parent_marker = [""]
+                #TODO: decide if there is need for a detection of root nouns or even root attributes
+            result = [selfm+"-"+parentm for selfm in self.marker for parentm in parent_marker]
+            return result
