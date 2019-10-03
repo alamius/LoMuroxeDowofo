@@ -3,8 +3,8 @@ VOCAB = {
         "garju":"to go",
         "garjukofe":"to stumble",
         "gygarjuxekofe":"to be made stumble metaphorically (in a conversation)",
-        "garexekitene":"they are being thrown out by security",
-        "gygarosuxekitajne":"you and we must be assassinated/killed by professionals",
+        "gárexekítene":"they are being thrown out by security",
+        "gygáre'osúxekítajne":"you and we must be assassinated/killed by professionals",
     },
     "kl":{
         "kalju":"to work",
