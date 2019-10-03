@@ -141,6 +141,13 @@ noun.update(basic)
 #     "case":["before", "after", "above", "under", "near", "parallel", "same", "opposite"],
 #     #abbrev.: ←, →, ↑, ↓, o, =, ., O
 # }
+attribute = {
+    "class":"attribute",
+    "attribute_class":["stative", "possible", "conjunctive", "obligate"],
+    "tense":["present", "past", "future"],
+}
+attribute.update(basic)
+
 def get_inp(choices):
     out = "\t POSSIBLE VALUES: "
     # out += "\tWRITE THE FIRST FEW DEFINING LETTERS OF YOUR CHOICE\n\tFROM THE POSSIBLE VALUES: "
