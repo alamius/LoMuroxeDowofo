@@ -150,7 +150,9 @@ class Word(object):
             self.result += ''.join(self.wtype["child_place_string"])
             self.syllable_no_accent_count += len(self.children)
         return self.result
-        # It is questionable in my eyes to accent parent-syllables in words as a consequence of their parents' other child-syllables, if they cause accent clusters in the child while their parent may not even pronounce the accented child-syllable or any other. This might however be a complicated result of the history of the language and is not complete horse-shit.
+        # It is questionable in my eyes to accent parent-syllables in words as a consequence of their parents' other child-syllables,
+        #   if they cause accent clusters in the child while their parent may not even pronounce the accented child-syllable or any other.
+        #   This might however be a complicated result of the history of the language and is not complete horse-shit.
         if(self.syllable_no_accent_count > 2):
             index = index_syllable(self.result, -2) #(beginning, vowel, end)
             i = index[1]
