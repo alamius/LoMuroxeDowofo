@@ -30,6 +30,19 @@ Notes:
 """
 }
 
+marks = {
+    "S":"subject",
+    "O":"object",
+    "A":"attribute",
+    "C":"clause",
+}
+marks_reverse = {
+    "subject":"S",
+    "object":"O",
+    "attribute":"A",
+    "clause":"C",
+}
+
 def print_Word(word):
     word = word.spell()
     print(word)
