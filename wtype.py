@@ -1,3 +1,4 @@
+from os import system #for system("clear")
 from copy import deepcopy
 
 standards_word = {
