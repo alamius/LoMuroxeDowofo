@@ -81,13 +81,25 @@ def demo_input_free():
             tpl = verb if tpl_class == "verb" else noun
             word = Word(roots[get_new_value(word_list)], get_wtype(tpl))
             print_Word(word)
-            if(len(words) > 0):
-                print("WHAT PLACE DOES THE NEW WORD TAKE IN YOUR SENTENCE RELATIVE TO WHAT OTHER WORD?")
-                place = get_new_value(list(PLACE.keys())+["None"])
+            while(len(words) > 0):
+                #by standard, word is the child in this new relationship
+                print("WHAT PLACE DOES THE NEW WORD TAKE IN YOUR SENTENCE RELATIVE TO WHAT OTHER WORD?\n (write '-' before the place to \n reverse the parent-child relation: a verb adds itself a '-subject'; \n add '+' at the beginning to get another place input)")
+                valid_places = []
+                for key in PLACE.keys():
+                    valid_places += [key, "+"+key, "-"+key, "+-"+key]
+                valid_places += ["None"]
+                place = get_new_value(valid_places)
                 if(place != "None"):
+                    #choosing the parent
                     index = word_strings.index(get_new_value(word_strings))
-                    words[index].add_child(word, place)
+                    if("-" in place[:2]):
+                        #parent and child are reversed
+                        word.add_child(words[index], place.strip("+-"))
+                    else:
+                        words[index].add_child(word, place.strip("+-"))
                     word_strings[index] = words[index].spell()
+                if(not "+" in place):
+                    break
             words += [word]
             word_strings += [word.spell()]
             print_LANG(" ".join(word_strings))
