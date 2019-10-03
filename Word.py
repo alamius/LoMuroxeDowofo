@@ -86,6 +86,11 @@ class Word(object):
         self.hist = hist
         self.syllable_no_accent_count = 0
         self.result = ""
+        if("marker" in self.wtype.keys()):
+            self.marker = self.wtype["marker"]
+            del self.wtype["marker"]
+        else:
+            self.marker = ""
         try:            self.wtype["parent_place"]
         except KeyError:self.wtype["parent_place"] = []
         try:            self.wtype["parent_place_string"]
