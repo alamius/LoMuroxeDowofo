@@ -119,13 +119,7 @@ def demo_input_free():
             word_strings += [word.spell()]
             print_LANG(" ".join(word_strings))
     except KeyboardInterrupt:
-        print("FINAL SENTENCE: "+" ".join(word_strings))
-        for word in words:
-            print_LANG(word.spell())
-            print("w"+str(words.index(word))+" = {")
-            for key in word.wtype.keys():
-                print("\t\""+str(key)+"\": "+repr(word.wtype[key])+", ")
-            print("}")
+        print()
         return words
 def demo_place():
     w1 = Word("gr", {
