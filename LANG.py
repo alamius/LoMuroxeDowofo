@@ -214,7 +214,6 @@ def spell_sentence(sentence):
         ):
             word_strings = word_strings[:w-1] + [word_strings[w-1] + "ne-" + word_strings[w][2:]] + word_strings[w+1:]
     return " ".join(word_strings)
-from examples import *
 if __name__ == "__main__":
     W = []
     Markers = {}
