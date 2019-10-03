@@ -49,6 +49,7 @@ basic = {
     "passive":["True", "False"],
     "professional":["True", "False", "None"],
     "metaphore":["True", "False"],
+    "perceived":["True", "False"],
 }
 verb = {
     "class":"verb",
@@ -78,7 +79,7 @@ indicative = {
 indicative.update(basic)
 noun = {
     "class":"noun",
-    "noun_class":["action", "actor"],
+    "noun_class":["action", "actor", "object"],
     "case_class":["None", "directional", "local", "temporal", "causal"],
     "case":["None", "before", "after", "above", "under", "near", "parallel", "same", "opposite"],
     #TODO: decide if useful:
