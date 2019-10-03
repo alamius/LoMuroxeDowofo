@@ -16,7 +16,7 @@ E0 = [{
     	"class": 'verb',
     }, # tagykoxixin(ri)
     {
-        "marker":"S-V",
+        "marker":["S-V", "S-V2"],
         "root":roots["fight"],
     	"number": 'plural',
     	"parent_place_string": '',
@@ -148,6 +148,7 @@ E0 = [{
 
 
 E1 = [{
+        "marker":"V",
         "root":roots["kill"],
     	"parent_place": [],
     	"passive": True,
@@ -161,6 +162,7 @@ E1 = [{
     	"class": 'verb',
 	    "person": ['me'],
     }, {
+        "marker":"V2",
         "root":roots["kill"],
     	"parent_place": [],
     	"passive": True,
@@ -174,6 +176,7 @@ E1 = [{
     	"class": 'verb',
     	"person": ['me'],
     }, {
+        "marker":"V3",
         "root":roots["kill"],
     	"parent_place": [],
     	"passive": True,
