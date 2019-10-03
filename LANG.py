@@ -321,17 +321,5 @@ if __name__ == "__main__":
             save_file.close()
     # exit(0)
     # print_LANG(Word("lmd", get_wtype(noun)).spell())
-    for w in range(len(E0)):
-        word = E0[w]
-        E0[w] = Word(word["root"], word)
-    E0[0].add_child(E0[1], "subject")
-    E0[1].add_child(E0[2], "attribute")
-    E0[0].add_child(E0[4], "attribute")
-    E0[0].add_child(E0[3], "attribute")
-    E0[4].add_child(E0[5], "object")
-    E0[4].add_child(E0[6], "object")
-    E0[0].add_child(E0[7], "attribute")
-    E0[8].add_child(E0[1], "subject")
-    print_LANG(spell_sentence(E0))
 #{'verb_class': 'imperative', 'person': ('plural-you'), 'class': 'verb'}
 #{'class': 'noun', 'case_class': 'directional', 'noun_class': 'acted_on', 'professional': 'True', 'case': 'near'}
