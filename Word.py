@@ -228,11 +228,10 @@ class Word(object):
             self.syllable_no_accent_count += 1
         else:
             self.result += "i" #Jlt -> Jali
-        if(not self.hist["present"] or switch in ["past", "future"]):
             self.syllable_no_accent_count += 1
-            if(self.syllable_no_accent_count > 1 and True): #TODO: replace True with somthing about root2 being far enough away)
-                self.result = self.result[:-1]+accented[self.result[-1]] #make the last character in the result accented
-                self.syllable_no_accent_count = 0
+        if(self.syllable_no_accent_count > 1 and True): #TODO: replace True with somthing about root2 being far enough away)
+            self.result = self.result[:-1]+accented[self.result[-1]] #make the last character in the result accented
+            self.syllable_no_accent_count = 0
         # return result
     def spell_person(self, root_level=1): #looks at "person"
         result = []
