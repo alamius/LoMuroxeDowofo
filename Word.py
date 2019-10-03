@@ -219,10 +219,13 @@ class Word(object):
                 self.result = self.result[:-1] #Jl -> Jal
             elif(not self.hist["present"]):
                 self.result += "e" #Jlt -> Jale
+                self.syllable_no_accent_count += 1
         elif(switch == "past"):
             self.result += "o" #Jlt -> Jalo
+            self.syllable_no_accent_count += 1
         elif(switch == "future"):
             self.result += "u" #Jlt -> Jalu
+            self.syllable_no_accent_count += 1
         else:
             self.result += "i" #Jlt -> Jali
         if(not self.hist["present"] or switch in ["past", "future"]):
@@ -286,7 +289,7 @@ class Word(object):
         if(self.result.endswith("ne")):
             self.result = accent_syllable(self, self.result, 3, -2)
         else:
-            self.result = accent_syllable(self, self.result, 1, -1)
+            self.result = accent_syllable(self, self.result, 2, -1)
         if("plural" in switch and result == ["i"]):
             self.result += "ne"
             self.syllable_no_accent_count += 1
@@ -361,6 +364,8 @@ class Word(object):
             self.result = accent_syllable(self, self.result, 1, -1)
         if(self.wtype["number"] == "plural"):
             self.result += "ne"
+            self.syllable_no_accent_count += 1
+            self.result = accent_syllable(self, self.result, 3, -2)
         # return result
     def spell_case_class(self, root_level=1): #looks at "case_class"
         if(root_level != None):
