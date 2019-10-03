@@ -214,21 +214,111 @@ def spell_sentence(sentence):
         ):
             word_strings = word_strings[:w-1] + [word_strings[w-1] + "ne-" + word_strings[w][2:]] + word_strings[w+1:]
     return " ".join(word_strings)
-if __name__ == "__main__":
+def prep_sentence(sentence):
     W = []
     Markers = {}
-    for w in range(len(E2)):
-        W += [Word(None, E2[w])]
-        Markers[W[-1].marker] = W[-1]
+    for w in range(len(sentence)):
+        #every non-list marker of type string gets his own one-element list
+        if(type(sentence[w]["marker"]) == (type(""))):
+            sentence[w]["marker"] = [sentence[w]["marker"]]
+        W += [Word(None, sentence[w])]
+        for m in W[-1].marker:
+            Markers[m] = W[-1]
     for word in W:
         try:
-            parent = word.marker[word.marker.index("-")+1:]
-            Markers[parent].add_child(word, marks[word.marker[0]])
+            for marker in word.marker:
+                parent = marker[marker.index("-")+1:] #marker "A-S-V2" -> parent "S-V2"
+                Markers[parent].add_child(word, marks[marker[0]])
         except:
             pass
-    print_LANG(spell_sentence(W))
-    exit(0)
-    # demo_input_free()
+    return W
+
+def input_interrupt():
+    input("[ENTER] to continue")
+
+if __name__ == "__main__":
+    sentence = []
+    for arg in argv:
+        if(
+            len(argv) == 1 or
+            arg.startswith("--help") or
+            arg.startswith("-?")
+        ):
+            helped = False
+            if("=" in arg):
+                if(arg[arg.index("=")+1:] == "demo"):
+                    print(HELP["DEMO"])
+                    helped = True
+            if(not helped):
+                print(HELP["GENERAL"])
+                helped = True
+        #TODO: rethink varible names
+        if(arg.startswith("-e")):
+            value = arg[arg.index("-e")+2:]
+            try:
+                int(value)
+            except ValueError:
+                raise ValueError("The -e option must be directly followed by an integer, that is recognized as such by the interpreter. -e0 should always work.")
+                continue
+            value = int(value)
+            try:
+                E[value]
+            except IndexError:
+                raise ValueError("The -e option must be directly followed by an integer, that is not negative and less than "+str(len(E))+". -e0 should always work if the examples file is intact.")
+                continue
+            sentence = prep_sentence(E[value])
+            print_LANG(spell_sentence(sentence))
+        if(arg.startswith("-E=")):
+            exec(
+                "from "+arg[arg.index("-E=")+3:-3]+" import E as e",
+                globals(),
+                locals()
+            )
+            sentence = prep_sentence(e)
+            print_LANG(spell_sentence(sentence))
+        if(arg == "-d"):
+            print(HELP["DEMO"])
+        elif(arg.startswith("-d")):
+            demo_func = None
+            try:
+                demo_func = {
+                    "-dif":demo_input_fragments,
+                    "-dip":demo_input_presets,
+                    "-df": demo_input_free,
+                    "-dp": demo_place,
+                    "-dv": demo_verb,
+                    "-dn": demo_noun,
+                }[arg]
+            except:
+                print("your demo request was not undestood, please use -d to see the options")
+            if(demo_func):
+                sentence = demo_func()
+        if(arg == "--print" or arg == "-P"):
+            if(sentence == []):
+                print("There is no active sentence to be printed.")
+                continue
+            output = "E = [" + ", ".join([word.export() for word in sentence]) + "]"
+            print(output)
+            #TODO: make shortening accessible through commandline
+            # if(output.count("\n") < 100):
+            #     print(output)
+            # else:
+            #     print(output[0:output.index("\n", 100)])
+        if(arg == "--save" or arg == "-s"):
+            if(sentence == []):
+                print("There is no active sentence to be saved.")
+                continue
+            while True:
+                save_inp = input("To which file do you want to save the sentence: ")
+                try:
+                    save_file = open(save_inp, "x")
+                    break
+                except FileExistsError:
+                    save_file = open(save_inp, "a")
+                    break
+            output = "E = [" + ", ".join([word.export() for word in sentence]) + "]\n"
+            save_file.write(output)
+            save_file.close()
     # exit(0)
     # print_LANG(Word("lmd", get_wtype(noun)).spell())
     for w in range(len(E0)):
