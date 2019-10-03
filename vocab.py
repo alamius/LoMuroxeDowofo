@@ -66,7 +66,7 @@ roots = {
     "kill":"KDJ",
     "exist":"JX",
     "limit":"kwX",
-    "differ":"dwr",
+    "separate":"dwr",
     "unite":"qJr",
     "speak_language":"sfm",
     "speak_words":"zw",

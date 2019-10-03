@@ -248,7 +248,7 @@ E2 = [
             #we - r2, active
             #ré - r3, present
         "marker":"A-O-V1",
-        "root":roots["differ"],
+        "root":roots["separate"],
         "perceived":True,
         "class":"attribute",
         "attribute_class":"possible",
