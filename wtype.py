@@ -55,7 +55,7 @@ verb = {
     "class":"verb",
     "verb_class":["imperative", "infinitive", "indicative"],
     "tense":["present", "past", "future"],
-    "person":person_choice,
+    "person":person_choice[0],
 }
 verb.update(basic)
 imperative = {
