@@ -43,7 +43,8 @@ marks_reverse = {
     "clause":"C",
 }
 
-def print_Word(word):
+def print_Word(word, sentence=[]):
+    sentence += [word]
     word = word.spell()
     print(word)
     if("-p" in argv):
@@ -53,22 +54,26 @@ def print_LANG(string):
     if("-p" in argv):
         print(phoneticize(string))
 def demo_input_fragments():
+    sentence = []
     print("STEM: g·r")
     print("MEANS: GO, WALK, JOURNEY")
-    print_Word(Word("gr",  get_wtype(infinitive, {"tense":"present"})))
-    print_Word(Word("gr",  get_wtype(imperative, {"person":("plural-me", "you")})))
-    print_Word(Word("gr",  get_wtype(indicative, {"tense":"present", "person":("plural-they")})))
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"local",   "case":"near",  "professional":False, "passive":False})))
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"temporal","case":"under", "professional":True,  "passive":True })))
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"actor",    "case_class":"causal",  "case":"above", "professional":False, "passive":False})))
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"actor",    "case_class":"causal",  "case":"before","professional":True,  "passive":True })))
+    print_Word(Word("gr",  get_wtype(infinitive, {"tense":"present"})), sentence)
+    print_Word(Word("gr",  get_wtype(imperative, {"person":("plural-me", "you")})), sentence)
+    print_Word(Word("gr",  get_wtype(indicative, {"tense":"present", "person":("plural-they")})), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"local",   "case":"near",  "professional":False, "passive":False})), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"temporal","case":"under", "professional":True,  "passive":True })), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"actor",    "case_class":"causal",  "case":"above", "professional":False, "passive":False})), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"actor",    "case_class":"causal",  "case":"before","professional":True,  "passive":True })), sentence)
+    return sentence
 def demo_input_presets():
+    sentence = []
     print("STEM: J·l·t")
     print("MEANS: HELP, ASSIST(ANCE)")
-    print_Word(Word("Jlt", get_wtype(infinitive)))
-    print_Word(Word("Jlt", get_wtype(imperative)))
-    print_Word(Word("Jlt", get_wtype(indicative)))
-    print_Word(Word("Jlt", get_wtype(noun)))
+    print_Word(Word("Jlt", get_wtype(infinitive)), sentence)
+    print_Word(Word("Jlt", get_wtype(imperative)), sentence)
+    print_Word(Word("Jlt", get_wtype(indicative)), sentence)
+    print_Word(Word("Jlt", get_wtype(noun)), sentence)
+    return sentence
 def demo_input_free():
     words = []
     word_strings = []
@@ -111,6 +116,7 @@ def demo_input_free():
             for key in word.wtype.keys():
                 print("\t\""+str(key)+"\": "+repr(word.wtype[key])+", ")
             print("}")
+        return words
 def demo_place():
     w1 = Word("gr", {
         'verb_class': 'imperative',
@@ -133,6 +139,7 @@ def demo_place():
     print_LANG(w2.spell())
     w1.add_child(w2)
     print_LANG(w1.spell(), w2.spell())
+    return []
 def demo_verb():
     t = {"class":"verb"}
     print("VERBS:")
@@ -156,6 +163,7 @@ def demo_verb():
                 print()
             print()
         print()
+    return []
 def demo_noun():
     t = {"class":"noun"}
     t["number"] = "singular"
@@ -173,7 +181,7 @@ def demo_noun():
                 print()
             print()
         print()
-    exit(0)
+    return []
 def spell_sentence(sentence):
     word_strings = []
     for w in range(len(sentence)):
