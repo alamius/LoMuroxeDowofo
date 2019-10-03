@@ -235,3 +235,65 @@ def get_wtype(template, set={}):
             result[key] = get_new_value(value, multiple_choice)
             print("\tVALUE:", result[key])
     return result
+def check_wtype_complete(template, default):
+    for key, value in zip(template.keys(), template.values()):
+        if(type(value) == type([])):
+            if(not(key in default.keys())):
+                return False
+    return True
+def make_wtype(template, default, set={}):
+    # returning a wtype dict to be fed into a Word object using the set values in set and user input
+    result = deepcopy(template)
+    for key in result.keys():
+        if(key in set.keys()):
+            result[key] = set[key]
+    while(True):
+        set = {}
+        unset = {}
+        for key, value in zip(result.keys(), result.values()):
+            if(
+                type(value) == type([]) and (
+                    not key in default.keys() or not (
+                        type(default[key]) == type([]) and
+                        not type(value[0]) == type([])
+                    )
+                )
+            ):
+                unset.update({key: value})
+            else:
+                set.update({key: value})
+        system("clear")
+        print("These are set already:")
+        for key, value in zip(set.keys(), set.values()):
+            print("\t", key, ":", " "*(13-len(key)), str(value), sep='')
+        print("These are not set, but some have a default, that you can keep:")
+        for key, value in zip(unset.keys(), unset.values()):
+            if(key in default.keys()):
+                print("\t", key, ",", " "*(13-len(key)), "default:", str(default[key]), sep='')
+            else:
+                print("\t", key, ";", sep='')
+        if(len(unset) == 0):
+            print("There is nothing to set for you. ")
+            break
+        if(check_wtype_complete(result, default)):
+            if(input("You are ready, do you want to continue? (Y/n): ").upper() != "Y"):
+                break
+        print("Choose an attribute to set: ")
+        key = get_new_value(list(unset.keys()))
+        print("Choose a value for that attribute: ")
+        multiple_choice = False
+        if(type(unset[key][0]) == type([])): #value == [<arr>] = multiple choice out of <arr>
+            print("\tYOU CAN CHOOSE MULTIPLE VALUES! PUT THEM IN ONE LINE AND SEPARATE BY ',' \n\tOR USE SEVERAL LINES. TO STOP ADDING, PUT 'X' IN YOUR INPUT.")
+            value = value[0]
+            #value holds choice possibilities
+            multiple_choice = True
+        value = get_new_value(unset[key], multiple_choice)
+        result[key] = value
+    for key in result.keys():
+        if(key in default.keys() and type(default[key]) == type([])):
+            #the option is multiple choice => array by standard.
+            if(len(result[key]) == 0 or type(result[key][0]) == type([])):
+                result[key] = default[key]
+        elif(type(result[key]) == type([])):
+            result[key] = default[key]
+    return result
