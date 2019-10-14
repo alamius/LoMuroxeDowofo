@@ -21,12 +21,14 @@ Options:
  -?, --help     prints this
  -p, --print    prints the text format of the current sentence to output
  -s, --save     saves a file containing text format of the current sentence
+ -P, --phonetic prints the (rough) IPA along the normal output
+ -R, --roman    prints the romanization along the normal output
 
 Notes:
  On order:
   The order of the options is directly reflected in the order of execution.
   The currently active sentence changes with some demos and all examples.
-  When <this command> -df -e0 -P is executed, the input from the demo is lost
+  When <this command> -df -e0 -p is executed, the input from the demo is lost
   and only the example 0 is printed.
 """
 }
@@ -49,8 +51,10 @@ def print_Word(word, sentence=[]):
     sentence += [word]
     word = word.spell()
     print(word)
-    if("-p" in argv):
+    if("--phonetic" in argv or "-P" in argv):
         print("phon: "+phoneticize(word))
+    if("--roman" in argv or "-R" in argv):
+        print("roman:"+romanize(word))
 def print_LANG(string):
     print(string)
     if("-p" in argv):
@@ -295,7 +299,7 @@ if __name__ == "__main__":
                 print("your demo request was not undestood, please use -d to see the options")
             if(demo_func):
                 sentence = demo_func()
-        if(arg == "--print" or arg == "-P"):
+        if(arg == "--print" or arg == "-p"):
             if(sentence == []):
                 print(no_active_sentence_message)
                 continue
