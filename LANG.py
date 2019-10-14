@@ -254,7 +254,7 @@ if __name__ == "__main__":
             if(not helped):
                 print(HELP["GENERAL"])
                 helped = True
-        #TODO: rethink varible names
+        #TODO: rethink variable names
         if(arg.startswith("-e")):
             value = arg[arg.index("-e")+2:]
             try:
@@ -301,11 +301,6 @@ if __name__ == "__main__":
                 continue
             output = "E = [" + ", ".join([word.export() for word in sentence]) + "]"
             print(output)
-            #TODO: make shortening accessible through commandline
-            # if(output.count("\n") < 100):
-            #     print(output)
-            # else:
-            #     print(output[0:output.index("\n", 100)])
         if(arg == "--save" or arg == "-s"):
             if(sentence == []):
                 print(no_active_sentence_message)
@@ -321,7 +316,3 @@ if __name__ == "__main__":
             output = "E = [" + ", ".join([word.export() for word in sentence]) + "]\n"
             save_file.write(output)
             save_file.close()
-    # exit(0)
-    # print_LANG(Word("lmd", get_wtype(noun)).spell())
-#{'verb_class': 'imperative', 'person': ('plural-you'), 'class': 'verb'}
-#{'class': 'noun', 'case_class': 'directional', 'noun_class': 'acted_on', 'professional': 'True', 'case': 'near'}
