@@ -19,7 +19,8 @@ Options:
  -E=<file>      import an example called E from a .py file whose name is <file>,
                 (pseudo-python: 'from <file[:-3]> import E' must be valid)
  -?, --help     prints this
- -P, --print    prints an export-ready text of the current sentence to output
+ -p, --print    prints the text format of the current sentence to output
+ -s, --save     saves a file containing text format of the current sentence
 
 Notes:
  On order:
@@ -29,6 +30,7 @@ Notes:
   and only the example 0 is printed.
 """
 }
+no_active_sentence_message = "There is no active sentence to be printed. The program has to create or load on first."
 
 marks = {
     "S":"subject",
@@ -295,7 +297,7 @@ if __name__ == "__main__":
                 sentence = demo_func()
         if(arg == "--print" or arg == "-P"):
             if(sentence == []):
-                print("There is no active sentence to be printed.")
+                print(no_active_sentence_message)
                 continue
             output = "E = [" + ", ".join([word.export() for word in sentence]) + "]"
             print(output)
@@ -306,7 +308,7 @@ if __name__ == "__main__":
             #     print(output[0:output.index("\n", 100)])
         if(arg == "--save" or arg == "-s"):
             if(sentence == []):
-                print("There is no active sentence to be saved.")
+                print(no_active_sentence_message)
                 continue
             while True:
                 save_inp = input("To which file do you want to save the sentence: ")
