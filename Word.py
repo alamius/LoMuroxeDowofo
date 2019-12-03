@@ -317,7 +317,6 @@ class Word(object):
             self.syllable_no_accent_count += 1
             self.spell_professional()
         else:
-            # self.result += self.root[1] #Jlt -> Jol
             self.spell_perceived(1)
             self.result += WHICH(switch, [
                 ("action",  "a"), #Jlt -> Jo<l..t.>a
