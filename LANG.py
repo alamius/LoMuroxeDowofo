@@ -241,6 +241,19 @@ def prep_sentence(sentence):
 
 def input_interrupt():
     input("[ENTER] to continue")
+def get_arg(arg, key):
+    return arg[arg.index(key)+len(key):]
+def get_file():
+    while True:
+        save_inp = input("To which file do you want to save the sentence: ")
+        try:
+            save_file = open(save_inp, "x")
+            break
+        except FileExistsError:
+            overwrite = input("The file exists! Do ou want to overwrite it (Y/n): ")
+            if(overwrite == "Y"):
+                save_file = open(save_inp, "a")
+                break
 
 if __name__ == "__main__":
     sentence = []
@@ -252,7 +265,7 @@ if __name__ == "__main__":
         ):
             helped = False
             if("=" in arg):
-                if(arg[arg.index("=")+1:] == "demo"):
+                if(get_arg(arg, "=") == "demo"):
                     print(HELP["DEMO"])
                     helped = True
             if(not helped):
@@ -260,7 +273,7 @@ if __name__ == "__main__":
                 helped = True
         #TODO: rethink variable names
         if(arg.startswith("-e")):
-            value = arg[arg.index("-e")+2:]
+            value = get_arg(arg, "-e")
             try:
                 int(value)
             except ValueError:
@@ -276,7 +289,7 @@ if __name__ == "__main__":
             print_LANG(spell_sentence(sentence))
         if(arg.startswith("-E=")):
             exec(
-                "from "+arg[arg.index("-E=")+3:-3]+" import E as e",
+                "from "+get_arg(arg, "=")+" import E as e",
                 globals(),
                 locals()
             )
@@ -305,18 +318,22 @@ if __name__ == "__main__":
                 continue
             output = "E = [" + ", ".join([word.export() for word in sentence]) + "]"
             print(output)
-        if(arg == "--save" or arg == "-s"):
+        if(arg == "--save" or arg == "-s" or arg.startswith("--save=")):
             if(sentence == []):
                 print(no_active_sentence_message)
                 continue
-            while True:
-                save_inp = input("To which file do you want to save the sentence: ")
+            if(arg in ["--save", "-s"]):
+                save_file = get_file()
+            else:
+                file_name = get_arg(arg, "=")
                 try:
-                    save_file = open(save_inp, "x")
-                    break
+                    save_file = open(file_name, "x")
                 except FileExistsError:
-                    save_file = open(save_inp, "a")
-                    break
+                    overwrite = input("The file exists! Do ou want to overwrite it (Y/n): ")
+                    if(overwrite == "Y"):
+                        save_file = open(file_name, "a")
+                    else:
+                        save_file = get_file()
             output = "E = [" + ", ".join([word.export() for word in sentence]) + "]\n"
             save_file.write(output)
             save_file.close()
