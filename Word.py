@@ -373,13 +373,20 @@ class Word(object):
                 self.result += "u"
                 self.spell_case(2, "o") #Jlt -> Jolu<.t.o.>
         else:
-            r2 = self.spell_passive(2) #Jlt -> Jol[aoeu](xe)t
+            self.result += WHICH(switch, [
+                ("directional", "a"),    #Jlt -> Jola
+                ("local",       "o"),    #Jlt \-> Jolo
+                ("temporal",    "e"),    #Jlt \-> Jole
+                ("causal",      "u"),    #Jlt \-> Jolu
+            ])
+            self.syllable_no_accent_count += 1
+            self.spell_passive(2) #Jlt -> Jol[aoeu](xe)t
             # self.result = accent_syllable(self, self.result, 2, -2)
             self.result += WHICH(switch, [
-                ("directional", "a" + r2 + "e"),    #Jlt -> Jola(xe)te
-                ("local",       "o" + r2 + "u"),    #Jlt \-> Jolo(xe)tu
-                ("temporal",    "e" + r2 + "i"),    #Jlt \-> Jole(xe)ti
-                ("causal",      "u" + r2 + "o"),    #Jlt \-> Jolu(xe)to
+                ("directional", "e"),    #Jlt -> Jola(xe)te
+                ("local",       "u"),    #Jlt \-> Jolo(xe)tu
+                ("temporal",    "i"),    #Jlt \-> Jole(xe)ti
+                ("causal",      "o"),    #Jlt \-> Jolu(xe)to
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
