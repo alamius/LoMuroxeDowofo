@@ -187,11 +187,12 @@ class Word(object):
             else:
                 self.result += self.root[root_level] #Jlt -> Jal
         switch = self.wtype["verb_class"]
-        if(switch == "infinitive"):
-            self.syllable_no_accent_count += 1
-            self.result += "ju" #Jlt -> Jalju
-            self.spell_tense(2)
-        elif(switch == "imperative"):
+        #useless with action-nouns
+        # if(switch == "infinitive"):
+        #     self.syllable_no_accent_count += 1
+        #     self.result += "ju" #Jlt -> Jalju
+        #     self.spell_tense(2)
+        if(switch == "imperative"):
             self.result = self.result[:-1]
             self.spell_tense(1)
             self.result += "'o"

@@ -54,7 +54,7 @@ basic = {
 }
 verb = {
     "class":"verb",
-    "verb_class":["imperative", "infinitive", "indicative"],
+    "verb_class":["imperative", "indicative"], #, "infinitive"
     "tense":["present", "past", "future"],
     "person":person_choice[0],
 }
@@ -65,12 +65,12 @@ imperative = {
     "person":person_choice,
 }
 imperative.update(basic)
-infinitive = {
-    "class":"verb",
-    "verb_class":"infinitive",
-    "tense":["present", "past", "future"],
-}
-infinitive.update(basic)
+# infinitive = {
+#     "class":"verb",
+#     "verb_class":"infinitive",
+#     "tense":["present", "past", "future"],
+# }
+# infinitive.update(basic)
 indicative = {
     "class":"verb",
     "verb_class":"indicative",
