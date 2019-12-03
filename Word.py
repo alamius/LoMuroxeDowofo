@@ -307,14 +307,10 @@ class Word(object):
             self.spell_case_class(None) #Jlt -> Jo<l..t.>
             self.result += WHICH(switch, [
                 ("action",  "ma"), #Jlt -> Jo<l..t.>ma
-                ("actor",   "ji"), #Jlt -> Jo<l..t.>ji
-                ("object",  "ra"), #Jlt -> Jo<l..t.>ra
-                # ("actionactive",  "ma"), #Jlt -> Jo<l..t.>ma ##1
-                # ("actionpassive", "wo"), #Jlt -> Jo<l..t.>wo ##1
-                # ("actoractive",   "ji"), #Jlt -> Jo<l..t.>ji ##1
-                # ("actorpassive",  "ru"), #Jlt -> Jo<l..t.>ru ##1
-                # ("objectactive",  "ra"), #Jlt -> Jo<l..t.>ra ##1
-                # ("objectpassive", "ke"), #Jlt -> Jo<l..t.>ke ##1
+                ("agent",   "Ji"), #Jlt -> Jo<l..t.>Ji
+                ("object",  "ru"), #Jlt -> Jo<l..t.>ru
+                ("recipient","Po"), #Jlt -> Jo<l..t.>Po
+                ("instrument","we"), #Jlt -> Jo<l..t.>we
             ])
             self.result = accent_syllable(self, self.result, 2, -2)
             self.syllable_no_accent_count += 1
@@ -324,14 +320,10 @@ class Word(object):
             self.spell_perceived(1)
             self.result += WHICH(switch, [
                 ("action",  "a"), #Jlt -> Jo<l..t.>a
-                ("actor",   "i"), #Jlt -> Jo<l..t.>i
-                ("object",  "a"), #Jlt -> Jo<l..t.>a
-                # ("actionactive",  "a"), #Jlt -> Jola ##1
-                # ("actionpassive", "o"), #Jlt -> Jolo ##1
-                # ("actoractive",   "i"), #Jlt -> Joli ##1
-                # ("actorpassive",  "u"), #Jlt -> Jolu ##1
-                # ("objectactive",  "a"), #Jlt -> Jola ##1
-                # ("objectpassive", "e"), #Jlt -> Jole ##1
+                ("agent",   "i"), #Jlt -> Jo<l..t.>i
+                ("object",  "u"), #Jlt -> Jo<l..t.>u
+                ("recipient","o"), #Jlt -> Jo<l..t.>o
+                ("instrument","e"), #Jlt -> Jo<l..t.>a
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
@@ -345,14 +337,10 @@ class Word(object):
             else:
                 self.result += WHICH(switch, [
                     ("action", "m"),
-                    ("actor",  "x"),
-                    ("object", "P"),
-                    # ("actionactive",  "m"), #Jlt -> Jolam ##1
-                    # ("actionpassive", "v"), #Jlt -> Jolov ##1
-                    # ("actoractive",   "x"), #Jlt -> Jolix ##1
-                    # ("actorpassive",  "r"), #Jlt -> Jolur ##1
-                    # ("objectactive",  "P"), #Jlt -> JolaP ##1
-                    # ("objectpassive", "k"), #Jlt -> Jolek ##1
+                    ("agent",  "J"),
+                    ("object", "r"),
+                    ("recipient","P"),
+                    ("instrument", "w"),
                 ])
             self.result += WHICH(self.wtype["professional"],[
                 (True, "i"), #Jlt -> Jol[aoiu][mvxr]i

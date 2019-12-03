@@ -68,8 +68,8 @@ def demo_input_fragments():
     print_Word(Word("gr",  get_wtype(indicative, {"tense":"present", "person":("plural-they")})), sentence)
     print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"local",   "case":"near",  "professional":False, "passive":False})), sentence)
     print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"temporal","case":"under", "professional":True,  "passive":True })), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"actor",    "case_class":"causal",  "case":"above", "professional":False, "passive":False})), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"actor",    "case_class":"causal",  "case":"before","professional":True,  "passive":True })), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"above", "professional":False, "passive":False})), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"before","professional":True,  "passive":True })), sentence)
     return sentence
 def demo_input_presets():
     sentence = []
@@ -136,7 +136,7 @@ def demo_place():
     w2 = Word("mPk", {
         'class': 'noun',
         'case_class': 'directional',
-        'noun_class': 'actor',
+        'noun_class': 'agent',
         'passive': True,
         'professional': 'True',
         'case': 'near',
@@ -158,7 +158,7 @@ def demo_verb():
         for t["verb_class"] in ["indicative"]:#, "imperative", "indicative"]:
             print(t["verb_class"].upper()+":")
             for t["professional"] in [None, True, False]:
-                for t["tense"] in [None, "present", "past", "future"]:
+                for t["tense"] in verb["tense"]+[None]:
                     print("tense: %-8s" % t["tense"], end="")
                     for t["person"] in [
                         ["me"],
@@ -180,12 +180,12 @@ def demo_noun():
     print("NOUNS:")
     for t["passive"] in [False, True]:
         print("ACTIVE:" if not t["passive"] else "PASSIVE:")
-        for t["noun_class"] in ["action", "actor"]:
-            print("ACTOR:" if t["noun_class"] == "actor" else "ACTION:")
+        for t["noun_class"] in noun["noun_class"]:
+            print(t["noun_class"].upper()+":")
             for t["professional"] in [None, True, False]:
-                for t["case_class"] in [None, "directional", "local", "temporal", "causal"]:
+                for t["case_class"] in noun["case_class"]:
                     print("case_class: %-12s" % t["case_class"], end="")
-                    for t["case"] in [None, "before", "after", "above", "under", "near", "parallel", "same", "opposite"]:
+                    for t["case"] in noun["case"]:
                         print("%-16s" % Word("lmd", t).spell(), end="")
                     print()
                 print()

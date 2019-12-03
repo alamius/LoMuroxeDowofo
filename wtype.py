@@ -80,7 +80,7 @@ indicative = {
 indicative.update(basic)
 noun = {
     "class":"noun",
-    "noun_class":["action", "actor", "object"],
+    "noun_class":["action", "agent", "object", "recipient", "instrument"],
     "case_class":["None", "directional", "local", "temporal", "causal"],
     "case":["None", "before", "after", "above", "under", "near", "parallel", "same", "opposite"],
     #TODO: decide if useful:
@@ -135,9 +135,9 @@ noun.update(basic)
 #     "case":["before", "after", "above", "under", "near", "parallel", "same", "opposite"],
 #     #abbrev.: ←, →, ↑, ↓, o, =, ., O
 # }
-# actor = {
+# agent = {
 #     "class":"noun",
-#     "noun_class":"actor",
+#     "noun_class":"agent",
 #     "case_class":["directional", "local", "temporal", "causal"],
 #     #abbrev.: dir, loc, tmp, cau
 #     "case":["before", "after", "above", "under", "near", "parallel", "same", "opposite"],
