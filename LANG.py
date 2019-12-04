@@ -58,8 +58,10 @@ def print_Word(word, sentence=[]):
         print("roman:"+romanize(word))
 def print_LANG(string):
     print(string)
-    if("-p" in argv):
-        print(phoneticize(string))
+    if("--phonetic" in argv or "-P" in argv):
+        print("phon: "+phoneticize(string))
+    if("--roman" in argv or "-R" in argv):
+        print("roman:"+romanize(string))
 def demo_input_fragments():
     sentence = []
     print("STEM: g·r")
