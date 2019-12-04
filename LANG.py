@@ -255,6 +255,7 @@ def get_file():
             if(overwrite == "Y"):
                 save_file = open(save_inp, "a")
                 break
+    return save_file
 def help(arg=""):
     helped = False
     if("=" in arg):
