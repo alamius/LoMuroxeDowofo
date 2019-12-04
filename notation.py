@@ -50,7 +50,8 @@ def romanize(word):
         c = word[i]
         if(c in ROMAN.keys()):
             word = word[:i]+ROMAN[c]+word[i+1:]
-        elif(c == c.upper()):
+        #trying to detect capitals but not non-letters
+        elif(c == c.upper() and not c == c.lower()):
             word = word[:i-1]+c.lower()+'h'+word[i:]
     return word
 
