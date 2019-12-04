@@ -311,11 +311,15 @@ if __name__ == "__main__":
             print_LANG(spell_sentence(sentence))
         #examples from other files
         if(arg.startswith("-E=")):
-            exec(
-                "from "+get_arg(arg, "=")+" import E as e",
-                globals(),
-                locals()
-            )
+            try:
+                source = get_arg(arg, "=")
+                exec(
+                    "from %s import E as e" % source,
+                    globals(),
+                    locals()
+                )
+            except ImportError:
+                raise ImportError("The input \"%s\" could not be used in the line \"from %s import E as e\". Remove the ending?" % (arg, source))
             sentence = prep_sentence(e)
             print_LANG(spell_sentence(sentence))
         #demos of all sorts
