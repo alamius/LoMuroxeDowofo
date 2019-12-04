@@ -33,6 +33,7 @@ Notes:
 """
 }
 no_active_sentence_message = "There is no active sentence to be printed. The program has to create or load on first."
+not_valid_message = "The argument %s will not be understood by the program... Use --help for a list of arguments!"
 
 marks = {
     "S":"subject",
@@ -254,23 +255,40 @@ def get_file():
             if(overwrite == "Y"):
                 save_file = open(save_inp, "a")
                 break
+def help(arg=""):
+    helped = False
+    if("=" in arg):
+        if(get_arg(arg, "=") == "demo"):
+            print(HELP["DEMO"])
+            helped = True
+    if(not helped):
+        print(HELP["GENERAL"])
+        helped = True
 
 if __name__ == "__main__":
     sentence = []
+    argv = argv[1:]
+    #checking for ununderstandable arguments
     for arg in argv:
+        valid = False
+        valid = valid or (arg in ["--print", "-p", "--save", "-s", "--help", "-h", "-?", "-P", "--phonetic", "-R", "--roman"])
+        for key in ["-e", "-E=", "-d", "--save=", "-?=", "--help=", "-h="]:
+            valid = valid or arg.startswith(key)
+        if(not valid):
+            print(not_valid_message % arg)
+            cont = input("Continue anyway (Y/n):")
+            if(cont.upper() != "Y"):
+                exit()
+    if(len(argv) == 0):
+        help()
+    for arg in argv:
+        #help
         if(
-            len(argv) == 1 or
             arg.startswith("--help") or
+            arg.startswith("-h") or
             arg.startswith("-?")
         ):
-            helped = False
-            if("=" in arg):
-                if(get_arg(arg, "=") == "demo"):
-                    print(HELP["DEMO"])
-                    helped = True
-            if(not helped):
-                print(HELP["GENERAL"])
-                helped = True
+            help(arg)
         #TODO: rethink variable names
         if(arg.startswith("-e")):
             value = get_arg(arg, "-e")
