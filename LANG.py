@@ -1,12 +1,11 @@
 #!/usr/bin/python3
 if __name__ == '__main__':
-    from sys import argv
-    from Word import *
-    from wtype import *
-    from notation import *
-    from hist import *
-    from vocab import roots
-from examples import *
+    from sys        import argv
+    from Word       import *
+    from sentence   import *
+    from print      import *
+    from demo       import *
+from examples   import *
 
 HELP = {
     "DEMO":"Help for demo options: <this command> -d<specifier> \nThese are the demo options: \n -dif for input_framgents, \n -dip for input_presets, \n -df for input_free; \n -dp for place, \n -dv for verb, \n -dn for noun",
@@ -34,213 +33,6 @@ Notes:
 }
 no_active_sentence_message = "There is no active sentence to be printed. The program has to create or load on first."
 not_valid_message = "The argument %s will not be understood by the program... Use --help for a list of arguments!"
-
-marks = {
-    "S":"subject",
-    "O":"object",
-    "A":"attribute",
-    "C":"clause",
-}
-marks_reverse = {
-    "subject":"S",
-    "object":"O",
-    "attribute":"A",
-    "clause":"C",
-}
-
-def print_Word(word, sentence=[]):
-    sentence += [word]
-    word = word.spell()
-    print(word)
-    if("--phonetic" in argv or "-P" in argv):
-        print("phon: "+phoneticize(word))
-    if("--roman" in argv or "-R" in argv):
-        print("roman:"+romanize(word))
-def print_LANG(string):
-    print(string)
-    if("--phonetic" in argv or "-P" in argv):
-        print("phon: "+phoneticize(string))
-    if("--roman" in argv or "-R" in argv):
-        print("roman:"+romanize(string))
-def demo_input_fragments():
-    sentence = []
-    print("STEM: g·r")
-    print("MEANS: GO, WALK, JOURNEY")
-    # print_Word(Word("gr",  get_wtype(infinitive, {"tense":"present"})), sentence)
-    print_Word(Word("gr",  get_wtype(imperative, {"person":("plural-me", "you")})), sentence)
-    print_Word(Word("gr",  get_wtype(indicative, {"tense":"present", "person":("plural-they")})), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"local",   "case":"near",  "professional":False, "passive":False})), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"temporal","case":"under", "professional":True,  "passive":True })), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"above", "professional":False, "passive":False})), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"before","professional":True,  "passive":True })), sentence)
-    return sentence
-def demo_input_presets():
-    sentence = []
-    print("STEM: J·l·t")
-    print("MEANS: HELP, ASSIST(ANCE)")
-    # print_Word(Word("Jlt", get_wtype(infinitive)), sentence)
-    print_Word(Word("Jlt", get_wtype(imperative)), sentence)
-    print_Word(Word("Jlt", get_wtype(indicative)), sentence)
-    print_Word(Word("Jlt", get_wtype(noun)), sentence)
-    return sentence
-def demo_input_free():
-    words = []
-    word_strings = []
-    word_list = list(roots.keys())
-    for key in word_list:
-        print(roots[key], "means", key)
-    try:
-        while True:
-            tpl_class = get_new_value(["verb", "noun", "attribute"])
-            tpl = {
-                "verb":verb,
-                "noun":noun,
-                "attribute":attribute,
-            }[tpl_class]
-            tpl_default = {
-                "verb":standards_verb,
-                "noun":standards_noun,
-                "attribute":standards_attribute,
-            }[tpl_class]
-            tpl_default.update(standards_word)
-            word = Word(roots[get_new_value(word_list)], make_wtype(tpl, tpl_default))
-            print_Word(word)
-            while(len(words) > 0):
-                #by standard, word is the child in this new relationship
-                print("WHAT PLACE DOES THE NEW WORD TAKE IN YOUR SENTENCE RELATIVE TO WHAT OTHER WORD?\n (write '-' before the place to \n reverse the parent-child relation: a verb adds itself a '-subject'; \n add '+' at the beginning to get another place input)")
-                valid_places = []
-                for key in PLACE.keys():
-                    valid_places += [key, "+"+key, "-"+key, "+-"+key]
-                valid_places += ["None"]
-                place = get_new_value(valid_places)
-                if(place != "None"):
-                    #choosing the parent
-                    index = word_strings.index(get_new_value(word_strings))
-                    if("-" in place[:2]):
-                        #parent and child are reversed
-                        word.add_child(words[index], place.strip("+-"))
-                    else:
-                        words[index].add_child(word, place.strip("+-"))
-                    word_strings[index] = words[index].spell()
-                if(not "+" in place):
-                    break
-            words += [word]
-            word_strings += [word.spell()]
-            print_LANG(spell_sentence(words))
-    except KeyboardInterrupt:
-        print()
-        return words
-def demo_place():
-    w1 = Word("gr", {
-        'verb_class': 'imperative',
-        'person': ['plural-you'],
-        'class': 'verb'
-    })
-    w2 = Word("mPk", {
-        'class': 'noun',
-        'case_class': 'directional',
-        'noun_class': 'agent',
-        'passive': True,
-        'professional': 'True',
-        'case': 'near',
-        'number': 'plural',
-        'metaphore':True,
-    })
-    print("go_you_pl: ", end='')
-    print_LANG(w1.spell())
-    print("to the kindergardeners: ", end='')
-    print_LANG(w2.spell())
-    w1.add_child(w2)
-    print_LANG(w1.spell(), w2.spell())
-    return []
-def demo_verb():
-    t = {"class":"verb"}
-    print("VERBS:")
-    for t["passive"] in [False, True]:
-        print("ACTIVE:" if not t["passive"] else "PASSIVE:")
-        for t["verb_class"] in ["indicative"]:#, "imperative", "indicative"]:
-            print(t["verb_class"].upper()+":")
-            for t["professional"] in [None, True, False]:
-                for t["tense"] in verb["tense"]+[None]:
-                    print("tense: %-8s" % t["tense"], end="")
-                    for t["person"] in [
-                        ["me"],
-                        ["you"],
-                        ["you", "they"],
-                        ["plural-they"],
-                        ["undef"],
-                        ["plural-me", "plural-you", "plural-they"]
-                    ]:
-                        print("%-18s" % Word("lmd", t).spell(), end="")
-                    print()
-                print()
-            print()
-        print()
-    return []
-def demo_noun():
-    t = {"class":"noun"}
-    t["number"] = "singular"
-    print("NOUNS:")
-    for t["passive"] in [False, True]:
-        print("ACTIVE:" if not t["passive"] else "PASSIVE:")
-        for t["noun_class"] in noun["noun_class"]:
-            print(t["noun_class"].upper()+":")
-            for t["professional"] in [None, True, False]:
-                for t["case_class"] in noun["case_class"]:
-                    print("case_class: %-12s" % t["case_class"], end="")
-                    for t["case"] in noun["case"]:
-                        print("%-16s" % Word("lmd", t).spell(), end="")
-                    print()
-                print()
-            print()
-        print()
-    return []
-def spell_sentence(sentence):
-    word_strings = []
-    for w in range(len(sentence)):
-        word_strings += [sentence[w].spell()]
-    for w in range(len(sentence)-1, -1, -1):
-        word = sentence[w]
-        if(
-            w >= 1 and
-            sentence[w-1].wtype["child_place_string"] ==
-            sentence[w  ].wtype["parent_place_string"] and
-            sentence[w-1].children == [sentence[w]] and
-            sentence[w-1] in sentence[w  ].parents
-        ):
-            #the main verb loses its sentence structure endings and thus it has to be treated differently
-            if(word_strings[w-1][-2:] == sentence[w-1].wtype["child_place_string"][0]):
-                first_word = word_strings[w-1][:-2]
-            else:
-                first_word = word_strings[w-1]
-            word_strings = word_strings[:w-1] + [first_word + "-" + word_strings[w]] + word_strings[w+1:]
-        elif(
-            w >= 1 and
-            sentence[w-1].wtype["child_place_string"] ==
-            sentence[w  ].wtype["parent_place_string"] and
-            sentence[w  ] in sentence[w-1].children and
-            sentence[w-1] in sentence[w  ].parents
-        ):
-            word_strings = word_strings[:w-1] + [word_strings[w-1] + "ne-" + word_strings[w][2:]] + word_strings[w+1:]
-    return " ".join(word_strings)
-def prep_sentence(sentence):
-    W = []
-    Markers = {}
-    for w in range(len(sentence)):
-        #every non-list marker of type string gets his own one-element list
-        if(type(sentence[w]["marker"]) == (type(""))):
-            sentence[w]["marker"] = [sentence[w]["marker"]]
-        W += [Word(None, sentence[w])]
-        for m in W[-1].marker:
-            Markers[m] = W[-1]
-    for word in W:
-        try:
-            for marker in word.marker:
-                parent = marker[marker.index("-")+1:] #marker "A-S-V2" -> parent "S-V2"
-                Markers[parent].add_child(word, marks[marker[0]])
-        except:
-            pass
-    return W
 
 def input_interrupt():
     input("[ENTER] to continue")
@@ -282,9 +74,16 @@ if __name__ == "__main__":
             cont = input("Continue anyway (Y/n):")
             if(cont.upper() != "Y"):
                 exit()
+    #a list of spelling types used by print_ functions from print.py
+    spell = ["standard"] #others: phonetic, roman, draw
     if(len(argv) == 0):
         help()
     for arg in argv:
+        #other notations like a phonetic approximation or a stricter romanization
+        if(arg == "--phonetic" or arg == "-P"):
+            spell += ["phonetic"]
+        if(arg == "--roman" or arg == "-R"):
+            spell += ["roman"]
         #help
         if(
             arg.startswith("--help") or
@@ -308,7 +107,7 @@ if __name__ == "__main__":
                 raise ValueError("The -e option must be directly followed by an integer, that is not negative and less than "+str(len(E))+". -e0 should always work if the examples file is intact.")
                 continue
             sentence = prep_sentence(E[value])
-            print_LANG(spell_sentence(sentence))
+            print_LANG(spell_sentence(sentence), spell)
         #examples from other files
         if(arg.startswith("-E=")):
             try:
@@ -321,7 +120,7 @@ if __name__ == "__main__":
             except ImportError:
                 raise ImportError("The input \"%s\" could not be used in the line \"from %s import E as e\". Remove the ending?" % (arg, source))
             sentence = prep_sentence(e)
-            print_LANG(spell_sentence(sentence))
+            print_LANG(spell_sentence(sentence), spell)
         #demos of all sorts
         if(arg == "-d"):
             print(HELP["DEMO"])
