@@ -293,6 +293,7 @@ if __name__ == "__main__":
         ):
             help(arg)
         #TODO: rethink variable names
+        #examples from examples.py
         if(arg.startswith("-e")):
             value = get_arg(arg, "-e")
             try:
@@ -308,6 +309,7 @@ if __name__ == "__main__":
                 continue
             sentence = prep_sentence(E[value])
             print_LANG(spell_sentence(sentence))
+        #examples from other files
         if(arg.startswith("-E=")):
             exec(
                 "from "+get_arg(arg, "=")+" import E as e",
@@ -316,6 +318,7 @@ if __name__ == "__main__":
             )
             sentence = prep_sentence(e)
             print_LANG(spell_sentence(sentence))
+        #demos of all sorts
         if(arg == "-d"):
             print(HELP["DEMO"])
         elif(arg.startswith("-d")):
@@ -333,12 +336,14 @@ if __name__ == "__main__":
                 print("your demo request was not undestood, please use -d to see the options")
             if(demo_func):
                 sentence = demo_func()
+        #printing the structure code of the Words
         if(arg == "--print" or arg == "-p"):
             if(sentence == []):
                 print(no_active_sentence_message)
                 continue
             output = "E = [" + ", ".join([word.export() for word in sentence]) + "]"
             print(output)
+        #saving the code to a file
         if(arg == "--save" or arg == "-s" or arg.startswith("--save=")):
             if(sentence == []):
                 print(no_active_sentence_message)
