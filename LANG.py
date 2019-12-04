@@ -253,7 +253,7 @@ def get_file():
             save_file = open(save_inp, "x")
             break
         except FileExistsError:
-            overwrite = input("The file exists! Do ou want to overwrite it (Y/n): ")
+            overwrite = input("The file exists! Do you want to overwrite it (Y/n): ")
             if(overwrite == "Y"):
                 save_file = open(save_inp, "a")
                 break
@@ -350,7 +350,7 @@ if __name__ == "__main__":
                 try:
                     save_file = open(file_name, "x")
                 except FileExistsError:
-                    overwrite = input("The file exists! Do ou want to overwrite it (Y/n): ")
+                    overwrite = input("The file exists! Do you want to overwrite it (Y/n): ")
                     if(overwrite == "Y"):
                         save_file = open(file_name, "a")
                     else:
