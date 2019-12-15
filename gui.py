@@ -29,7 +29,6 @@ word = Word("Jlt", {
 })
 
 root = 101
-tri = 111 #options: False, None, True
 wtype_types = {
     #top
     "root": root,
@@ -78,8 +77,79 @@ wtype_options = {
     "child_place": [],
     "child_place_string": [],
 }
-def options(key, wtype):
-    return wtype_options[key]
+
+class Element(object):
+    """an Element contains a Widget or a combination of Widgets in self.element,
+    a variable to change when the Widget is used,
+    has a key used to get to the variable or as an id,
+    a reference to the app, it is part of,
+    a variable to check against if its existence depends on other factors,
+    and a function exists to use on self.check."""
+    def __init__(self, master, key, variable, app, options):
+        super(Element, self).__init__()
+        self.master = master
+        self.key    = key
+        self.variable = variable
+        self.options = options
+        self.app    = app
+class Root(Element):
+    """DropDown for Roots"""
+    def __init__(self, master, variable, app, options=roots.values()):
+        super(Root, self).__init__(master, "root", variable, app, options)
+        self.element = OptionMenu(
+            self.master,
+            self.variable,
+            *self.options
+        )
+
+        # on change dropdown value
+        def change_dropdown(*args):
+            app.word.root = self.variable.get()
+            if(len(app.word.root) < 3):
+                app.word.root += "k"
+                app.update()
+
+        # link function to change dropdown
+        self.variable.trace('w', change_dropdown)
+        self.element.pack(side=BOTTOM)
+class NamedElement(Element):
+    """Can check for its need for existence,
+    places a tracer of self.check and
+    executes self.exist whenever the tracer activates,
+    using self.exists as a bool function or variable to decide."""
+
+    def __init__(self, master, key, name, variable, app, options):
+        super(NamedElement, self).__init__(master, key, variable, app, options)
+        self.element = Frame(self.master)
+        self.name = Button(self.element, text=name)
+        self.name.pack(side=LEFT)
+        self.element.pack()
+class Choice(NamedElement):
+    """Multiple choice, only one allowed, Radiobuttons"""
+    def __init__(self, master, key, name, app, options):
+        super(Choice, self).__init__(master, key, name, app.wtype[key], app, options)
+        self.buttons = []
+        for option in list(self.options):
+            self.buttons += [
+                Radiobutton(
+                    self.element,
+                    text=str(option),
+                    value=option,
+                    variable=self.variable,
+                    command=self.app.update
+                )
+            ]
+        for button in self.buttons:
+            button.pack(side=LEFT)
+class Bool(NamedElement):
+    def __init__(self, master, key, name, app, options=None):
+        super(Bool, self).__init__(master, key, name, app.wtype[key], app, options)
+        self.button = Checkbutton(
+            self.element,
+            text=self.key,
+            variable=self.variable,
+            command=app.update
+        )
 
 class App(Frame):
     def __init__(self, master, word=word):
@@ -96,109 +166,92 @@ class App(Frame):
                 self.wtype[key] = StringVar()
             elif(wtype_types[key] == root):
                 self.wtype[key] = StringVar()
-            elif(wtype_types[key] == tri):
-                self.wtype[key] = IntVar()
-            if(not wtype_types[key] == None and not wtype_types[key] == root):
+            if(
+                not wtype_types[key] == None and
+                not wtype_types[key] == root and
+                key in self.word.wtype.keys()
+            ):
                 self.wtype[key].set(self.word.wtype[key])
+
+        self.frames = {
+            "top":Frame(self),
+            "verb":Frame(self),
+            "noun":Frame(self),
+            "general":Frame(self),
+            "attr":Frame(self),
+        }
         self.buttons = {}
-        for key in self.wtype.keys():
-            if(wtype_types[key] == bool):
-                self.buttons[key] = Checkbutton(
-                    self, text=key,
-                    variable=self.wtype[key],
-                    command=self.update
-                )
-            elif(wtype_types[key] == root):
-                self.roots = list(options(key, self.word.wtype))
-                self.buttons[key] = OptionMenu(
-                    self,
-                    self.wtype[key],
-                    *self.roots,
-                    command=self.update_2arg
-                )
+        self.buttons["root"]        = Root(
+            self.frames["top"],
+            variable=self.wtype["root"],
+            app=self
+        )
+        self.buttons["class"]       = Choice(
+            self.frames["top"],
+            key="class",
+            name="Class:",
+            app=self,
+            options=wtype_options["class"]
+        )
+        self.buttons["professional"]= Choice(
+            self.frames["general"],
+            key="professional",
+            name="Prof:",
+            app=self,
+            options=wtype_options["professional"]
+        )
+        self.buttons["verb_class"]  = Choice(
+            self.frames["verb"],
+            key="verb_class",
+            name="V.Class:",
+            app=self,
+            options=wtype_options["verb_class"]
+        )
+        self.buttons["tense"]  = Choice(
+            self.frames["verb"],
+            key="tense",
+            name="Tense:",
+            app=self,
+            options=wtype_options["tense"]
+        )
+        self.buttons["noun_class"]  = Choice(
+            self.frames["noun"],
+            key="noun_class",
+            name="N.Class:",
+            app=self,
+            options=wtype_options["noun_class"]
+        )
+        self.buttons["case_class"]  = Choice(
+            self.frames["noun"],
+            key="case_class",
+            name="Case Class:",
+            app=self,
+            options=wtype_options["case_class"]
+        )
+        self.buttons["case"]        = Choice(
+            self.frames["noun"],
+            key="case",
+            name="Case:",
+            app=self,
+            options=wtype_options["case"]
+        )
 
-                # on change dropdown value
-                def change_dropdown(*args):
-                    self.word.root = self.wtype["root"].get()
-                    if(len(self.word.root) < 3):
-                        self.word.root += "k"
-                    print(self.word.root)
-
-                # link function to change dropdown
-                self.wtype[key].trace('w', change_dropdown)
-                self.buttons[key].pack()
-                # self.buttons[key+"_scroll"].config(command=self.buttons[key].yview)
-            elif(wtype_types[key] == tri):
-                self.buttons[key+"_frame"] = Frame(self, bd=1)
-                self.buttons[key] = []
-                for string in list(options(key, self.word.wtype)):
-                    value = {
-                        "True":+1,
-                        "None":0,
-                        "False":-1,
-                    }[string]
-                    self.buttons[key] += [
-                        Radiobutton(
-                            self.buttons[key+"_frame"],
-                            text=string,
-                            state="active" if (self.wtype[key].get() == value) else "normal",
-                            value=value,
-                            variable=self.wtype[key],
-                            command=self.update
-                        )
-                    ]
-                for button in self.buttons[key]:
-                    button.pack(side=RIGHT)
-                self.buttons[key+"_frame"].pack()
-            else:
-                self.buttons[key+"_frame"] = Frame(self, bd=1)
-                self.buttons[key] = [
-                    Radiobutton(
-                        self.buttons[key+"_frame"],
-                        text=str(number),
-                        state="active" if (self.wtype[key].get() == number) else "normal",
-                        value=number,
-                        variable=self.wtype[key],
-                        command=self.update
-                    )
-                    for number in list(options(key, self.word.wtype))
-                ]
-                for button in self.buttons[key]:
-                    button.pack(side=RIGHT)
-                self.buttons[key+"_frame"].pack()
+        self.frames["top"       ].pack(side=TOP)
+        self.frames["general"   ].pack(side=TOP)
+        self.frames["verb"      ].pack(side=TOP)
+        self.frames["noun"      ].pack(side=TOP)
         self.displ = Button(
             self,
             text=self.word.spell(),
             bg="green",
             command=self.update
         )
-        self.displ.pack(side=TOP)
+        self.displ.pack(side=BOTTOM)
 
         self.pack()
-    def update_2arg(self, xxx):
-        self.update()
     def update(self):
         for key in self.wtype.keys():
-            #decoding input for tri-option values
-            if(wtype_types[key] == tri):
-                try:
-                    value = self.wtype[key].get()
-                    self.word.wtype[key] = {
-                        +1:True,
-                        0:None,
-                        -1:False,
-                    }[value]
-                except KeyError:
-                    if(value == True or value == None or value == False):
-                        self.word.wtype[key] = value
-                    else:
-                        raise TypeError(
-                        "self.wtype[%s].get() is neither -1, 0 nor +1, but \"%s\"" %
-                        (key, self.wtype[key].get())
-                        )
-            else:
-                #everything else
-                self.word.wtype[key] = self.wtype[key].get()
+            self.word.wtype[key] = self.wtype[key].get()
         boolify(self.word.wtype) #"True" -> True, "None" -> None, "False" -> False
         self.displ["text"] = self.word.spell()
 
