@@ -154,10 +154,9 @@ class Bool(NamedElement):
 class App(Frame):
     def __init__(self, master, word=word):
         super().__init__(master)
-        # self.master = master
         self.word = word
         self.wtype = {}
-        for key in self.word.wtype.keys():
+        for key in wtype_types.keys():
             if(wtype_types[key] == bool):
                 self.wtype[key] = BooleanVar()
             elif(wtype_types[key] == int):
