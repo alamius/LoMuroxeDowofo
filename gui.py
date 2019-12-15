@@ -180,6 +180,7 @@ class App(Frame):
             else:
                 #everything else
                 self.word.wtype[key] = self.wtype[key].get()
+        boolify(self.word.wtype) #"True" -> True, "None" -> None, "False" -> False
         self.displ["text"] = self.word.spell()
 
 top = Tk()

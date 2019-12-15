@@ -26,6 +26,14 @@ USED = {
 from copy import deepcopy
 from hist import hist
 from wtype import standards_word, standards_verb, standards_noun, standards_attribute
+def boolify(wtype):
+    for k in wtype.keys():
+        v = wtype[k]
+        if(type(v) == str):
+            if(v.lower()  == "false"): wtype[k] = False
+            elif(v.lower() == "true"): wtype[k] = True
+            elif(v.lower() == "none"): wtype[k] = None
+    return wtype
 class Word(object):
     def __init__(self, root, wtype, parents=[], children=[], hist=hist):
         super(Word, self).__init__()
@@ -60,10 +68,7 @@ class Word(object):
         except KeyError:self.wtype["child_place"] = []
         try:            self.wtype["child_place_string"]
         except KeyError:self.wtype["child_place_string"] = []
-        for k in self.wtype.keys():
-            if(type(self.wtype[k]) == type(" ") and self.wtype[k].lower() == "false"):  self.wtype[k] = False
-            elif(type(self.wtype[k]) == type(" ") and self.wtype[k].lower() == "true"): self.wtype[k] = True
-            elif(type(self.wtype[k]) == type(" ") and self.wtype[k].lower() == "none"): self.wtype[k] = None
+        boolify(self.wtype)
     def add_child(self, child, place="attribute"):
         global USED
         child.parents += [self]
