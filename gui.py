@@ -18,46 +18,65 @@ word = Word("Jlt", {
     "root": 'grk',
     "metaphore": False,
     "passive": False,
-    "person": ['me'],
-    "professional": True,
+    "person": 'me',
+    "professional": "None",
     "child_place": [],
     "perceived": False,
     "tense": 'future',
+    "noun_class":"action",
+    "case_class":"None",
+    "case":"None"
 })
 
 root = 101
 tri = 111 #options: False, None, True
 wtype_types = {
-    "marker": None,
-    "parent_place": None,
-    "child_place_string": None,
-    "verb_class": str,
-    "parent_place_string": None,
-    "class": str,
+    #top
     "root": root,
+    "class": str,
+    #verbs
+    "verb_class": str,
+    "person": str,
+    "tense": str,
+    #nouns
+    "noun_class":str,
+    "case_class":str,
+    "case":str,
+    #general
     "metaphore": bool,
     "passive": bool,
-    "person": str,
-    "professional": tri,
-    "child_place": None,
+    "professional": str,
     "perceived": bool,
-    "tense": str,
+    #structural
+    "marker": None,
+    "parent_place": None,
+    "parent_place_string": None,
+    "child_place": None,
+    "child_place_string": None,
 }
 wtype_options = {
-    "marker": [],
-    "parent_place": [],
-    "child_place_string": [],
-    "verb_class": ["indicative", "imperative"],
-    "parent_place_string": [],
-    "class": ["verb"],
+    #top
     "root": list(roots.values()),
+    "class": ["verb", "noun"],
+    #verbs
+    "verb_class": ["indicative", "imperative"],
+    "person": ["me", "you"],
+    "tense": ["past", "present", "future"],
+    #nouns
+    "noun_class":["action", "agent", "object", "recipient", "instrument"],
+    "case_class":["None", "directional", "local", "temporal", "causal"],
+    "case":["None", "before", "after", "above", "under", "near", "parallel", "same", "opposite"],
+    #general
     "metaphore": [True, False],
     "passive": [True, False],
-    "person": ["me", "you"],
     "professional": ["False", "None", "True"],
-    "child_place": [],
     "perceived": [True, False],
-    "tense": ["past", "present", "future"],
+    #structural
+    "marker": [],
+    "parent_place": [],
+    "parent_place_string": [],
+    "child_place": [],
+    "child_place_string": [],
 }
 def options(key, wtype):
     return wtype_options[key]
