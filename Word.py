@@ -284,11 +284,11 @@ class Word(object):
         else:
             self.spell_perceived(1)
             self.result += WHICH(switch, [
-                ("action",  "a"), #Jlt -> Jo<l..t.>a
-                ("agent",   "i"), #Jlt -> Jo<l..t.>i
-                ("object",  "u"), #Jlt -> Jo<l..t.>u
-                ("recipient","o"), #Jlt -> Jo<l..t.>o
-                ("instrument","e"), #Jlt -> Jo<l..t.>a
+                ("action",  "a"), #Jlt -> Jo<l.>a
+                ("agent",   "i"), #Jlt -> Jo<l.>i
+                ("object",  "u"), #Jlt -> Jo<l.>u
+                ("recipient","o"), #Jlt -> Jo<l.>o
+                ("instrument","e"), #Jlt -> Jo<l.>a
             ])
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
