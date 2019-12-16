@@ -74,10 +74,10 @@ wtype_options = {
     "attribute_class":["stative", "obligate", "conjunctive", "possible"],
     # "negative":[True, False],
     #general
-    "metaphore": [True, False],
-    "passive": [True, False],
+    # "metaphore": [True, False],
+    # "passive": [True, False],
     "professional": ["False", "None", "True"],
-    "perceived": [True, False],
+    # "perceived": [True, False],
     #structural
     "marker": [],
     "parent_place": [],
