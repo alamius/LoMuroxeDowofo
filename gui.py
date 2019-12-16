@@ -70,6 +70,7 @@ wtype_options = {
     "noun_class":["action", "agent", "object", "recipient", "instrument"],
     "case_class":["None", "directional", "local", "temporal", "causal"],
     "case":["None", "before", "after", "above", "under", "near", "parallel", "same", "opposite"],
+    #attribute
     "attribute_class":["stative", "obligate", "conjunctive", "possible"],
     # "negative":[True, False],
     #general
@@ -188,6 +189,7 @@ class App(Frame):
             "attribute":Frame(self),
         }
         self.buttons = {}
+        #top
         self.buttons["root"]        = Root(
             self.frames["top"],
             variable=self.wtype["root"],
@@ -200,6 +202,7 @@ class App(Frame):
             app=self,
             options=wtype_options["class"]
         )
+        #general
         self.buttons["professional"]= Choice(
             self.frames["general"],
             key="professional",
@@ -219,6 +222,7 @@ class App(Frame):
             name="Perceived:",
             app=self
         )
+        #verb
         self.buttons["verb_class"]  = Choice(
             self.frames["verb"],
             key="verb_class",
@@ -233,6 +237,7 @@ class App(Frame):
             app=self,
             options=wtype_options["tense"]
         )
+        #noun
         self.buttons["noun_class"]  = Choice(
             self.frames["noun"],
             key="noun_class",
@@ -254,6 +259,7 @@ class App(Frame):
             app=self,
             options=wtype_options["case"]
         )
+        #attribute
         self.buttons["attribute_class"] = Choice(
             self.frames["attribute"],
             key="attribute_class",
