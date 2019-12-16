@@ -25,7 +25,9 @@ word = Word("Jlt", {
     "tense": 'future',
     "noun_class":"action",
     "case_class":"None",
-    "case":"None"
+    "case":"None",
+    "attribute_class":"stative",
+    "negative":False,
 })
 
 root = 101
@@ -41,6 +43,9 @@ wtype_types = {
     "noun_class":str,
     "case_class":str,
     "case":str,
+    #attribute
+    "attribute_class":str,
+    "negative":bool,
     #general
     "metaphore": bool,
     "passive": bool,
@@ -56,7 +61,7 @@ wtype_types = {
 wtype_options = {
     #top
     "root": list(roots.values()),
-    "class": ["verb", "noun"],
+    "class": ["verb", "noun", "attribute"],
     #verbs
     "verb_class": ["indicative", "imperative"],
     "person": ["me", "you"],
@@ -65,6 +70,8 @@ wtype_options = {
     "noun_class":["action", "agent", "object", "recipient", "instrument"],
     "case_class":["None", "directional", "local", "temporal", "causal"],
     "case":["None", "before", "after", "above", "under", "near", "parallel", "same", "opposite"],
+    "attribute_class":["stative", "obligate", "conjunctive", "possible"],
+    # "negative":[True, False],
     #general
     "metaphore": [True, False],
     "passive": [True, False],
@@ -178,7 +185,7 @@ class App(Frame):
             "verb":Frame(self),
             "noun":Frame(self),
             "general":Frame(self),
-            "attr":Frame(self),
+            "attribute":Frame(self),
         }
         self.buttons = {}
         self.buttons["root"]        = Root(
@@ -247,11 +254,25 @@ class App(Frame):
             app=self,
             options=wtype_options["case"]
         )
+        self.buttons["attribute_class"] = Choice(
+            self.frames["attribute"],
+            key="attribute_class",
+            name="Attr.Class:",
+            app=self,
+            options=wtype_options["attribute_class"]
+        )
+        self.buttons["negative"]    = Bool(
+            self.frames["attribute"],
+            key="negative",
+            name="Attr.Negation:",
+            app=self
+        )
 
         self.frames["top"       ].pack(side=TOP)
         self.frames["general"   ].pack(side=TOP)
         self.frames["verb"      ].pack(side=TOP)
         self.frames["noun"      ].pack(side=TOP)
+        self.frames["attribute" ].pack(side=TOP)
         self.displ = Button(
             self,
             text=self.word.spell(),
