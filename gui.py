@@ -200,6 +200,18 @@ class App(Frame):
             app=self,
             options=wtype_options["professional"]
         )
+        self.buttons["metaphore"]= Bool(
+            self.frames["general"],
+            key="metaphore",
+            name="Metaph:",
+            app=self
+        )
+        self.buttons["perceived"]= Bool(
+            self.frames["general"],
+            key="perceived",
+            name="Perceived:",
+            app=self
+        )
         self.buttons["verb_class"]  = Choice(
             self.frames["verb"],
             key="verb_class",
