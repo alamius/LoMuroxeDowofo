@@ -210,13 +210,13 @@ class App(Frame):
             app=self,
             options=wtype_options["professional"]
         )
-        self.buttons["metaphore"]= Bool(
+        self.buttons["metaphore"]   = Bool(
             self.frames["general"],
             key="metaphore",
             name="Metaph:",
             app=self
         )
-        self.buttons["perceived"]= Bool(
+        self.buttons["perceived"]   = Bool(
             self.frames["general"],
             key="perceived",
             name="Perceived:",
@@ -230,7 +230,7 @@ class App(Frame):
             app=self,
             options=wtype_options["verb_class"]
         )
-        self.buttons["tense"]  = Choice(
+        self.buttons["tense"]       = Choice(
             self.frames["verb"],
             key="tense",
             name="Tense:",
