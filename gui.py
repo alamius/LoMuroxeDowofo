@@ -150,6 +150,7 @@ class Bool(NamedElement):
             variable=self.variable,
             command=app.update
         )
+        self.button.pack()
 
 class App(Frame):
     def __init__(self, master, word=word):
