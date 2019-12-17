@@ -129,7 +129,7 @@ class NamedElement(Element):
     def __init__(self, master, key, name, variable, app, options):
         super(NamedElement, self).__init__(master, key, variable, app, options)
         self.element = Frame(self.master)
-        self.name = Button(self.element, text=name)
+        self.name = Label(self.element, text=name)
         self.name.pack(side=LEFT)
         self.element.pack()
 class Choice(NamedElement):
