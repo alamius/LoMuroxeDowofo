@@ -410,16 +410,12 @@ class Word(object):
         for key in standards_attribute.keys():
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_attribute[key]
-        switch = self.wtype["attribute_class"]+("negative" if self.wtype["negative"] else "active")
+        switch = self.wtype["attribute_class"]
         self.result += WHICH(switch, [
-            ("stativeactive",      "za"), #Jlt -> Jo<l..t.>za
-            ("stativenegative",     "Xa"), #Jlt -> Jo<l..t.>Xa
-            ("possibleactive",     "to"), #Jlt -> Jo<l..t.>to
-            ("possiblenegative",    "Do"), #Jlt -> Jo<l..t.>Do
-            ("conjunctiveactive",  "li"), #Jlt -> Jo<l..t.>li
-            ("conjunctivenegative", "wy"), #Jlt -> Jo<l..t.>wy
-            ("obligateactive",     "ku"), #Jlt -> Jo<l..t.>ku
-            ("obligatenegative",    "qe"), #Jlt -> Jo<l..t.>qe
+            ("stative",      "za"), #Jlt -> Jo<l..t.>za
+            ("possible",     "to"), #Jlt -> Jo<l..t.>to
+            ("conjunctive",  "li"), #Jlt -> Jo<l..t.>li
+            ("obligate",     "ku"), #Jlt -> Jo<l..t.>ku
         ])
         self.syllable_no_accent_count += 1
         self.result = accent_syllable(self, self.result, 2, -2)
