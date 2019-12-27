@@ -301,4 +301,3 @@ app = App(top)
 app.pack(side=RIGHT)
 
 app.mainloop()
-# root.mainloop()

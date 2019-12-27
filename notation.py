@@ -19,7 +19,6 @@ for c in vowels:
 ROMAN = {
     "J":"jh",
     "X":"sh",
-    # "Q":"qh",
     "D":"dh",
     "K":"kh", #weird trill using a lot of pressure on the soft palate, appriximate by χ
     "G":"gh", #can you voice K?
@@ -35,7 +34,6 @@ PHON = {
     "x":"χ",
     "X":"ʃ",
     "C":"ç",
-    # "q":"q",
     "D":"ð",
     "K":"Я", #voiced/voiceless? pressurized uvular trill
     # "G":"vЯ", #voiced pressurized uvular trill

@@ -8,7 +8,6 @@ def demo_input_fragments():
     sentence = []
     print("STEM: g·r")
     print("MEANS: GO, WALK, JOURNEY")
-    # print_Word(Word("gr",  get_wtype(infinitive, {"tense":"present"})), sentence)
     print_Word(Word("gr",  get_wtype(imperative, {"person":("plural-me", "you")})), sentence)
     print_Word(Word("gr",  get_wtype(indicative, {"tense":"present", "person":("plural-they")})), sentence)
     print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"local",   "case":"near",  "professional":False, "negative":False})), sentence)
@@ -20,7 +19,6 @@ def demo_input_presets():
     sentence = []
     print("STEM: J·l·t")
     print("MEANS: HELP, ASSIST(ANCE)")
-    # print_Word(Word("Jlt", get_wtype(infinitive)), sentence)
     print_Word(Word("Jlt", get_wtype(imperative)), sentence)
     print_Word(Word("Jlt", get_wtype(indicative)), sentence)
     print_Word(Word("Jlt", get_wtype(noun)), sentence)
@@ -100,7 +98,7 @@ def demo_verb():
     print("VERBS:")
     for t["negative"] in [False, True]:
         print("ACTIVE:" if not t["negative"] else "negative:")
-        for t["verb_class"] in ["indicative"]:#, "imperative", "indicative"]:
+        for t["verb_class"] in ["indicative"]:#, "imperative"]:
             print(t["verb_class"].upper()+":")
             for t["professional"] in [None, True, False]:
                 for t["tense"] in verb["tense"]+[None]:

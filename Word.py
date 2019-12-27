@@ -47,7 +47,6 @@ class Word(object):
         self.wtype["root"] = self.root
         self.parents = deepcopy(parents)
         self.children = deepcopy(children)
-        # self.subject = None
         try:
             self.marker = self.wtype["marker"]
         except:
@@ -144,11 +143,6 @@ class Word(object):
             else:
                 self.result += self.root[root_level] #Jlt -> Jal
         switch = self.wtype["verb_class"]
-        #useless with action-nouns
-        # if(switch == "infinitive"):
-        #     self.syllable_no_accent_count += 1
-        #     self.result += "ju" #Jlt -> Jalju
-        #     self.spell_tense(2)
         if(switch == "imperative"):
             self.result = self.result[:-1]
             self.spell_tense(1)
@@ -163,7 +157,6 @@ class Word(object):
         else:
             raise ValueError("Unknown verb_class: '%s'" % switch)
     def spell_tense(self, root_level=1): #looks at "tense"
-        # result = ""
         if(root_level != None):
             if(root_level == 2):
                 self.spell_negative(2) #Jlt -> Jale(xe)t
@@ -288,7 +281,6 @@ class Word(object):
                 self.syllable_no_accent_count = 0
             if(self.wtype["negative"]):
                 self.spell_negative()
-                # self.result = accent_syllable(self, self.result, 2, -2)
             if(self.root[2] != "k"):
                 self.result += self.root[2] #Jlt -> Jol[aou]t
             else:
@@ -337,7 +329,6 @@ class Word(object):
             ])
             self.syllable_no_accent_count += 1
             self.spell_negative(2) #Jlt -> Jol[aoeu](xe)t
-            # self.result = accent_syllable(self, self.result, 2, -2)
             self.result += WHICH(switch, [
                 ("directional", "e"),    #Jlt -> Jola(xe)te
                 ("local",       "u"),    #Jlt \-> Jolo(xe)tu
