@@ -109,8 +109,8 @@ class Word(object):
         elif(switch == "attribute"):
             self.result += "é"
             self.spell_attribute(1) #Jlt -> Je
-        elif(switch == "other"): #TODO
-            self.result += "ú" #Jlt -> Ju
+        else:
+            raise TypeError("Unknown class: '%s'" % switch)
         if(len(self.children) != 0 and len(self.parents) != 0):
             self.result += ''.join(self.wtype["child_place_string"])
             self.syllable_no_accent_count += len(self.children)
@@ -168,8 +168,8 @@ class Word(object):
             self.result = self.result[:-1]
             self.spell_tense(1)
             self.spell_person(2)
-        elif(switch == "other"): # TODO: other verb classes?
-            self.result += "u" #Jlt -> Jalu
+        else:
+            raise ValueError("Unknown verb_class: '%s'" % switch)
     def spell_tense(self, root_level=1): #looks at "tense"
         # result = ""
         if(root_level != None):
