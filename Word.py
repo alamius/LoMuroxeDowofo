@@ -174,7 +174,7 @@ class Word(object):
         # result = ""
         if(root_level != None):
             if(root_level == 2):
-                self.spell_passive(root_level) #Jlt -> Jale(xe)t
+                self.spell_negative(2) #Jlt -> Jale(xe)t
                 self.spell_professional(flipped=True) #Jlt -> Jale(xe)t[[it][of]]
                 self.result = accent_syllable(self, self.result, 2, -2)
             else:
@@ -239,9 +239,9 @@ class Word(object):
             elif(len(result) > 1):
                 self.result = accent_syllable(self, self.result, 2, -1)
         if(root_level == 2):
-            self.spell_passive()
+            self.spell_negative()
         self.result += self.root[root_level] #Jlt -> Jale(xe)t
-        if(self.hist["passive"] and self.wtype["passive"] and "xek" in self.result):
+        if(self.hist["negative"] and self.wtype["negative"] and "xek" in self.result):
             i = self.result.index("xek")
             self.result = self.result[:i]+"x"+self.result[i+2]
             self.syllable_no_accent_count -= 1
@@ -264,10 +264,10 @@ class Word(object):
                 self.wtype[key] = standards_noun[key]
         #this switch decides what syllable is to be put in the word
         # - with all the lines ending in ##1 commented in,
-        #   it would be dependent on active/passive (voice)
+        #   it would be dependent on positive/negative
         #   I would rather have it be dependent on something else, voice is represented in too many decisions
         switch = self.wtype["noun_class"]
-        # switch += ("passive" if self.wtype["passive"] else "active") ##1
+        # switch += ("negative" if self.wtype["negative"] else "active") ##1
         if("case_class" in self.wtype.keys() and self.wtype["case_class"] != None):
             self.spell_perceived(1)
             self.spell_case_class(None) #Jlt -> Jo<l..t.>
@@ -294,8 +294,8 @@ class Word(object):
             if(self.syllable_no_accent_count > 1):
                 self.result = self.result[:-1]+accented[self.result[-1]]
                 self.syllable_no_accent_count = 0
-            if(self.wtype["passive"]):
-                self.spell_passive()
+            if(self.wtype["negative"]):
+                self.spell_negative()
                 # self.result = accent_syllable(self, self.result, 2, -2)
             if(self.root[2] != "k"):
                 self.result += self.root[2] #Jlt -> Jol[aou]t
@@ -344,7 +344,7 @@ class Word(object):
                 ("causal",      "u"),    #Jlt \-> Jolu
             ])
             self.syllable_no_accent_count += 1
-            self.spell_passive(2) #Jlt -> Jol[aoeu](xe)t
+            self.spell_negative(2) #Jlt -> Jol[aoeu](xe)t
             # self.result = accent_syllable(self, self.result, 2, -2)
             self.result += WHICH(switch, [
                 ("directional", "e"),    #Jlt -> Jola(xe)te
@@ -374,22 +374,19 @@ class Word(object):
         self.syllable_no_accent_count += 1
         if(root_level != None):
             if(root_level == 2):
-                self.spell_passive(root_level)
+                self.spell_negative(root_level)
             else:
                 self.result += self.root[root_level]
             if(self.syllable_no_accent_count > 2):
                 index = index_syllable(self.result, -2) #(beginning, vowel, end)
                 i = index[1]
                 self.result = self.result[:i] + accented[self.result[i]] + self.result[i+1:]
-                self.syllable_no_accent_count = 1 if self.wtype["passive"] and not self.hist["passive"] else 0
+                self.syllable_no_accent_count = 1 if self.wtype["negative"] else 0
             self.result += second_vowel #Jlt -> Jol[aoeu][[sa][ro]...](xe)t[euio]
             self.syllable_no_accent_count += 1
             if(self.syllable_no_accent_count > 1):
                 self.result = self.result[:-1]+accented[self.result[-1]]
                 self.syllable_no_accent_count = 0
-        if(self.hist["passive"] and self.wtype["passive"] and "jx" in result):
-            i = self.result.index("jx")
-            self.result = self.result[:i]+"X"+self.result[i+2]
     def spell_professional(self, flipped=False, accentable=False): #looks at "professional"
         if(not flipped):
             result = WHICH(self.wtype["professional"],[
@@ -409,12 +406,10 @@ class Word(object):
                 result = accented[result[0]]+result[1]
                 self.syllable_no_accent_count = 0
         self.result += result
-    def spell_passive(self, root_level=None): #looks at "passive"
-        if(self.wtype["passive"]):
-            self.result += "x"
-            if(not self.hist["passive"]):
-                self.result += "e"
-                self.syllable_no_accent_count += 1
+    def spell_negative(self, root_level=None): #looks at "negative"
+        if(self.wtype["negative"]):
+            self.result += "xe"
+            self.syllable_no_accent_count += 1
         self.result = accent_syllable(self, self.result, 3, -2)
         if(root_level != None):
             r = self.root[root_level]
@@ -432,16 +427,16 @@ class Word(object):
         for key in standards_attribute.keys():
             if(not key in self.wtype.keys()):
                 self.wtype[key] = standards_attribute[key]
-        switch = self.wtype["attribute_class"]+("passive" if self.wtype["passive"] else "active")
+        switch = self.wtype["attribute_class"]+("negative" if self.wtype["negative"] else "active")
         self.result += WHICH(switch, [
             ("stativeactive",      "za"), #Jlt -> Jo<l..t.>za
-            ("stativepassive",     "Xa"), #Jlt -> Jo<l..t.>Xa
+            ("stativenegative",     "Xa"), #Jlt -> Jo<l..t.>Xa
             ("possibleactive",     "to"), #Jlt -> Jo<l..t.>to
-            ("possiblepassive",    "Do"), #Jlt -> Jo<l..t.>Do
+            ("possiblenegative",    "Do"), #Jlt -> Jo<l..t.>Do
             ("conjunctiveactive",  "li"), #Jlt -> Jo<l..t.>li
-            ("conjunctivepassive", "wy"), #Jlt -> Jo<l..t.>wy
+            ("conjunctivenegative", "wy"), #Jlt -> Jo<l..t.>wy
             ("obligateactive",     "ku"), #Jlt -> Jo<l..t.>ku
-            ("obligatepassive",    "qe"), #Jlt -> Jo<l..t.>qe
+            ("obligatenegative",    "qe"), #Jlt -> Jo<l..t.>qe
         ])
         self.syllable_no_accent_count += 1
         self.result = accent_syllable(self, self.result, 2, -2)

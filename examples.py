@@ -4,7 +4,7 @@ E0 = [{
         "marker":"V",
         "root":roots["go"],
     	"tense": 'present',
-    	"passive": False,
+    	"negative": False,
     	"parent_place_string": [],
     	"person": ['me', 'plural-you'],
     	"professional": None,
@@ -23,7 +23,7 @@ E0 = [{
     	"child_place_string": [],
     	"professional": True,
     	"metaphore": True,
-    	"passive": False,
+    	"negative": False,
     	"case_class": None,
     	"parent_place": [],
     	"noun_class": 'actor',
@@ -39,7 +39,7 @@ E0 = [{
     	"child_place_string": [],
     	"professional": None,
     	"metaphore": False,
-    	"passive": False,
+    	"negative": False,
     	"case_class": 'causal',
     	"parent_place": [],
     	"noun_class": 'action',
@@ -55,7 +55,7 @@ E0 = [{
     	"child_place_string": [],
     	"professional": True,
     	"metaphore": False,
-    	"passive": True,
+    	"negative": True,
     	"case_class": 'directional',
     	"parent_place": [],
     	"noun_class": 'action',
@@ -71,7 +71,7 @@ E0 = [{
     	"child_place_string": [],
     	"professional": None,
     	"metaphore": False,
-    	"passive": False,
+    	"negative": False,
     	"case_class": 'causal',
     	"parent_place": [],
     	"noun_class": 'action',
@@ -87,7 +87,7 @@ E0 = [{
     	"child_place_string": [],
     	"professional": None,
     	"metaphore": False,
-    	"passive": True,
+    	"negative": True,
     	"case_class": None,
     	"parent_place": [],
     	"noun_class": 'actor',
@@ -103,7 +103,7 @@ E0 = [{
     	"child_place_string": [],
     	"professional": True,
     	"metaphore": False,
-    	"passive": False,
+    	"negative": False,
     	"case_class": None,
     	"parent_place": [],
     	"noun_class": 'actor',
@@ -118,7 +118,7 @@ E0 = [{
     	"child_place_string": [],
     	"professional": False,
     	"metaphore": True,
-    	"passive": True,
+    	"negative": True,
     	"case_class": 'temporal',
     	"parent_place": [],
     	"noun_class": 'actor',
@@ -129,7 +129,7 @@ E0 = [{
         "marker":"V2",
         "root":roots["kill"],
     	"tense": 'present',
-    	"passive": True,
+    	"negative": True,
     	"parent_place_string": [],
     	"person": ['me', 'plural-you'],
     	"professional": None,
@@ -151,7 +151,7 @@ E1 = [{
         "marker":"V",
         "root":roots["kill"],
     	"parent_place": [],
-    	"passive": True,
+    	"negative": True,
     	"verb_class": 'imperative',
     	"professional": None,
     	"child_place": [],
@@ -165,7 +165,7 @@ E1 = [{
         "marker":"V2",
         "root":roots["kill"],
     	"parent_place": [],
-    	"passive": True,
+    	"negative": True,
     	"verb_class": 'imperative',
     	"professional": None,
     	"child_place": [],
@@ -179,7 +179,7 @@ E1 = [{
         "marker":"V3",
         "root":roots["kill"],
     	"parent_place": [],
-    	"passive": True,
+    	"negative": True,
     	"verb_class": 'imperative',
     	"professional": None,
     	"child_place": [],
@@ -210,7 +210,7 @@ E2 = [
             #kó - r1, noun
             #wo - r2, local
             #táj - same
-            #xe - passive
+            #xe - negative
             #Xú - r3, local
             #ra - object (noun class)
         #  (A-V1)
@@ -219,7 +219,7 @@ E2 = [
         #    Bereichen (NA-V1) begrenzen_Metaphorical_Noun_TA
         "marker":"A-V1",
         "root":roots["limit"],
-        "passive":True,
+        "negative":True,
         "metaphore":True,
         "class":"noun",
         "noun_class":"object",
@@ -257,16 +257,16 @@ E2 = [
             #Dá - r1, verb
             #Pe - r2, present
             #'ó - imperative
-            #xe - passive
+            #xe - negative
             #kón- person: all
             #Je - has an attribute
         # und
         #  (A-V2)
         #   trotz (TA-V) TA = Causal_Opposite
-        #   der Relevanz (NA-V) bedenken_Prof_Passive_TA
+        #   der Relevanz (NA-V) bedenken_Prof_negative_TA
         "marker":"A-V2",
         "root":roots["think"],
-        "passive":True,
+        "negative":True,
         "class":"verb",
         "verb_class":"imperative",
         "person":["plural-me", "plural-you", "plural-they"],
@@ -286,13 +286,13 @@ E2 = [
             #qó - r1, noun
             #Jo - r2, local
             #táj- same_case -> in
-            #xe - passive
+            #xe - negative
             #rú - r3,
-            #ke - passive_object
+            #ke - negative_object
         #     -Bundes- (NA-NA-NA-V) vereinigen_Pass_Perf_Local_In
         "marker":"A-A-A-V2",
         "root":roots["unite"],
-        "passive":True,
+        "negative":True,
         "class":"noun",
         "noun_class":"object",
         "case_class":"local",
@@ -301,13 +301,13 @@ E2 = [
         #     Fremdsprachen (NA-NA-NA-V) sprechen_Noun_Action lernen_Attr_imperativ
         "marker":"A2-A-A-V2",
         "root":roots["speak_language"],
-        "passive":True,
+        "negative":True,
         "class":"noun",
         "noun_class":"object",
     }, { #-riléqeméxedé
         "marker":"A-A2-A-A-V2",
         "root":roots["teach"],
-        "passive":True,
+        "negative":True,
         "class":"attribute",
         "attribute_class":"obligate",
     }, { #Jelómomadúma
@@ -317,7 +317,7 @@ E2 = [
         "marker":"A2-A-V2",
         "root":roots["teach"],
         "professionell":True,
-        # "passive":True,
+        # "negative":True,
         "class":"noun",
         "noun_class":"action",
         "case_class":"local",
@@ -335,7 +335,7 @@ E2 = [
         "marker":"O-V2",
         "root":roots["teach"],
         "professionell":True,
-        "passive":True,
+        "negative":True,
         "class":"noun",
         "noun_class":"actor",
         "number":"plural",
@@ -352,7 +352,7 @@ E2 = [
         #    -Geographie- lernen_über_orte
         "marker":"A-A2-V2",
         "root":roots["teach"],
-        "passive":True,
+        "negative":True,
         "class":"noun",
         "noun_class":"action",
     }, { #-pózaPán

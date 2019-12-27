@@ -17,7 +17,7 @@ word = Word("Jlt", {
     "class": 'verb',
     "root": 'grk',
     "metaphore": False,
-    "passive": False,
+    "negative": False,
     "person": 'me',
     "professional": "None",
     "child_place": [],
@@ -45,12 +45,11 @@ wtype_types = {
     "case":str,
     #attribute
     "attribute_class":str,
-    "negative":bool,
     #general
     "metaphore": bool,
-    "passive": bool,
     "professional": str,
     "perceived": bool,
+    "negative":bool,
     #structural
     "marker": None,
     "parent_place": None,
@@ -72,11 +71,11 @@ wtype_options = {
     "case":["None", "before", "after", "above", "under", "near", "parallel", "same", "opposite"],
     #attribute
     "attribute_class":["stative", "obligate", "conjunctive", "possible"],
-    # "negative":[True, False],
     #general
     # "metaphore": [True, False],
-    # "passive": [True, False],
+    # "negative": [True, False],
     "professional": ["False", "None", "True"],
+    # "negative": [True, False],
     # "perceived": [True, False],
     #structural
     "marker": [],
@@ -222,6 +221,12 @@ class App(Frame):
             name="Perceived:",
             app=self
         )
+        self.buttons["negative"]    = Bool(
+            self.frames["general"],
+            key="negative",
+            name="Attr.Negation:",
+            app=self
+        )
         #verb
         self.buttons["verb_class"]  = Choice(
             self.frames["verb"],
@@ -266,12 +271,6 @@ class App(Frame):
             name="Attr.Class:",
             app=self,
             options=wtype_options["attribute_class"]
-        )
-        self.buttons["negative"]    = Bool(
-            self.frames["attribute"],
-            key="negative",
-            name="Attr.Negation:",
-            app=self
         )
 
         self.frames["top"       ].pack(side=TOP)

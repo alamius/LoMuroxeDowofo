@@ -11,10 +11,10 @@ def demo_input_fragments():
     # print_Word(Word("gr",  get_wtype(infinitive, {"tense":"present"})), sentence)
     print_Word(Word("gr",  get_wtype(imperative, {"person":("plural-me", "you")})), sentence)
     print_Word(Word("gr",  get_wtype(indicative, {"tense":"present", "person":("plural-they")})), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"local",   "case":"near",  "professional":False, "passive":False})), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"temporal","case":"under", "professional":True,  "passive":True })), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"above", "professional":False, "passive":False})), sentence)
-    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"before","professional":True,  "passive":True })), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"local",   "case":"near",  "professional":False, "negative":False})), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"action",   "case_class":"temporal","case":"under", "professional":True,  "negative":True })), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"above", "professional":False, "negative":False})), sentence)
+    print_Word(Word("gr",  get_wtype(noun, {"noun_class":"agent",    "case_class":"causal",  "case":"before","professional":True,  "negative":True })), sentence)
     return sentence
 def demo_input_presets():
     sentence = []
@@ -82,7 +82,7 @@ def demo_place():
         'class': 'noun',
         'case_class': 'directional',
         'noun_class': 'agent',
-        'passive': True,
+        'negative': True,
         'professional': 'True',
         'case': 'near',
         'number': 'plural',
@@ -98,8 +98,8 @@ def demo_place():
 def demo_verb():
     t = {"class":"verb"}
     print("VERBS:")
-    for t["passive"] in [False, True]:
-        print("ACTIVE:" if not t["passive"] else "PASSIVE:")
+    for t["negative"] in [False, True]:
+        print("ACTIVE:" if not t["negative"] else "negative:")
         for t["verb_class"] in ["indicative"]:#, "imperative", "indicative"]:
             print(t["verb_class"].upper()+":")
             for t["professional"] in [None, True, False]:
@@ -123,8 +123,8 @@ def demo_noun():
     t = {"class":"noun"}
     t["number"] = "singular"
     print("NOUNS:")
-    for t["passive"] in [False, True]:
-        print("ACTIVE:" if not t["passive"] else "PASSIVE:")
+    for t["negative"] in [False, True]:
+        print("ACTIVE:" if not t["negative"] else "negative:")
         for t["noun_class"] in noun["noun_class"]:
             print(t["noun_class"].upper()+":")
             for t["professional"] in [None, True, False]:

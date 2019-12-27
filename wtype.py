@@ -2,7 +2,7 @@ from os import system #for system("clear")
 from copy import deepcopy
 
 standards_word = {
-    "passive":False,
+    "negative":False,
     "metaphore":False,
     "professional":None,
     "perceived":False,
@@ -27,13 +27,13 @@ standards_attribute = {
 }
 #attribute_class examples:
     #stative active: reading
-    #stative passive: read / being read -> tenses?
+    #stative negative: read / being read -> tenses?
     #possible active: able to read
-    #possible passive: readable = able to be read
+    #possible negative: readable = able to be read
     #conjunctive active: should read
-    #conjunctive passive: should be read
+    #conjunctive negative: should be read
     #obligate active: must read
-    #obligate passive: must be read
+    #obligate negative: must be read
 person_choice = [[
     ["me", "plural-me", "p-me"],
     ["you", "plural-you", "p-you"],
@@ -47,7 +47,7 @@ shortcuts = {
     "p-undef":"plural-undef",
 }
 basic = {
-    "passive":["True", "False"],
+    "negative":["True", "False"],
     "professional":["True", "False", "None"],
     "metaphore":["True", "False"],
     "perceived":["True", "False"],

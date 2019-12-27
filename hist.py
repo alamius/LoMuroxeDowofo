@@ -1,5 +1,5 @@
 hist = {
-    "passive":False,
+    "negative":False,
     "present":False,
     "metaphor-merge":False,
     "perceived":False,
