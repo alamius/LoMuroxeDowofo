@@ -133,15 +133,7 @@ class Word(object):
                 self.children[i//2].wtype["parent_place_string"] = p_place_str[:j+1] + accented[p_place_str[j+1]] + p_place_str[j+2:]
         return self.result
     def spell_metaphore(self):
-        # self.result = ""
-        if(not hist["metaphor-merge"]):
-            self.result += "gy" + self.root[0] #Jlt -> J
-        else:
-            self.result += "'y"
-            try:
-                self.result += g_merge[self.root[0]]
-            except:
-                self.result += g_merge[""] + self.root[0]
+        self.result += "gy" + self.root[0] #Jlt -> gyJ
     def spell_verb(self, root_level=1): #looks at "verb_class"
         for key in standards_verb.keys():
             if(not key in self.wtype.keys()):
