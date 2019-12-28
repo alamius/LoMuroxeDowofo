@@ -1,4 +1,6 @@
+#!/usr/bin/env python3
 from notation import vowels, consonants, semivowels, accented
+from copy import deepcopy
 
 def index_syllable(string, syl_index):
     b = 0 #beginning of the syllable
@@ -41,3 +43,108 @@ def count_syllables(string):
         if c in vowels:
             result += 1
     return result
+
+class Syllable(object):
+    """simple Syllable has initial, middle, ending; each strings without limits"""
+
+    def __init__(self, arg, accented=False):
+        super(Syllable, self).__init__()
+        self.init = ""
+        self.mid  = ""
+        self.end  = ""
+        if(isinstance(arg, list)):
+            if(len(arg) > 0 and all([type(string) == str for string in arg])):
+                if(len(arg) == 1):
+                    self.mid = arg[0]
+                elif(len(arg) == 2):
+                    self.init = arg[0]
+                    self.mid = arg[1]
+                else:
+                    self.init = arg[0]
+                    self.mid = arg[1]
+                    self.end = arg[2]
+        elif(isinstance(arg, str)):
+            if(len(arg) == 1):
+                self.mid = arg[0]
+            elif(len(arg) == 2):
+                self.init = arg[0]
+                self.mid = arg[1]
+            else:
+                self.init = arg[0]
+                self.mid = arg[1]
+                self.end = arg[2]
+        self.accented = accented
+    def __str__(self):
+        return self.init+self.mid+self.end
+    def __repr__(self):
+        return "S'"+self.init+self.mid+self.end+"'"
+
+class CVSyllable(Syllable):
+    """has only one initial consonant and one vowel"""
+
+    def __init__(self, arg, accented=False):
+        if(isinstance(arg, (list, str))):
+            super(CVSyllable, self).__init__(arg, accented)
+        elif(isinstance(arg, Syllable)):
+            # if(self.valid(arg)):
+                super(CVSyllable, self).__init__([arg.init, arg.mid, arg.end], accented)
+            # else:
+            #     raise ValueError("The Syllable %s cannot be used to create a CV-Syllable." % self.__repr__())
+        if(not self.valid()):
+            raise ValueError("The CV-Syllable %s is not valid." % self.__repr__())
+    def valid(self, arg=None):
+        if(arg == None):
+            arg = self
+        if(len(arg.init) > 1):
+            return False
+        if(len(arg.mid) > 1):
+            return False
+        if(len(arg.end) > 0):
+            return False
+        return True
+
+class SyllableString(list):
+    """Contains several Syllables"""
+
+    def __init__(self, arg=None, syll_class=Syllable):
+        super(SyllableString, self).__init__()
+        self.syll_class = syll_class
+        if(isinstance(arg, (list, SyllableString))):
+            if(all([isinstance(syll, (self.syll_class, str)) for syll in arg])):
+                for syll in arg:
+                    self.append(self.syll_class(syll))
+        elif(isinstance(arg, (self.syll_class, str))):
+            self.append(self.syll_class(arg))
+    def valid(self):
+        return all([
+            syll.valid()
+            for syll in self
+        ])
+    def __str__(self):
+        return "".join([str(syll) for syll in self])
+    def __repr__(self):
+        return "Sstr'"+".".join([str(syll) for syll in self])+"'"
+    def __iadd__(self, string):
+        if(isinstance(string, SyllableString)):
+            self.append(string)
+        elif(isinstance(string, (Syllable, str, list))):
+            self.append(SyllableString(string))
+        return self
+    def __add__(self, string):
+        result = deepcopy(self)
+        if(isinstance(string, SyllableString)):
+            result.append(string)
+        elif(isinstance(string, self.syll_class)):
+            result.append(string)
+        elif(isinstance(string, Syllable)):
+            result.append(self.syll_class(string))
+        elif(isinstance(string, (str, list))):
+            result.append(SyllableString(string))
+        return result
+
+if __name__ == '__main__':
+    a = SyllableString(["ta", "le"], CVSyllable)
+    a += "Py"
+    print(a)
+    b = SyllableString("Fa", CVSyllable) + "ko" + Syllable("no")
+    print(b)
