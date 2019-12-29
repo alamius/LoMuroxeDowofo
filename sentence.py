@@ -4,7 +4,7 @@ from Word import *
 def spell_sentence(sentence):
     word_strings = []
     for w in range(len(sentence)):
-        word_strings += [str(sentence[w].spell())]
+        word_strings += [sentence[w].spell()]
     for w in range(len(sentence)-1, -1, -1):
         word = sentence[w]
         if(
@@ -15,11 +15,9 @@ def spell_sentence(sentence):
             sentence[w-1] in sentence[w  ].parents
         ):
             #the main verb loses its sentence structure endings and thus it has to be treated differently
-            if(word_strings[w-1][-2:] == sentence[w-1].wtype["child_place_string"][0]):
-                first_word = word_strings[w-1][:-2]
-            else:
-                first_word = word_strings[w-1]
-            word_strings = word_strings[:w-1] + [first_word + "-" + word_strings[w]] + word_strings[w+1:]
+            if(str(word_strings[w-1][-1]) == sentence[w-1].wtype["child_place_string"][0]):
+                word_strings[w-1].pop()
+            word_strings = word_strings[:w-1] + [word_strings[w-1] + NonSyllable("-") + word_strings[w]] + word_strings[w+1:]
         elif(
             w >= 1 and
             sentence[w-1].wtype["child_place_string"] ==
@@ -27,8 +25,11 @@ def spell_sentence(sentence):
             sentence[w  ] in sentence[w-1].children and
             sentence[w-1] in sentence[w  ].parents
         ):
-            word_strings = word_strings[:w-1] + [word_strings[w-1] + "ne-" + word_strings[w][2:]] + word_strings[w+1:]
-    return " ".join(word_strings)
+            if(not word_strings[w-1][-2].accented):
+                word_strings[w-1][-1].accented = True #the last syllable can be accented if the previous wasn't
+            word_strings[w-1] += "ne"
+            word_strings = word_strings[:w-1] + [word_strings[w-1] + NonSyllable("-") + word_strings[w][1:]] + word_strings[w+1:]
+    return " ".join([str(Sstr) for Sstr in word_strings])
 def prep_sentence(sentence):
     W = []
     Markers = {}
