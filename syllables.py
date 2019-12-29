@@ -44,14 +44,33 @@ def count_syllables(string):
             result += 1
     return result
 
+class CheckSyllable(object):
+    """takes a structure (allowed symbols for initial, mid, end; lengths of these parts) and can check a Syllable against it."""
+    def __init__(self, allowed=[consonants+semivowels, vowels, consonants+semivowels], lengths=[10, 10, 10]):
+        super(CheckSyllable, self).__init__()
+        self.init = allowed[0]
+        self.mid  = allowed[1]
+        self.end  = allowed[2]
+        self.lengths = lengths
+    def check(self, syll):
+        if(len(syll.init) > self.lengths[0]):     return False
+        if(len(syll.mid) > self.lengths[1]):      return False
+        if(len(syll.end) > self.lengths[2]):      return False
+        for c in syll.init:
+            if(not c in self.init):               return False
+        for c in syll.mid:
+            if(not c in self.mid):                return False
+        for c in syll.end:
+            if(not c in self.end):                return False
+        return True
 class Syllable(object):
-    """simple Syllable has initial, middle, ending; each strings without limits"""
-
-    def __init__(self, arg, accented=False):
+    """a basic Syllable has init, mid, end"""
+    def __init__(self, arg, accented=False, check=CheckSyllable()):
         super(Syllable, self).__init__()
         self.init = ""
         self.mid  = ""
         self.end  = ""
+        self.check = lambda: check.check(self)
         if(isinstance(arg, list)):
             if(len(arg) > 0 and all([type(string) == str for string in arg])):
                 if(len(arg) == 1):
@@ -84,7 +103,7 @@ class CVSyllable(Syllable):
 
     def __init__(self, arg, accented=False):
         if(isinstance(arg, (list, str))):
-            super(CVSyllable, self).__init__(arg, accented)
+            super(CVSyllable, self).__init__(arg, accented, check=CheckSyllable([consonants, vowels, semivowels], [1, 1, 1]))
         elif(isinstance(arg, Syllable)):
             # if(self.valid(arg)):
                 super(CVSyllable, self).__init__([arg.init, arg.mid, arg.end], accented)
