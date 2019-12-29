@@ -4,7 +4,7 @@ from Word import *
 def spell_sentence(sentence):
     word_strings = []
     for w in range(len(sentence)):
-        word_strings += [sentence[w].spell()]
+        word_strings += [str(sentence[w].spell())]
     for w in range(len(sentence)-1, -1, -1):
         word = sentence[w]
         if(
