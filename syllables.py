@@ -67,6 +67,7 @@ class Syllable(object):
     """a basic Syllable has init, mid, end"""
     def __init__(self, arg, accented=False, check=CheckSyllable()):
         super(Syllable, self).__init__()
+        self.accented = accented
         self.init = ""
         self.mid  = ""
         self.end  = ""
@@ -83,16 +84,34 @@ class Syllable(object):
                     self.mid = arg[1]
                     self.end = arg[2]
         elif(isinstance(arg, str)):
-            if(len(arg) == 1):
-                self.mid = arg[0]
-            elif(len(arg) == 2):
-                self.init = arg[0]
-                self.mid = arg[1]
-            else:
-                self.init = arg[0]
-                self.mid = arg[1]
-                self.end = arg[2]
-        self.accented = accented
+            i = 0
+            current = 0
+            while i < len(arg):
+                if(current == 0):
+                    if(arg[i] in check.init):
+                        self.init += arg[i]
+                        i += 1
+                    else:
+                        current += 1
+                if(current == 1):
+                    if(arg[i] in check.mid):
+                        self.mid += arg[i]
+                        i += 1
+                    else:
+                        current += 1
+                if(current == 2):
+                    if(arg[i] in check.end):
+                        self.end += arg[i]
+                        i += 1
+                    else:
+                        raise ValueError("The arg %s cannot be used to construct a valid Syllable." % repr(arg))
+        elif(isinstance(arg, Syllable)):
+            self.init = arg.init
+            self.mid = arg.mid
+            self.end = arg.end
+            self.accented = arg.accented
+        if(not self.check()):
+            raise ValueError("The Syllable %s is not valid." % self.__repr__())
     def __str__(self):
         return self.init+self.mid+self.end
     def __repr__(self):
@@ -131,7 +150,12 @@ class SyllableString(list):
         if(isinstance(arg, (list, SyllableString))):
             if(all([isinstance(syll, (self.syll_class, str)) for syll in arg])):
                 for syll in arg:
-                    self.append(self.syll_class(syll))
+                    if(isinstance(syll, NonSyllable)):
+                        self.append(syll)
+                    else:
+                        self.append(self.syll_class(syll))
+        elif(isinstance(arg, NonSyllable)):
+            self.append(arg)
         elif(isinstance(arg, (self.syll_class, str))):
             self.append(self.syll_class(arg))
     def valid(self):
