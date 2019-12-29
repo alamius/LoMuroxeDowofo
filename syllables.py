@@ -166,8 +166,11 @@ class SyllableString(list):
         return result
 
 if __name__ == '__main__':
-    a = SyllableString(["ta", "le"], CVSyllable)
+    a = SyllableString(["ta", "le"], CVSyllable) + NonSyllable("-")
     a += "Py"
     print(a)
-    b = SyllableString("Fa", CVSyllable) + "ko" + Syllable("no")
+    b = SyllableString("fa", CVSyllable) + "ko" + Syllable("no")
     print(b)
+    c = Syllable("ta")
+    d = Syllable("ta")
+    print("%s == %s: %s" % (c, d, c == d))
