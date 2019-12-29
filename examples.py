@@ -26,7 +26,7 @@ E0 = [{
     	"negative": False,
     	"case_class": None,
     	"parent_place": [],
-    	"noun_class": 'actor',
+    	"noun_class": 'agent',
     	"case": None,
     	"child_place": [],
     	"class": 'noun',
@@ -90,7 +90,7 @@ E0 = [{
     	"negative": True,
     	"case_class": None,
     	"parent_place": [],
-    	"noun_class": 'actor',
+    	"noun_class": 'agent',
     	"case": None,
     	"child_place": [],
     	"class": 'noun',
@@ -106,7 +106,7 @@ E0 = [{
     	"negative": False,
     	"case_class": None,
     	"parent_place": [],
-    	"noun_class": 'actor',
+    	"noun_class": 'agent',
     	"case": None,
     	"child_place": [],
     	"class": 'noun',
@@ -121,7 +121,7 @@ E0 = [{
     	"negative": True,
     	"case_class": 'temporal',
     	"parent_place": [],
-    	"noun_class": 'actor',
+    	"noun_class": 'agent',
     	"case": 'above',
     	"child_place": [],
     	"class": 'noun',
@@ -331,13 +331,13 @@ E2 = [
         "verb_class":"indicative",
         "person":["plural-me"],
     }, { #solómuxedán
-        #  Schüler (NO-V2) lernen_Noun_Actor_Activ
+        #  Schüler (NO-V2) lernen_Noun_agent_Activ
         "marker":"O-V2",
         "root":roots["teach"],
-        "professionell":True,
+        "professional":True,
         "negative":True,
         "class":"noun",
-        "noun_class":"actor",
+        "noun_class":"agent",
         "number":"plural",
     }, { #wagykóxamá-
         #  (A-V2)
