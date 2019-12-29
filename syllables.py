@@ -113,10 +113,12 @@ class Syllable(object):
         if(not self.check()):
             raise ValueError("The Syllable %s is not valid." % self.__repr__())
     def __str__(self):
-        return self.init+self.mid+self.end
+        a, b, c = self.init, self.mid, self.end
+        if(self.accented):
+            b = accented[b[0]] + b[1:]
+        return a + b + c
     def __repr__(self):
-        return "S'"+self.init+self.mid+self.end+"'"
-
+        return "S'"+str(self)+"'"
 class CVSyllable(Syllable):
     """has only one initial consonant and one vowel"""
 
@@ -125,7 +127,7 @@ class CVSyllable(Syllable):
             super(CVSyllable, self).__init__(arg, accented, check=CheckSyllable([consonants, vowels, semivowels], [1, 1, 1]))
         elif(isinstance(arg, Syllable)):
             # if(self.valid(arg)):
-                super(CVSyllable, self).__init__([arg.init, arg.mid, arg.end], accented)
+                super(CVSyllable, self).__init__([arg.init, arg.mid, arg.end], arg.accented)
             # else:
             #     raise ValueError("The Syllable %s cannot be used to create a CV-Syllable." % self.__repr__())
         if(not self.valid()):
