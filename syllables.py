@@ -119,9 +119,18 @@ class Syllable(object):
         return a + b + c
     def __repr__(self):
         return "S'"+str(self)+"'"
+    def __len__(self):
+        return len(self.init)+len(self.mid)+len(self.end)
+    def __eq__(self, syll):
+        if(isinstance(syll, str)):
+            syll = Syllable(syll)
+        result = True
+        result = result and (self.init == syll.init)
+        result = result and (self.mid  == syll.mid)
+        result = result and (self.end  == syll.end)
+        return result
 class CVSyllable(Syllable):
     """has only one initial consonant and one vowel"""
-
     def __init__(self, arg, accented=False):
         if(isinstance(arg, (list, str))):
             super(CVSyllable, self).__init__(arg, accented, check=CheckSyllable([consonants, vowels, semivowels], [1, 1, 1]))
