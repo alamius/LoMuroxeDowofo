@@ -186,21 +186,24 @@ class SyllableString(list):
     def __repr__(self):
         return "Sstr'"+".".join([str(syll) for syll in self])+"'"
     def __iadd__(self, string):
+        if(len(string) == 0):
+            return self
         if(isinstance(string, SyllableString)):
+            self.extend(string)
+        elif(isinstance(string, self.syll_class)):
             self.append(string)
-        elif(isinstance(string, (Syllable, str, list))):
-            self.append(SyllableString(string))
+        elif(isinstance(string, Syllable)):
+            self.append(self.syll_class(string))
+        elif(isinstance(string, NonSyllable)):
+            self.append(string)
+        elif(isinstance(string, (str, list))):
+            self.extend(SyllableString(string))
         return self
     def __add__(self, string):
         result = deepcopy(self)
-        if(isinstance(string, SyllableString)):
-            result.append(string)
-        elif(isinstance(string, self.syll_class)):
-            result.append(string)
-        elif(isinstance(string, Syllable)):
-            result.append(self.syll_class(string))
-        elif(isinstance(string, (str, list))):
-            result.append(SyllableString(string))
+        if(len(string) == 0):
+            return result
+        result.__iadd__(string)
         return result
 
 if __name__ == '__main__':
