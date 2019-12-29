@@ -151,10 +151,17 @@ class CVSyllable(Syllable):
         if(len(arg.end) > 0):
             return False
         return True
+class NonSyllable(str):
+    """holds any characters so they can be integrated into a SyllableString"""
+    def __init__(self, string=""):
+        super(NonSyllable, self).__init__()
+    def valid(self):
+        return True
+    def __repr__(self):
+        return "nS'%s'" % self
 
 class SyllableString(list):
     """Contains several Syllables"""
-
     def __init__(self, arg=None, syll_class=Syllable):
         super(SyllableString, self).__init__()
         self.syll_class = syll_class
