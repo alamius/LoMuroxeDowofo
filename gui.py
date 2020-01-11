@@ -294,7 +294,7 @@ class App(Frame):
         self.displ["text"] = self.word.spell()
 
 top = Tk()
-top.title("My Do-Nothing Application")
+top.title("Word")
 top.maxsize(1000, 400)
 
 app = App(top)
