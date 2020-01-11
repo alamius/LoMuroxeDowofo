@@ -181,6 +181,8 @@ class SyllableString(list):
                     (i == len(self)-1 or not self[i+1].accented)
                 ):
                     self[i].accented = True
+    def startswith(self, other):
+        return str(self).startswith(str(other))
 
 if __name__ == '__main__':
     a = SyllableString(["ta", "le"], CVSyllable) + NonSyllable("-")

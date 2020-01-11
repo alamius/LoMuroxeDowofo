@@ -1,5 +1,6 @@
 from os import system #for system("clear")
 from copy import deepcopy
+from syllables import *
 
 standards_word = {
     "negative":False,
@@ -145,17 +146,22 @@ def get_inp(choices):
     # out += "\tWRITE THE FIRST FEW DEFINING LETTERS OF YOUR CHOICE\n\tFROM THE POSSIBLE VALUES: "
     if(len(choices) > 0 and type(choices[0]) == type([])):
         choices = [
-            ' OR '.join(ch)
-            for ch in choices
+            ' OR '.join(choice)
+            for choice in choices
         ]
-    out += ", ".join(choices)+": \n\t"
+    out += ", ".join([str(choice) for choice in choices])+": \n\t"
     inp = input(out).split(',')
     return list(map(lambda S : S.strip(' '), inp))
 def get_startswith_from_array(array, start):
     result = []
     i = 0
     while(i < len(array)):
-        if(type(array[i]) == type("") and array[i].startswith(start)):
+        if(
+            (
+                type(array[i]) == str
+                or isinstance(array[i], SyllableString)
+            ) and array[i].startswith(start)
+        ):
             result += [array[i]]
         elif(type(array[i]) == type([])):
             #subarrays mean that the multiple choice lets only choose one from each subarray
@@ -167,8 +173,11 @@ def get_startswith_from_array(array, start):
         i += 1
     if(len(result) == 1):
         result = result[0]
-        if(result in shortcuts.keys()):
-            result = shortcuts[result]
+        try:
+            if(result in shortcuts.keys()):
+                result = shortcuts[result]
+        except:
+            pass
         return result
     else:
         return -1
