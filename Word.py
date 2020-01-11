@@ -222,11 +222,8 @@ class Word(object):
                 self.result[-2].accent_level = accent_level["person"]
         if(root_level == 2):
             self.spell_negative()
+        self.spell_professional()
         r_ = self.root[root_level] #Jlt -> Jale(xe)t
-        # self.spell_professional( #Jlt -> Jalse(xe)t[[it][of]][aj|u|e|i|o][ne]
-        #     flipped=True,
-        #     accentable=(self.non_accented_syllables() > 0)
-        # )
         self.result += r_ + result[0][0]
         self.result[-1].accent_level = accent_level["root_"+str(root_level)]
         if(len(result[0]) > 1): #if there is a "ne" after the person marker
