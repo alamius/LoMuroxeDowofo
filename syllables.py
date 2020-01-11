@@ -24,9 +24,10 @@ class CheckSyllable(object):
         return True
 class Syllable(object):
     """a basic Syllable has init, mid, end"""
-    def __init__(self, arg, accented=False, check=CheckSyllable()):
+    def __init__(self, arg, accented=False, accent_level=0, check=CheckSyllable()):
         super(Syllable, self).__init__()
         self.accented = accented
+        self.accent_level = accent_level #for comparison with neighboring syllables in a Sstr
         self.init = ""
         self.mid  = ""
         self.end  = ""
@@ -69,6 +70,7 @@ class Syllable(object):
             self.mid = arg.mid
             self.end = arg.end
             self.accented = arg.accented
+            self.accent_level = arg.accent_level
         if(not self.check()):
             raise ValueError("The Syllable %s is not valid." % self.__repr__())
     def __str__(self):
@@ -164,6 +166,21 @@ class SyllableString(list):
             return result
         result.__iadd__(string)
         return result
+    def accent(self):
+        levels = [
+            syll.accent_level
+            for syll in self
+        ]
+        for syll in self:
+            syll.accented = False
+        for lvl in range(max(levels), min(levels), -1): #not down to min itself, just above it
+            for i in range(len(self)):
+                if(
+                    self[i].accent_level == lvl and
+                    (not self[i-1].accented or i == 0) and
+                    (not self[i+1].accented or i == len(self)-1)
+                ):
+                    self[i].accented = True
 
 if __name__ == '__main__':
     a = SyllableString(["ta", "le"], CVSyllable) + NonSyllable("-")
