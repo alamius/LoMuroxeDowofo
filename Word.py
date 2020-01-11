@@ -150,7 +150,7 @@ class Word(object):
         if(root_level != None):
             if(root_level == 2):
                 self.spell_negative() #Jlt -> Jale(xe)
-                self.spell_professional(root_level=2) #Jlt -> Jale(xe)t[ieo]
+                self.spell_professional() #Jlt -> Jale(xe)[ti|fo]
                 self.accent_syllable(need=3, pos=-2)
             else:
                 self.accent_syllable(need=3, pos=-2)
