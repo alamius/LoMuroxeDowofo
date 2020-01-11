@@ -27,6 +27,7 @@ ROMAN = {
     "R":"rh", #german, franch r
     "N":"nh", #roman: ng
     "P":"ph",
+    "Q":"qh", #far back like q, and sustained (similar to χ)
 }
 PHON = {
     "J":"ʒ",
@@ -40,7 +41,8 @@ PHON = {
     "L":"ɬ", #ɮ
     "R":"ʁ",
     "N":"ŋ",
-    "P":"r°"
+    "P":"r°",
+    "Q":"qχ", #far back like q, and sustained (similar to χ)
 }
 
 def romanize(word):
