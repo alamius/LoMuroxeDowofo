@@ -173,7 +173,7 @@ class SyllableString(list):
         ]
         for syll in self:
             syll.accented = False
-        for lvl in range(max(levels), min(levels), -1): #not down to min itself, just above it
+        for lvl in range(max(levels), 0, -1): #all accent_levels but 0 are to be accented, if nothing bigger blocks
             for i in range(len(self)):
                 if(
                     self[i].accent_level == lvl and
