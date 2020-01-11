@@ -280,8 +280,8 @@ class Word(object):
                 ])
             r2 += WHICH(self.wtype["professional"],[
                 (True, "i"), #Jlt -> Jol[aoiu][mvxr]i
-                (False, "e"),
-                (None, "a"),
+                (False, "o"),
+                (None, "e"),
             ])
             self.result += r2
             self.result[-1].accent_level = accent_level["root_2"]
