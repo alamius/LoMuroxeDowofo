@@ -22,6 +22,18 @@ USED = {
     "attribute":0,
     "clause":   0,
 }
+accent_level = {
+    "person": 2,
+    "root_0": 5,
+    "root_1": 4,
+    "root_2": 5,
+    "tense": 2,
+    "imperative": 3,
+    "noun_class": 2,
+    "case": 3,
+    "attribute_class": 3,
+    "professional": 1,
+}
 
 from copy import deepcopy
 from hist import hist
@@ -99,18 +111,22 @@ class Word(object):
             self.spell_metaphore()
         switch = self.wtype["class"]
         if(switch == "verb"):
-            self.result += Syllable(self.root[0] + "a", accented=True)
+            self.result += self.root[0] + "a"
+            self.result[-1].accent_level = accent_level["root_0"]
             self.spell_verb() #Jlt -> Ja
         elif(switch == "noun"):
-            self.result += Syllable(self.root[0] + "o", accented=True)
+            self.result += self.root[0] + "o"
+            self.result[-1].accent_level = accent_level["root_0"]
             self.spell_noun() #Jlt -> Jo
         elif(switch == "attribute"):
-            self.result += Syllable(self.root[0] + "e", accented=True)
+            self.result += self.root[0] + "e"
+            self.result[-1].accent_level = accent_level["root_0"]
             self.spell_attribute() #Jlt -> Je
         else:
             raise TypeError("Unknown class: '%s'" % switch)
         if(len(self.children) != 0 and len(self.parents) != 0):
             self.result += self.wtype["child_place_string"]
+        self.result.accent()
         return self.result
         # It is questionable in my eyes to accent parent-syllables in words as a consequence of their parents' other child-syllables,
         #   if they cause accent clusters in the child while their parent may not even pronounce the accented child-syllable or any other.
@@ -140,6 +156,7 @@ class Word(object):
         if(switch == "imperative"):
             self.spell_tense(1)
             self.result += "'o"
+            self.result[-1].accent_level = accent_level["imperative"]
             self.spell_person(2)
         elif(switch == "indicative"):
             self.spell_tense(1)
@@ -151,9 +168,6 @@ class Word(object):
             if(root_level == 2):
                 self.spell_negative() #Jlt -> Jale(xe)
                 self.spell_professional() #Jlt -> Jale(xe)[ti|fo]
-                self.accent_syllable(need=3, pos=-2)
-            else:
-                self.accent_syllable(need=3, pos=-2)
         r_ = self.root[root_level]
         switch = self.wtype["tense"]
         if(switch == "present"):
@@ -165,7 +179,7 @@ class Word(object):
             self.result += r_ + "u" #Jlt -> Jalu
         else:
             self.result += r_ + "i" #Jlt -> Jali
-            self.accent_syllable(need=2, pos=-1)
+        self.result[-1].accent_level = accent_level["root_"+str(root_level)]
         # if(self.non_accented_syllables() > 1 and True): #TODO: replace True with somthing about root2 being far enough away)?
         #     self.result[-1].accented = True #make the last syllable in the result accented
     def spell_person(self, root_level=1): #looks at "person"
@@ -205,9 +219,7 @@ class Word(object):
                 self.result += result[-1][1:]
             result.pop(-1)
             if(self.result[-1].__eq__("ne")):
-                self.result[-2].accented = True
-            # elif(len(result) > 1):
-            #     self.result[-1].accented = True
+                self.result[-2].accent_level = accent_level["person"]
         if(root_level == 2):
             self.spell_negative()
         r_ = self.root[root_level] #Jlt -> Jale(xe)t
@@ -216,12 +228,9 @@ class Word(object):
         #     accentable=(self.non_accented_syllables() > 0)
         # )
         self.result += r_ + result[0][0]
+        self.result[-1].accent_level = accent_level["root_"+str(root_level)]
         if(len(result[0]) > 1): #if there is a "ne" after the person marker
             self.result += result[0][1:]
-        if(self.result[-1].__eq__("ne")):
-            self.accent_syllable(need=3, pos=-2)
-        else:
-            self.accent_syllable(need=2, pos=-1)
         if("plural" in switch and result == ["i"]):
             self.result += "ne"
     def spell_noun(self): #looks at "noun_class"
@@ -244,7 +253,7 @@ class Word(object):
                 ("recipient","Po"), #Jlt -> Jo<l..t.>Po
                 ("instrument","we"), #Jlt -> Jo<l..t.>we
             ])
-            self.accent_syllable(need=3, pos=-2)
+            self.result[-1].accent_level = accent_level["noun_class"]
             self.spell_professional()
         else:
             self.spell_perceived()
@@ -256,7 +265,7 @@ class Word(object):
                 ("recipient",r1+"o"), #Jlt -> Jo<l.>o
                 ("instrument",r1+"e"), #Jlt -> Jo<l.>a
             ])
-            self.accent_syllable(need=2, pos=-1)
+            self.result[-1].accent_level = accent_level["root_1"]
             if(self.wtype["negative"]):
                 self.spell_negative()
             if(self.root[2] != "k"):
@@ -275,10 +284,9 @@ class Word(object):
                 (None, "a"),
             ])
             self.result += r2
-            self.accent_syllable(need=2, pos=-1)
+            self.result[-1].accent_level = accent_level["root_2"]
         if(self.wtype["number"] == "plural"):
             self.result += "ne"
-            self.accent_syllable(need=3, pos=-2)
     def spell_case_class(self, root_level=1): #looks at "case_class"
         if(root_level != None):
             r_ = self.root[root_level] #Jlt -> Jol
@@ -286,23 +294,28 @@ class Word(object):
         if("case" in self.wtype.keys() and self.wtype["case"] != None):
             if(switch == "directional"):
                 self.result += r_ + "a"
+                self.result[-1].accent_level = accent_level["root_"+str(root_level)]
                 self.spell_case(2, "e") #Jlt -> Jola<.t.e.>
             elif(switch == "local"):
                 self.result += r_ + "o"
+                self.result[-1].accent_level = accent_level["root_"+str(root_level)]
                 self.spell_case(2, "u") #Jlt -> Jolo<.t.u.>
             elif(switch == "temporal"):
                 self.result += r_ + "e"
+                self.result[-1].accent_level = accent_level["root_"+str(root_level)]
                 self.spell_case(2, "i") #Jlt -> Jole<.t.i.>
             elif(switch == "causal"):
                 self.result += r_ + "u"
+                self.result[-1].accent_level = accent_level["root_"+str(root_level)]
                 self.spell_case(2, "o") #Jlt -> Jolu<.t.o.>
         else:
             self.result += WHICH(switch, [
-                ("directional", "a"),    #Jlt -> Jola
-                ("local",       "o"),    #Jlt -> Jolo
-                ("temporal",    "e"),    #Jlt -> Jole
-                ("causal",      "u"),    #Jlt -> Jolu
+                ("directional", r_ + "a"),    #Jlt -> Jola
+                ("local",       r_ + "o"),    #Jlt -> Jolo
+                ("temporal",    r_ + "e"),    #Jlt -> Jole
+                ("causal",      r_ + "u"),    #Jlt -> Jolu
             ])
+            self.result[-1].accent_level = accent_level["root_"+str(root_level)]
             self.spell_negative() #Jlt -> Jol[aoeu](xe)
             r2 = self.root[2]
             self.result += WHICH(switch, [
@@ -311,7 +324,7 @@ class Word(object):
                 ("temporal",    r2 + "i"),    #Jlt \-> Jole(xe)ti
                 ("causal",      r2 + "o"),    #Jlt \-> Jolu(xe)to
             ])
-            self.accent_syllable(need=2, pos=-1)
+            self.result[-1].accent_level = accent_level["root_2"]
     def spell_case(self, root_level, second_vowel): #looks at "case"
         switch = self.wtype["case"]
         self.result += WHICH(
@@ -327,12 +340,12 @@ class Word(object):
                 ("opposite",  "lo"), #Jlt -> Jol[aeou]fo
             ]
         )
+        self.result[-1].accent_level = accent_level["case"]
         if(root_level != None):
             if(root_level == 2):
                 self.spell_negative()
-            self.accent_syllable(need=3, pos=-2)
             self.result += self.root[root_level] + second_vowel #Jlt -> Jol[aoeu][[sa][ro]...](xe)t[euio]
-            self.accent_syllable(need=2, pos=-1)
+            self.result[-1].accent_level = accent_level["root_"+str(root_level)]
     def spell_professional(self, root_level=None): #looks at "professional"
         if(root_level == None):
             self.result += WHICH(self.wtype["professional"],[
@@ -340,6 +353,7 @@ class Word(object):
                 (False, "fo"),
                 (None, ""),
             ])
+            self.result[-1].accent_level = accent_level["professional"]
         else:
             r_ = self.root[root_level]
             self.result += WHICH(self.wtype["professional"],[
@@ -350,11 +364,9 @@ class Word(object):
     def spell_negative(self): #looks at "negative"
         if(self.wtype["negative"]):
             self.result += "xe"
-        self.accent_syllable(need=3, pos=-2)
     def spell_perceived(self): #looks at "perceived"
         if(self.wtype["perceived"]):
             self.result += "Le"
-        self.accent_syllable(need=3, pos=-2)
     def spell_attribute(self): #looks at "attribute_class"
         for key in standards_attribute.keys():
             if(not key in self.wtype.keys()):
@@ -366,16 +378,15 @@ class Word(object):
             ("conjunctive",  "li"), #Jlt -> Jo<l..t.>li
             ("obligate",     "ku"), #Jlt -> Jo<l..t.>ku
         ])
-        self.accent_syllable(need=3, pos=-2)
+        self.result[-1].accent_level = accent_level["attribute_class"]
         self.spell_perceived()
         r1 = self.root[1]
         if(self.wtype["metaphore"]):
             self.result += r1 + "y"
         else:
             self.result += r1 + "e"
-        self.accent_syllable(need=2, pos=-1)
+        self.result[-1].accent_level = accent_level["root_1"]
         self.spell_tense(2)
-        self.accent_syllable(need=2, pos=-1)
     def non_accented_syllables(self):
         #counting non-accented syllables (backwards)
         for i in range(len(self.result)-1, -1, -1):

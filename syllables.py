@@ -177,8 +177,8 @@ class SyllableString(list):
             for i in range(len(self)):
                 if(
                     self[i].accent_level == lvl and
-                    (not self[i-1].accented or i == 0) and
-                    (not self[i+1].accented or i == len(self)-1)
+                    (i == 0 or           not self[i-1].accented) and
+                    (i == len(self)-1 or not self[i+1].accented)
                 ):
                     self[i].accented = True
 
