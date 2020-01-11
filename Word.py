@@ -387,17 +387,6 @@ class Word(object):
             self.result += r1 + "e"
         self.result[-1].accent_level = accent_level["root_1"]
         self.spell_tense(2)
-    def non_accented_syllables(self):
-        #counting non-accented syllables (backwards)
-        for i in range(len(self.result)-1, -1, -1):
-            if(self.result[i].accented):
-                break
-        return len(self.result) - i
-    def accent_syllable(self, need, pos):
-        if(self.non_accented_syllables() > need):
-            self.result[pos].accented = True
-        # else:
-        #     self.result[pos].accented = False
     def export(self, sentence_structure_markers_as_syllables=False):
         result = "{\n"
         for key in self.wtype.keys():
