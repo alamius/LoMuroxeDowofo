@@ -1,9 +1,12 @@
+from os import system #for system("clear")
 from copy import deepcopy
+from syllables import *
 
 standards_word = {
-    "passive":False,
+    "negative":False,
     "metaphore":False,
     "professional":None,
+    "perceived":False,
     # "metaphore":False,
     # "class":no std,
 }
@@ -16,7 +19,18 @@ standards_noun = {
     # "noun_class":no standard,
     "case_class":None,
     "case":None,
+    "number":"singular",
 }
+standards_attribute = {
+    # "attribute_class":no standard,
+    "tense":"present",
+    "negative":False,
+}
+#attribute_class examples:
+    #stative: reading
+    #possible: able to read
+    #conjunctive: should read
+    #obligate: must read
 person_choice = [[
     ["me", "plural-me", "p-me"],
     ["you", "plural-you", "p-you"],
@@ -30,15 +44,16 @@ shortcuts = {
     "p-undef":"plural-undef",
 }
 basic = {
-    "passive":["True", "False"],
+    "negative":["True", "False"],
     "professional":["True", "False", "None"],
     "metaphore":["True", "False"],
+    "perceived":["True", "False"],
 }
 verb = {
     "class":"verb",
-    "verb_class":["imperative", "infinitive", "indicative"],
+    "verb_class":["imperative", "indicative"],
     "tense":["present", "past", "future"],
-    "person":person_choice,
+    "person":person_choice[0],
 }
 verb.update(basic)
 imperative = {
@@ -47,12 +62,6 @@ imperative = {
     "person":person_choice,
 }
 imperative.update(basic)
-infinitive = {
-    "class":"verb",
-    "verb_class":"infinitive",
-    "tense":["present", "past", "future"],
-}
-infinitive.update(basic)
 indicative = {
     "class":"verb",
     "verb_class":"indicative",
@@ -62,7 +71,7 @@ indicative = {
 indicative.update(basic)
 noun = {
     "class":"noun",
-    "noun_class":["action", "actor"],
+    "noun_class":["action", "agent", "object", "recipient", "instrument"],
     "case_class":["None", "directional", "local", "temporal", "causal"],
     "case":["None", "before", "after", "above", "under", "near", "parallel", "same", "opposite"],
     #TODO: decide if useful:
@@ -79,7 +88,7 @@ noun.update(basic)
         #under:      underneeth, downwards
         #near:       towards
         #parallel:   parallel, but not starting on the same spot
-        #same:       together
+        #same:       together or through
         #opposite:   opposite direction
     #local:
         #before:     in front
@@ -102,12 +111,13 @@ noun.update(basic)
     #causal:
         #before:     because of, reason
         #after:      therefore, consequence
-        #above:      at a larger scale of reasoning, planning ahead
-        #under:      at a smaller scale of reasoning, detail
-        #near:       somehow related to the argument
+        #above:      at a larger scale of reasoning, planning ahead, or: possessing
+        #under:      at a smaller scale of reasoning, detail,        or: possessed
+        #near:       somehow related to the argument, about
         #parallel:   comparison, the same in another area, metaphore
         #same:       this is completely equivalent
         #opposite:   against
+
 # action = {
 #     "class":"noun",
 #     "noun_class":"action",
@@ -116,30 +126,42 @@ noun.update(basic)
 #     "case":["before", "after", "above", "under", "near", "parallel", "same", "opposite"],
 #     #abbrev.: ←, →, ↑, ↓, o, =, ., O
 # }
-# actor = {
+# agent = {
 #     "class":"noun",
-#     "noun_class":"actor",
+#     "noun_class":"agent",
 #     "case_class":["directional", "local", "temporal", "causal"],
 #     #abbrev.: dir, loc, tmp, cau
 #     "case":["before", "after", "above", "under", "near", "parallel", "same", "opposite"],
 #     #abbrev.: ←, →, ↑, ↓, o, =, ., O
 # }
+attribute = {
+    "class":"attribute",
+    "attribute_class":["stative", "possible", "conjunctive", "obligate"],
+    "tense":["present", "past", "future"],
+}
+attribute.update(basic)
+
 def get_inp(choices):
     out = "\t POSSIBLE VALUES: "
     # out += "\tWRITE THE FIRST FEW DEFINING LETTERS OF YOUR CHOICE\n\tFROM THE POSSIBLE VALUES: "
     if(len(choices) > 0 and type(choices[0]) == type([])):
         choices = [
-            ' OR '.join(ch)
-            for ch in choices
+            ' OR '.join(choice)
+            for choice in choices
         ]
-    out += ", ".join(choices)+": \n\t"
+    out += ", ".join([str(choice) for choice in choices])+": \n\t"
     inp = input(out).split(',')
     return list(map(lambda S : S.strip(' '), inp))
 def get_startswith_from_array(array, start):
     result = []
     i = 0
     while(i < len(array)):
-        if(type(array[i]) == type("") and array[i].startswith(start)):
+        if(
+            (
+                type(array[i]) == str
+                or isinstance(array[i], SyllableString)
+            ) and array[i].startswith(start)
+        ):
             result += [array[i]]
         elif(type(array[i]) == type([])):
             #subarrays mean that the multiple choice lets only choose one from each subarray
@@ -151,8 +173,11 @@ def get_startswith_from_array(array, start):
         i += 1
     if(len(result) == 1):
         result = result[0]
-        if(result in shortcuts.keys()):
-            result = shortcuts[result]
+        try:
+            if(result in shortcuts.keys()):
+                result = shortcuts[result]
+        except:
+            pass
         return result
     else:
         return -1
@@ -218,4 +243,66 @@ def get_wtype(template, set={}):
                 multiple_choice = True
             result[key] = get_new_value(value, multiple_choice)
             print("\tVALUE:", result[key])
+    return result
+def check_wtype_complete(template, default):
+    for key, value in zip(template.keys(), template.values()):
+        if(type(value) == type([])):
+            if(not(key in default.keys())):
+                return False
+    return True
+def make_wtype(template, default, set={}):
+    # returning a wtype dict to be fed into a Word object using the set values in set and user input
+    result = deepcopy(template)
+    for key in result.keys():
+        if(key in set.keys()):
+            result[key] = set[key]
+    while(True):
+        set = {}
+        unset = {}
+        for key, value in zip(result.keys(), result.values()):
+            if(
+                type(value) == type([]) and (
+                    not key in default.keys() or not (
+                        type(default[key]) == type([]) and
+                        not type(value[0]) == type([])
+                    )
+                )
+            ):
+                unset.update({key: value})
+            else:
+                set.update({key: value})
+        system("clear")
+        print("These are set already:")
+        for key, value in zip(set.keys(), set.values()):
+            print("\t", key, ":", " "*(13-len(key)), str(value), sep='')
+        print("These are not set, but some have a default, that you can keep:")
+        for key, value in zip(unset.keys(), unset.values()):
+            if(key in default.keys()):
+                print("\t", key, ",", " "*(13-len(key)), "default:", str(default[key]), sep='')
+            else:
+                print("\t", key, ";", sep='')
+        if(len(unset) == 0):
+            print("There is nothing to set for you. ")
+            break
+        if(check_wtype_complete(result, default)):
+            if(input("You are ready, do you want to continue? (Y/n): ").upper() != "Y"):
+                break
+        print("Choose an attribute to set: ")
+        key = get_new_value(list(unset.keys()))
+        print("Choose a value for that attribute: ")
+        multiple_choice = False
+        if(type(unset[key][0]) == type([])): #value == [<arr>] = multiple choice out of <arr>
+            print("\tYOU CAN CHOOSE MULTIPLE VALUES! PUT THEM IN ONE LINE AND SEPARATE BY ',' \n\tOR USE SEVERAL LINES. TO STOP ADDING, PUT 'X' IN YOUR INPUT.")
+            value = value[0]
+            #value holds choice possibilities
+            multiple_choice = True
+        value = get_new_value(unset[key], multiple_choice)
+        result[key] = value
+    for key in result.keys():
+        if(key in default.keys() and type(default[key]) == type([])):
+            #the option is multiple choice => array by standard.
+            if(len(result[key]) == 0 or type(result[key][0]) == type([])):
+                result[key] = default[key]
+        elif(type(result[key]) == type([])):
+            result[key] = default[key]
     return result

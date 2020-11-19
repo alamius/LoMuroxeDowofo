@@ -1,6 +1,6 @@
-consonants = "bdfghklmnopqrstvwxzJXDCLNGKRP'"
-vowels = "aeiouäöyêô" #accented are added after they are defined
-semivowels="j"
+consonants = "bdfghklmnpqrstvwxzJXDCLNGKRP'" #w is semivowel
+vowels = "aeiouy" #accented are added after they are defined
+semivowels="j" #w?
 
 accented = {
     "a":"á",
@@ -8,8 +8,6 @@ accented = {
     "i":"í",
     "o":"ó",
     "u":"ú",
-    "ä":"Ä",
-    "ö":"Ö",
     "y":"ý",
 }
 for c in vowels:
@@ -21,19 +19,15 @@ for c in vowels:
 ROMAN = {
     "J":"jh",
     "X":"sh",
-    # "Q":"qh",
     "D":"dh",
     "K":"kh", #weird trill using a lot of pressure on the soft palate, appriximate by χ
     "G":"gh", #can you voice K?
-    "ä":"ae",
-    "ö":"oe",
-    "ê":"e", #short, open
-    "ô":"o", #short, open
     "C":"ch",
     "L":"lh",
     "R":"rh", #german, franch r
     "N":"nh", #roman: ng
     "P":"ph",
+    "Q":"qh", #far back like q, and sustained (similar to χ)
 }
 PHON = {
     "J":"ʒ",
@@ -41,26 +35,23 @@ PHON = {
     "x":"χ",
     "X":"ʃ",
     "C":"ç",
-    # "q":"q",
     "D":"ð",
     "K":"Я", #voiced/voiceless? pressurized uvular trill
     # "G":"vЯ", #voiced pressurized uvular trill
-    "ä":"æ",
-    "ö":"ø",
-    "ô":"ɔ",
-    "ê":"ɛ",
-    "L":"ɮ",
+    "L":"ɬ", #ɮ
     "R":"ʁ",
     "N":"ŋ",
-    "P":"r°"
+    "P":"r°",
+    "Q":"qχ", #far back like q, and sustained (similar to χ)
 }
 
-def romanization(word):
+def romanize(word):
     for i in range(len(word)):
         c = word[i]
         if(c in ROMAN.keys()):
             word = word[:i]+ROMAN[c]+word[i+1:]
-        elif(c == c.upper()):
+        #trying to detect capitals but not non-letters
+        elif(c == c.upper() and not c == c.lower()):
             word = word[:i-1]+c.lower()+'h'+word[i:]
     return word
 
